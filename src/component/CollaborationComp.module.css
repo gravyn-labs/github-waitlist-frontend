@@ -1,0 +1,161 @@
+.collaboration-comp,
+.integration-feature {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 50px;
+}
+
+
+.collaboration-comp::before{
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 20;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            transparent 35%,
+            black 100%);
+}
+
+
+.collaboration-comp img{
+    border: none !important;
+    scale: 1;
+    margin-top: 20px;
+    position: absolute;
+    width: 85%;
+    left: 50%;
+    bottom: 10%;
+    z-index: 10;
+    transform: translateX(-50%) translateY(0%);
+}
+
+
+.integration-feature::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 20;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            black 65%,
+            black 100%);
+}
+
+
+.kairo-feature {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 50px;
+}
+
+
+
+.kairo-feature img {
+    border: none !important;
+    scale: 1;
+    margin-top: 20px;
+    position: absolute;
+    height: 70%;
+    left: 50%;
+    bottom: 10%;
+    z-index: 200;
+    transform: translateX(-50%) translateY(-10%);
+}
+
+
+.kairo-feature::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+
+    z-index: 20;
+    background: linear-gradient(to right, transparent, black)
+}
+
+.finance-feature {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 50px;
+}
+
+.finance-feature::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            transparent 50%,
+            black 100%);
+}
+
+
+.finance-feature img {
+    border: none !important;
+    scale: 1;
+    margin-top: 20px;
+    position: absolute;
+    width: 90%;
+    left: 51.5%;
+    bottom: 10%;
+    z-index: 10;
+    transform: translateX(-50%) translateY(-10%);
+}
+
+.project-feature {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 50px;
+}
+
+.project-feature::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            transparent 40%,
+            black 100%);
+}
+
+
+.project-feature img {
+    border: none !important;
+    scale: 1;
+    margin-top: 20px;
+    position: absolute;
+    width: 95%;
+    left: 50%;
+    bottom: 10%;
+    z-index: 10;
+    transform: translateX(-50%) translateY(-10%);
+}
