@@ -609,7 +609,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchWaitlistCount = async () => {
       try {
-        const response = await fetch("http://gravyn-backend-env.us-east-1.elasticbeanstalk.com/api/waitlist/count");
+        const response = await fetch("https://gravyn-backend-env.us-east-1.elasticbeanstalk.com/api/waitlist/count");
         const data = await response.json();
         if (response.ok) {
           setCount(data.count);
@@ -671,7 +671,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
     setMessage("");
 
     try {
-      const response = await fetch("http://gravyn-backend-env.us-east-1.elasticbeanstalk.com/api/waitlist", {
+      const response = await fetch("https://gravyn-backend-env.us-east-1.elasticbeanstalk.com/api/waitlist", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
