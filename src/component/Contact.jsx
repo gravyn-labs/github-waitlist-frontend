@@ -39,7 +39,7 @@ const Contact = () => {
     setStatus({ loading: true, error: null, success: null });
 
     try {
-      const response = await fetch("http://localhost:5000/api/contact-sales", {
+      const response = await fetch("https://gravyn-backend.eu-north-1.elasticbeanstalk.com/api/contact-sales", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
