@@ -607,22 +607,25 @@ const HomePage = () => {
   const [targetCount, setTargetCount] = useState(0);
 
   // --- NEW: Define API Base URL ---
-  // This will pick up the URL from .env.development or .env.production
+  const environment = process.env.NODE_ENV;
+
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   // --- END NEW ---
 
-  // Example in any component or utility file:
 
-  const environment = process.env.NODE_ENV;
 
   console.log("Current Environment:", environment);
 
   if (environment === 'development') {
     // This code runs only when you use 'npm start'
     console.log("Running in development mode.");
+    console.log("Development Mode", environment);
+    console.log("API MODE", API_BASE_URL)
   } else if (environment === 'production') {
     // This code runs when you use 'npm run build'
     console.log("Running in production mode.");
+    console.log("Development Mode", environment);
+    console.log("API MODE", API_BASE_URL)
   }
   else if (environment === 'staging') {
     alert('Staging', API_BASE_URL)
@@ -745,7 +748,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
           <div className="landing-content-text-wrapper">
             <DynamicPhrase />
             <p className="hero-subtitle">
-              {/* Discover a unified workspace that simplifies project delivery, client collaboration, and finances — all enhanced by powerful AI-driven insights. Join the waitlist for early access and transform how your team works. */}
+              Discover a unified workspace that simplifies project delivery, client collaboration, and finances — all enhanced by powerful AI-driven insights. Join the waitlist for early access and transform how your team works.
             </p>
           </div>
           <div className="waitlist-wrapper">
@@ -850,7 +853,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
         <div className="landing-content-text-wrapper">
           <DynamicPhrase />
           <p className="hero-subtitle">
-            {/* A unified workspace for project delivery, client collaboration, and finances, all enhanced by AI. */}
+            A unified workspace for project delivery, client collaboration, and finances, all enhanced by AI.
           </p>
         </div>
         <div className="waitlist-wrapper">
