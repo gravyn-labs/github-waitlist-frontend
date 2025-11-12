@@ -53,7 +53,7 @@ import filefeature from "../assets/images/files_feature.png"
 const ProjectTypes = () => {
   return (
     <section className="project-types-section">
-      
+
 
       <div className='project-types-text'>
         {/* Fill the heading and subheading here aws well 
@@ -71,7 +71,7 @@ const ProjectTypes = () => {
             <div className="decorative-dots">••••••••••</div>
             <h3>For Projects: The Path to Delivery.</h3>
             <p>
-Perfect for work with a defined scope and a clear finish line. Move initiatives sequentially through phases, manage dependencies, and launch on time, every time.            </p>
+              Perfect for work with a defined scope and a clear finish line. Move initiatives sequentially through phases, manage dependencies, and launch on time, every time.            </p>
           </div>
           <div className='project-type-image'>
             <img src={terminal} />
@@ -83,10 +83,10 @@ Perfect for work with a defined scope and a clear finish line. Move initiatives 
             <div className="decorative-dots">••••••••••</div>
             <h3>For Processes: The Rhythm of Operation.</h3>
             <p>
-Ideal for the never-ending work of running a team or a system. Manage a continuous flow of tasks, track performance, and optimize your processes month after month.            </p>
+              Ideal for the never-ending work of running a team or a system. Manage a continuous flow of tasks, track performance, and optimize your processes month after month.            </p>
           </div>
           <div className='project-type-image'>
-            <img src={contiguous}/>
+            <img src={contiguous} />
           </div>
         </div>
       </div>
@@ -484,7 +484,7 @@ const PlanWrapper = () => {
           <div className='plan-gird-c plan-gird-c1'>
             <div className='plan-gird-cr plan-gird-c1-r1'>
               <div className='plan-grid-cr-image'>
-                <img src={rm}/>
+                <img src={rm} />
               </div>
               <div className='plan-grid-cr-text plan-grid-c1r1-text'>
                 <p>Allocate Your Team with Confidence.</p>
@@ -541,7 +541,7 @@ const CollaborationWrapper = () => {
           <div className='collaborate-gird-c plan-gird-c1'>
             <div className='collaborate-gird-cr collaborate-gird-c1-r1'>
               <div className='collaborate-grid-cr-image'>
-                <img src={calendarfeature}/>
+                <img src={calendarfeature} />
               </div>
               <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
                 <p>Allocate Your Team with Confidence.</p>
@@ -550,7 +550,7 @@ const CollaborationWrapper = () => {
             </div>
             <div className='collaborate-gird-cr collaborate-gird-c1-r2'>
               <div className='collaborate-grid-cr-image'>
-                <img src={filefeature}/>
+                <img src={filefeature} />
               </div>
               <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
                 <p>Your Files, Finally Organized.</p>
@@ -606,16 +606,38 @@ const HomePage = () => {
   const [count, setCount] = useState(0);
   const [targetCount, setTargetCount] = useState(0);
 
+  // --- NEW: Define API Base URL ---
+  // This will pick up the URL from .env.development or .env.production
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  // --- END NEW ---
+
+  // Example in any component or utility file:
+
+  const environment = process.env.NODE_ENV;
+
+  console.log("Current Environment:", environment);
+
+  if (environment === 'development') {
+    // This code runs only when you use 'npm start'
+    alert("Yes development")
+    console.log("Running in development mode.");
+  } else if (environment === 'production') {
+    // This code runs when you use 'npm run build'
+    console.log("Running in production mode.");
+  }
   useEffect(() => {
     const fetchWaitlistCount = async () => {
       try {
-        const response = await fetch("https://api.gravyn.app/api/waitlist/count");
+        // --- MODIFIED: Use API_BASE_URL ---
+        const response = await fetch(`${API_BASE_URL}/api/waitlist/count`);
+        // --- END MODIFIED ---
         const data = await response.json();
         if (response.ok) {
           setCount(data.count);
           setTargetCount(data.count);
         }
       } catch (error) {
+        // You might want to log the API_BASE_URL here for debugging if it fails
         console.error("Error fetching waitlist count:", error);
       }
     };
@@ -625,8 +647,7 @@ const HomePage = () => {
     // Optional: Refresh every 10 seconds
     const interval = setInterval(fetchWaitlistCount, 10000);
     return () => clearInterval(interval);
-  }, []);
-
+  }, [API_BASE_URL]); // Added API_BASE_URL to dependencies just in case, though it should be constant
 
   useEffect(() => {
     if (count < targetCount) {
@@ -661,6 +682,10 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  // --- NEW: Define API Base URL ---
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  // --- END NEW ---
+
   const handleJoinWaitlist = async () => {
     if (!email) {
       setMessage("Please enter an email address.");
@@ -671,13 +696,15 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
     setMessage("");
 
     try {
-      const response = await fetch("https://api.gravyn.app/api/waitlist", {
+      // --- MODIFIED: Use API_BASE_URL ---
+      const response = await fetch(`${API_BASE_URL}/api/waitlist`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
       });
+      // --- END MODIFIED ---
 
       const data = await response.json();
       if (response.ok) {
@@ -787,7 +814,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
 
       <PlanWrapper />
-      <CollaborationWrapper/>
+      <CollaborationWrapper />
       {badgeVisible && <Founding100 isVisible={true} onClose={() => setBadgeVisible(false)} />}
     </div>
   );
@@ -797,6 +824,11 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 //      MOBILE-SPECIFIC LAYOUT
 // ===================================
 const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeVisible, count, targetCount }) => {
+
+  // NOTE: In a professional setup, you would also implement the API_BASE_URL logic here 
+  // and for the mobile waitlist form. For now, we will leave the mobile fetch hardcoded 
+  // as it is not currently active with API calls in the provided code block.
+
   return (
     <div className="page-wrapper mobile-layout">
 
