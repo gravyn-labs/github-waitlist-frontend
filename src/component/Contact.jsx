@@ -7,6 +7,8 @@ import billing from "../assets/icons/rupee.svg";
 import support from "../assets/icons/productsupport.svg";
 import serviceunavail from "../assets/icons/unavailable.svg";
 import "./Contact.css";
+import check from "../assets/icons/check.svg"
+import bg_noise from "../assets/images/grad.png"
 
 const Contact = () => {
   // ------------------------------
@@ -59,7 +61,7 @@ const Contact = () => {
   // UI Rendering
   // ------------------------------
   return (
-    <div className="page-wrapper">
+    <div className="contact-page-wrapper">
       {/* Banner */}
       {bannerVisible && !isModalOpen && (
         <div className="banner">
@@ -85,7 +87,8 @@ const Contact = () => {
       {/* Full-page Modal */}
       {isModalOpen ? (
         <div className="contact-fullscreen-form">
-          <div className="contact-form-header">
+
+          {/* <div className="contact-form-header">
             <h2>Contact Sales</h2>
             <button
               className="modal-close-btn"
@@ -159,7 +162,116 @@ const Contact = () => {
                 {status.loading ? "Sending..." : "Send Message"}
               </button>
             </form>
-          )}
+          )} */}
+
+          <div className="contact-sales-section-i contact-sales-section-left">
+            <div className="contact-sales-section-left-text">
+              <div className="contact-sales-section-left-text-header">
+                <p>Get in touch with our sales team.</p>
+                <p>Whether you're a startup scaling fast or an enterprise modernizing your workflow, our team is here to craft the perfect solution for you.</p>
+              </div>
+              <div className="contact-sales-section-left-text-footer">
+                <div className="sales-perks-item">
+                  <p><img src={check} />Tailored Plans for Every Stage</p>
+                  <p>From early teams to growing enterprises, we design solutions that fit your unique goals — not one-size-fits-all pricing.</p>
+                </div>
+                <div className="sales-perks-item">
+                  <p><img src={check} />Dedicated Onboarding & Support</p>
+                  <p>Get personalized onboarding, setup assistance, and access to a dedicated Gravyn advisor for your organization.</p>
+                </div>
+                <div className="sales-perks-item">
+                  <p><img src={check} />Integrations That Work for You</p>
+                  <p>Our experts will guide you on how Gravyn connects with your existing tools and data stack for seamless adoption.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="contact-sales-section-i contact-sales-section-right">
+            <div className="contact-form-area">
+              {status.success ? (
+                <div className="success-message">
+                  <h3>Message Sent!</h3>
+                  <p>{status.success}</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="contact-form">
+                  <div className="form-header">
+                    <p>Fill your details here.</p>
+                  </div>
+                  <div className="form-group-holder">
+                    <div className="form-group">
+                      <label htmlFor="name">Full Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="email">Email Address</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email name"
+
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="company">Company</label>
+                      <input
+                        type="text"
+                        id="company"
+                        placeholder="Enter your company name"
+
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="message">Message</label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows="4"
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Desribe your enquiry..."
+
+                        required
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  {status.error && (
+                    <p className="error-message">{status.error}</p>
+                  )}
+
+                  <div className="button-bolder">
+                    <button
+                      type="submit"
+                      className="submit-btn"
+                      disabled={status.loading}
+                    >
+                      {status.loading ? "Sending..." : "Send Message"}
+                    </button>
+                  </div>
+
+                </form>
+              )}
+            </div>
+          </div>
+          <img className="bg-noise" src={bg_noise} />
+
         </div>
       ) : (
         // Normal Contact Page

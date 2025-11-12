@@ -18,7 +18,10 @@ import rupee from "../assets/icons/rupee.svg";
 import client from "../assets/icons/client.svg";
 import kairo from "../assets/icons/kairo.svg";
 import integrations from "../assets/icons/integrations.svg";
-import face1 from "../assets/images/face2.png";
+import face1 from "../assets/images/face5.png";
+import face2 from "../assets/images/face6.png";
+import face3 from "../assets/images/face8.png";
+
 import integration from "../assets/images/integration1.svg"
 import kairoFeature from "../assets/images/kairoFeature1.svg"
 import kairoEditor from "../assets/images/kairo_editor.png"
@@ -37,6 +40,7 @@ import rm from "../assets/images/rm.png"
 import milestone from "../assets/images/milestone_finalv5.png"
 import taskmanage from "../assets/images/taskmanagev1.png"
 import timelinebanner from "../assets/images/timelinebanner.png"
+import rbafeature from "../assets/images/rbafeaturev1.png"
 
 import styles from "./CollaborationComp.module.css"
 
@@ -46,10 +50,135 @@ import { motion, AnimatePresence, time } from 'framer-motion';
 import calendarfeature from "../assets/images/calendarfeaturev1.png"
 import filefeature from "../assets/images/files_feature.png"
 
+import blackhole from "../assets/images/blackhole.svg"
+import logo_noise from "../assets/images/logo_noise.png"
+import bg_noise from "../assets/images/grad.png"
+import logo_waitlist from "../assets/logo/logo_waitlist.svg"
+import glow_logo from "../assets/images/glow_logo.svg"
+
+import text from "../assets/images/text.svg"
 
 
+import twitter from "../assets/icons/twitter.svg"
+import linkedin from "../assets/icons/linkedin.svg"
+
+import logov1 from "../assets/logo/logov2.svg"
 
 
+const PartyPopper = ({ trigger = false, duration = 2000, delay = 0 }) => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (!trigger) return;
+
+    let animationFrame;
+    let stopAfter;
+    let hasStarted = false;
+
+    const startBlast = () => {
+      hasStarted = true;
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      const colors = [
+        "#F7D488", // gold
+        "#D5B4FF", // soft lavender
+        "#A88CFF", // luxury violet
+        "#FFF7E6", // champagne white
+        "#E6D0FF", // lilac tint
+      ];
+
+      const particles = [];
+      const numParticles = 120;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      for (let i = 0; i < numParticles; i++) {
+        const angle = (Math.PI * 2 * i) / numParticles;
+        const speed = Math.random() * 6 + 3;
+        const size = Math.random() * 6 + 3;
+
+        particles.push({
+          x: centerX,
+          y: centerY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          rotation: Math.random() * 360,
+          rotationSpeed: Math.random() * 10 - 5,
+        });
+      }
+
+      const draw = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.05; // gravity
+          p.alpha -= 0.015;
+          p.rotation += p.rotationSpeed;
+          if (p.alpha <= 0) p.alpha = 0;
+
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        });
+
+        if (particles.some((p) => p.alpha > 0)) {
+          animationFrame = requestAnimationFrame(draw);
+        }
+      };
+
+      draw();
+
+      stopAfter = setTimeout(() => {
+        cancelAnimationFrame(animationFrame);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        window.removeEventListener("resize", resizeCanvas);
+      }, duration);
+    };
+
+    const delayTimeout = setTimeout(startBlast, delay);
+
+    return () => {
+      clearTimeout(delayTimeout);
+      if (hasStarted) {
+        cancelAnimationFrame(animationFrame);
+        clearTimeout(stopAfter);
+      }
+    };
+  }, [trigger, duration, delay]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        zIndex: 99,
+      }}
+    />
+  );
+};
 const ProjectTypes = () => {
   return (
     <section className="project-types-section">
@@ -544,8 +673,8 @@ const CollaborationWrapper = () => {
                 <img src={calendarfeature} />
               </div>
               <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
-                <p>Allocate Your Team with Confidence.</p>
-                <p>Get a bird's-eye view of your entire team's workload and capacity. Balance assignments, prevent burnout, and ensure the right people are on the right projects.</p>
+                <p>Your Team's Shared Schedule.</p>
+                <p>See all your project deadlines, key milestones, and team meetings in one unified calendar. Schedule events, check availability, and ensure everyone is on the same page.</p>
               </div>
             </div>
             <div className='collaborate-gird-cr collaborate-gird-c1-r2'>
@@ -561,18 +690,19 @@ const CollaborationWrapper = () => {
           <div className='collaborate-gird-c collaborate-gird-c2'>
             <div className='collaborate-gird-cr collaborate-gird-c2-r1'>
               <div className='collaborate-grid-cr-image'>
+                <img src={rbafeature}/>
               </div>
               <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
-                <p>Visualize the Path Forward.</p>
-                <p>Build beautiful, interactive Gantt charts in seconds. Map out project phases and see how every piece of work connects to the bigger picture.</p>
+                <p>Clarity and Control for Everyone.</p>
+                <p>clear roles and permissions for your team members, clients, and freelancers. Role-Based Access (RBA) ensures everyone has access to exactly what they need—and nothing they don't.</p>
               </div>
             </div>
             <div className='collaborate-gird-cr collaborate-gird-c2-r2'>
               <div className='collaborate-grid-cr-image'>
               </div>
               <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
-                <p>Turn Milestones into Momentum.</p>
-                <p>Don't just track key dates, automate them. Create powerful workflows that trigger when a milestone is completed, from notifying stakeholders to automatically kicking off the next phase of your project.</p>
+                <p>Conversations with Context.</p>
+                <p>Ditch the scattered threads and email chains. Have focused, threaded discussions directly on tasks, files, or documents, so every conversation is automatically organized and easy to find later.</p>
               </div>
             </div>
           </div>
@@ -631,6 +761,7 @@ const HomePage = () => {
     alert('Staging', API_BASE_URL)
   }
 
+
   useEffect(() => {
     const fetchWaitlistCount = async () => {
       try {
@@ -679,6 +810,51 @@ const HomePage = () => {
 };
 
 
+const AlreadyJoined = ({setAJBanner}) => {
+  return <>
+    <div onClick={() => {
+        setAJBanner(false);
+      }} className='aj-overlay'>
+      <PartyPopper celebrate={true} duration={4000} delay={0}/>
+      <div className='alreadyjoined-wrapper'>
+        <div className='alreadyjoin-image'>
+          <img src={blackhole} />
+          <div className='aj-center-banner'>
+          </div>
+        </div>
+        <div className='alreadyjoin-text'>
+          <p>🎉 You’re Already on the Waitlist! 🎉</p>
+          <p>Looks like you’ve already reserved your spot.
+            Sit back and relax — we’ll reach out as soon as it’s your turn to access Gravyn.</p>
+        </div>
+      </div>
+    </div>
+  </>
+}
+
+const OnceJoined = ({ setOJBanner }) => {
+  return <>
+    <div onClick={() => {
+      setOJBanner(false);
+    }} className='aj-overlay'>
+      <PartyPopper celebrate={true} duration={4000} delay={0} />
+      <div className='alreadyjoined-wrapper'>
+        <div className='alreadyjoin-image'>
+          <img src={blackhole} />
+          <div className='aj-center-banner'>
+          </div>
+        </div>
+        <div className='alreadyjoin-text'>
+          <p>You’ve Successfully Joined the Waitlist!</p>
+          <p>You’re officially part of the Gravyn early community.
+            We’ll notify you the moment your early access is unlocked.</p>
+        </div>
+      </div>
+    </div>
+  </>
+}
+
+
 // ===================================
 //      DESKTOP-SPECIFIC LAYOUT
 // ===================================
@@ -690,7 +866,50 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
   // --- NEW: Define API Base URL ---
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   // --- END NEW ---
+
+  const parentRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            imageRef.current.classList.add("animate-glow");
+          } else {
+            imageRef.current.classList.remove("animate-glow");
+          }
+        });
+      },
+      { threshold: 0.3 } // triggers when 40% of parent is visible
+    );
+
+    if (parentRef.current) {
+      observer.observe(parentRef.current);
+    }
+
+    return () => {
+      if (parentRef.current) observer.unobserve(parentRef.current);
+    };
+  }, []);
+
+
+  const [celebrate, setCelebrate] = useState(false);
+
+  const handleCelebrate = () => {
+    setCelebrate(true);
+    setTimeout(() => setCelebrate(false), 3100); // Reset trigger
+  };
+
+  const [ajBanner, setAJBanner] = useState(false);
+  const [ojBanner, setOJBanner] = useState(false);
+
+
+  useEffect(() => {
+    handleCelebrate();
+  }, [])
 
   const handleJoinWaitlist = async () => {
     if (!email) {
@@ -714,14 +933,23 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
       const data = await response.json();
       if (response.ok) {
-        setMessage("🎉 You’re on the waitlist! We’ll keep you updated.");
         setEmail("");
+        setOJBanner(true);
+        setTimeout(() => {
+          setOJBanner(false)
+        }, 5000)
       } else {
-        setMessage(data.error || "Something went wrong. Try again later.");
+        setAJBanner(true);
+        setTimeout(() => {
+          setAJBanner(false)
+        }, 5000)
       }
     } catch (error) {
       console.error(error);
-      setMessage("Server error. Please try again later.");
+      setAJBanner(true);
+      setTimeout(() => {
+        setAJBanner(false)
+      }, 5000)
     } finally {
       setLoading(false);
     }
@@ -776,7 +1004,6 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
           </div>
         </div>
       </div>
-      <ProjectTypes />
 
       <UnifiedWorkspace />
 
@@ -821,7 +1048,109 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
       <PlanWrapper />
       <CollaborationWrapper />
+
+      <ProjectTypes />
+
+
+      <div ref={parentRef} className='workspace-join-section-wrapper'>
+        <img src={bg_noise} />
+        <Orbiez/>
+        <div className='workspace-join-central-wrapper'>
+          <div className='workspace-join-text-wrapper'>
+
+            <img ref={imageRef} src={glow_logo} />
+            <p>Work Smarter. Deliver Faster.</p>
+            <p></p>
+          </div>
+          <div className='workspace-join-input-area'>
+            <div className='workspace-join-input-area-i'>
+              <div className='workspace-join-input-area-left'>
+                <p>Join the waitlist</p>
+                <p>Join our waitlist to get notified the moment we launch.</p>
+              </div>
+              <div className='workspace-join-input-area-i-right'>
+                <div className='faces-wrapper'> 
+                  <img src={face1} />
+                  <img src={face3} />
+                  <img src={face2} />
+                </div>
+              </div>
+            </div>
+            <div className='workspace-join-input-area-i'>
+              <div className='input-area'>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={"Enter Email Address..."} />
+                <button onClick={handleJoinWaitlist}>Join Waitlist</button>
+              </div>
+            </div>
+          </div>
+          <div className='followus-wrapper'>
+            <p>Follow Us</p>
+            <a href='https://www.linkedin.com/company/108729125/admin/dashboard/'><img src={linkedin} /></a>
+            <a href=''><img src={twitter} /></a>
+          </div>
+        </div>
+      </div>
+
+      <footer className='footer-wrapper'>
+        {/* <img className='footer-blackhole' src={blackhole} /> */}
+        <img className='text-image' src={blackhole}/>
+        <div className='footer-main'>
+          <div className='footer-main-flex'>
+            <div className='footer-main-flex-i footer-main-flex-left'>
+              <div className='footer-main-flex-left-header'>
+                <p><img src={logov1} />Gravyn.</p>
+                <p>Let’s redefine how teams work. Gravyn unites planning, collaboration, and execution in one intelligent workspace, built to help you move faster and think smarter.</p>
+              </div>
+              <div className='followus-wrapper'>
+                <a href='https://www.linkedin.com/company/108729125/admin/dashboard/'><img src={linkedin} /></a>
+                <a href=''><img src={twitter} /></a>
+              </div>
+            </div>
+            <div className='footer-main-flex-i footer-main-flex-right'>
+              <div className='list-main'>
+                <p>Platfrom</p>
+                <div className='list-main-item'>
+                  <p>Home</p>
+                  <p>Pricing</p>
+                </div>
+              </div>
+              <div className='list-main'>
+                <p>Company</p>
+                <div className='list-main-item'>
+                  <p>Contact Us</p>
+                  <p>Career</p>
+                </div>
+              </div>
+              <div className='list-main'>
+                <p>Reach Us</p>
+                <div className='list-main-item'>
+                  <p>aryan@gravyn.app</p>
+                  <p>support@gravyn.app</p>
+                  <p>20H, Sector 63, Noida, 201301</p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='footer-main-bottom'>
+            <div className='footer-main-bottom-i'>
+              <p>© 2025 Gravyn Labs Private Limited. All rights reserved.</p>
+            </div>
+            <div className='footer-main-bottom-i'>
+              <a>Privacy Poliy</a>
+              <a>Terms & Condition</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
       {badgeVisible && <Founding100 isVisible={true} onClose={() => setBadgeVisible(false)} />}
+      {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}
+      {ojBanner && <OnceJoined setOJBanner={ojBanner} />}
     </div>
   );
 };
@@ -896,6 +1225,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
         </div>
       </div>
       {badgeVisible && <Founding100 isVisible={true} onClose={() => setBadgeVisible(false)} />}
+
     </div>
   );
 };

@@ -1,6 +1,10 @@
 /* ===== Base & Global ===== */
 
-
+.page-wrapper{
+  background-color: black;
+  min-height: 100vh;
+  width: 100%;
+}
 
 /* ===== Banner ===== */
 .banner {
