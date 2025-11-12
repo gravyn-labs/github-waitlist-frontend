@@ -47,64 +47,6 @@ body {
     }
 }
 
-.banner {
-    width: 100%;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(270deg, #8000ff, #3017ee, #d013de);
-    background-size: 400% 400%;
-    animation: gradientFlow 10s ease infinite;
-    position: relative;
-}
-
-.banner-content-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.banner-content-wrapper img {
-    height: 17px;
-}
-
-.banner-content-wrapper p {
-    font-size: 13px;
-    letter-spacing: -0.25px;
-}
-
-.banner-content-wrapper p:nth-child(2) {
-    font-weight: 600;
-}
-
-.banner-content-wrapper p:nth-child(3) {
-    font-weight: 600;
-    padding: 7px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: background-color .2s;
-}
-
-.banner-content-wrapper p:nth-child(3):hover {
-    background-color: rgba(255, 255, 255, 0.14);
-}
-
-.close-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 30px;
-    height: 12px;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.close-icon:hover {
-    opacity: 1;
-}
-
 .landing-page {
     position: relative;
     width: 100%;
@@ -910,185 +852,6 @@ body {
 
 
 
-
-
-/* ================================== */
-/* ===== Section Layout & Grid ===== */
-/* ================================== */
-.unified-workspace-section {
-    padding: 100px 15%;
-    width: 100%;
-    background-color: black;
-}
-
-.features-header {
-    text-align: center;
-    margin-bottom: 4rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.features-header h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.75rem;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -1px;
-}
-
-.features-header p {
-    font-size: 1.125rem;
-    color: #a0a0a0;
-    margin-top: 1rem;
-}
-
-/* --- THE KEY CHANGE FOR 60/40 SPLIT --- */
-.workspace-grid {
-    display: grid;
-    /* 
-      Use fractional units to define the ratio.
-      This gives the first column 3 parts and the second 2 parts,
-      which is equivalent to a 60/40 split.
-    */
-    grid-template-columns: 2.75fr 2fr;
-    gap: 0;
-    /* Keep it seamless */
-    align-items: start;
-    margin: 0 auto;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    overflow: hidden;
-}
-
-
-/* ============================== */
-/* ===== Left Side: Visual ===== */
-/* ============================== */
-.workspace-visual {
-    height: 100%;
-    width: 100%;
-
-    overflow: hidden;
-    border-right: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-/* ... (visual-content and mock-ui-placeholder styles remain the same) ... */
-.visual-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.workspace-visual-header {
-    height: 10%;
-    width: 100%;
-    background-color: transparent;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.07);
-}
-
-.mock-ui-placeholder {
-    color: #666;
-    position: relative;
-    height: calc(100% - 10% - 0px);
-    width: 100%;
-}
-
-
-.mock-ui-placeholder img {
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 10px;
-}
-
-/* ================================= */
-/* ===== Right Side: Features ===== */
-/* ================================= */
-.workspace-features {
-    /* No changes needed here */
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* This will now be 2 columns within the 40% width */
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: 0;
-    height: 100%;
-}
-
-.feature-item {
-    padding: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    border-right: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 0;
-}
-
-.feature-item:hover {}
-
-/* ... (rest of the styles remain the same as the "tightly packed" version) ... */
-.feature-item:nth-child(2n) {
-    border-right: none;
-}
-
-.feature-item:nth-child(5),
-.feature-item:nth-child(6) {
-    border-bottom: none;
-}
-
-.feature-item:hover {}
-
-.feature-icon {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
-}
-
-.feature-icon img {
-    height: 19px;
-    width: 19px;
-}
-
-.feature-text h3 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.35rem;
-}
-
-.feature-text p {
-    color: #888;
-    line-height: 1.5;
-    font-size: 0.75rem;
-}
-
-.mock-diagonal {
-    width: 100%;
-    height: 70;
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 10%;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.2);
-    /* A subtle text color */
-    font-size: 1.5rem;
-    text-transform: capitalize;
-
-    /* --- This is the key part for the diagonal stripes --- */
-    background: repeating-linear-gradient(-45deg,
-            rgba(255, 255, 255, 0.02),
-            rgba(255, 255, 255, 0.02) 10px,
-            rgba(255, 255, 255, 0.03) 10px,
-            rgba(255, 255, 255, 0.03) 20px);
-}
-
-
-
 /* ============================== */
 /* ===== Second Grid: Essentials ===== */
 /* ============================== */
@@ -1878,7 +1641,7 @@ body {
 .alreadyjoined-wrapper {
     height: 60%;
     width: 30%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(21, 21, 21, 0.5);
     border: 0.5px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
@@ -2015,7 +1778,7 @@ body {
 }
 
 .animate-glow {
-    animation: glow_come 1.5s ease forwards;
+    animation: glow_come 1.25s ease forwards;
 }
 
 @keyframes glow_come {

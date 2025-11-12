@@ -2,43 +2,51 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./NavBar.css";
 import logo from '../assets/logo/gravyn_logo.svg';
-import collapseIcon from '../assets/icons/collapse.svg'; // This will be our hamburger icon
+import collapseIcon from '../assets/icons/collapse.svg';
 
 const menuItems = [
   { label: "Pricing", to: "/pricing" },
   { label: "Career", to: "/career" },
   { label: "Contact Us", to: "/contact" },
-  { label: "Join Waitlist", to: "/waitlist", highlight: true }
+  { label: "Join Waitlist", to: "/", highlight: true, reach: true },
 ];
 
 const NavBar = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleNavigation = (to) => {
-    navigate(to);
-    setMobileMenuOpen(false); // Close mobile menu after navigation
+  const [joinList , setJoinList] = useState(false)
+
+  const handleNavigation = (to, scrollToSection = false) => {
+    if (to === "/") {
+      navigate(to, { state: { scrollToSection } }); // 👈 send flag
+    } else {
+      navigate(to);
+    }
+    setMobileMenuOpen(false);
   };
+
 
   return (
     <nav className="nav-bar">
       <div className="nav-content">
-        <div className="logo-wrapper" onClick={() => handleNavigation('/')}>
+        <div className="logo-wrapper" onClick={() => handleNavigation({ to: '/' })}>
           <img src={logo} alt="Gravyn logo" />
           <p>Gravyn</p>
         </div>
-        
+
         {/* Desktop Menu */}
         <div className="menu-wrapper">
           {menuItems.map(({ label, to, highlight }) => (
             <div
               key={label}
               className={`menu-item ${highlight ? 'waitlist-menu-item' : ''}`}
-              onClick={() => handleNavigation(to)}
+              onClick={() => handleNavigation(to, highlight && label === "Join Waitlist")}
             >
               <p>{label}</p>
             </div>
           ))}
+
         </div>
 
         {/* Mobile Hamburger Icon */}
@@ -50,13 +58,13 @@ const NavBar = () => {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="mobile-menu-overlay">
-          {menuItems.map(({ label, to, highlight }) => (
+          {menuItems.map((item) => (
             <div
-              key={label}
+              key={item.label}
               className="mobile-menu-item"
-              onClick={() => handleNavigation(to)}
+              onClick={() => handleNavigation(item)}
             >
-              <p>{label}</p>
+              <p>{item.label}</p>
             </div>
           ))}
         </div>

@@ -170,19 +170,19 @@ const Contact = () => {
                 <p>Get in touch with our sales team.</p>
                 <p>Whether you're a startup scaling fast or an enterprise modernizing your workflow, our team is here to craft the perfect solution for you.</p>
               </div>
-              <div className="contact-sales-section-left-text-footer">
-                <div className="sales-perks-item">
-                  <p><img src={check} />Tailored Plans for Every Stage</p>
-                  <p>From early teams to growing enterprises, we design solutions that fit your unique goals — not one-size-fits-all pricing.</p>
-                </div>
-                <div className="sales-perks-item">
-                  <p><img src={check} />Dedicated Onboarding & Support</p>
-                  <p>Get personalized onboarding, setup assistance, and access to a dedicated Gravyn advisor for your organization.</p>
-                </div>
-                <div className="sales-perks-item">
-                  <p><img src={check} />Integrations That Work for You</p>
-                  <p>Our experts will guide you on how Gravyn connects with your existing tools and data stack for seamless adoption.</p>
-                </div>
+            </div>
+            <div className="contact-sales-section-left-text-footer">
+              <div className="sales-perks-item">
+                <p><img src={check} />Tailored Plans for Every Stage</p>
+                <p>From early teams to growing enterprises, we design solutions that fit your unique goals — not one-size-fits-all pricing.</p>
+              </div>
+              <div className="sales-perks-item">
+                <p><img src={check} />Dedicated Onboarding & Support</p>
+                <p>Get personalized onboarding, setup assistance, and access to a dedicated Gravyn advisor for your organization.</p>
+              </div>
+              <div className="sales-perks-item">
+                <p><img src={check} />Integrations That Work for You</p>
+                <p>Our experts will guide you on how Gravyn connects with your existing tools and data stack for seamless adoption.</p>
               </div>
             </div>
           </div>

@@ -5,7 +5,6 @@ import faces from '../assets/images/faces.svg';
 import "./HomePage.css";
 import leaves from "../assets/icons/leaves.svg";
 import heart from "../assets/icons/heart.svg";
-import championsIcons from "../assets/icons/championsvv2.svg";
 import close from "../assets/icons/close.svg";
 import Orbiez from "./Orbiez";
 import check from "../assets/icons/check.svg";
@@ -42,7 +41,8 @@ import taskmanage from "../assets/images/taskmanagev1.png"
 import timelinebanner from "../assets/images/timelinebanner.png"
 import rbafeature from "../assets/images/rbafeaturev1.png"
 
-import styles from "./CollaborationComp.module.css"
+import { useLocation } from 'react-router-dom';
+
 
 import { motion, AnimatePresence, time } from 'framer-motion';
 
@@ -63,8 +63,11 @@ import twitter from "../assets/icons/twitter.svg"
 import linkedin from "../assets/icons/linkedin.svg"
 
 import logov1 from "../assets/logo/logov2.svg"
+import Banner from './Features/Banner';
+import { UnifiedWorkspace } from './Features/UnifiedWorkspace';
 
 
+// 🎉 PartyPopper Component
 const PartyPopper = ({ trigger = false, duration = 2000, delay = 0 }) => {
   const canvasRef = useRef(null);
 
@@ -89,11 +92,11 @@ const PartyPopper = ({ trigger = false, duration = 2000, delay = 0 }) => {
       window.addEventListener("resize", resizeCanvas);
 
       const colors = [
-        "#F7D488", // gold
-        "#D5B4FF", // soft lavender
-        "#A88CFF", // luxury violet
-        "#FFF7E6", // champagne white
-        "#E6D0FF", // lilac tint
+        "#F7D488",
+        "#D5B4FF",
+        "#A88CFF",
+        "#FFF7E6",
+        "#E6D0FF",
       ];
 
       const particles = [];
@@ -121,11 +124,10 @@ const PartyPopper = ({ trigger = false, duration = 2000, delay = 0 }) => {
 
       const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         particles.forEach((p) => {
           p.x += p.vx;
           p.y += p.vy;
-          p.vy += 0.05; // gravity
+          p.vy += 0.05;
           p.alpha -= 0.015;
           p.rotation += p.rotationSpeed;
           if (p.alpha <= 0) p.alpha = 0;
@@ -179,6 +181,9 @@ const PartyPopper = ({ trigger = false, duration = 2000, delay = 0 }) => {
     />
   );
 };
+
+
+
 const ProjectTypes = () => {
   return (
     <section className="project-types-section">
@@ -255,164 +260,10 @@ const ProjectTypes = () => {
 };
 
 
-// --- Your Feature Components ---
-// You will create a separate component for each feature's visual
-const CollaborationComp = () => {
-  // This is the animated infographic for Collaboration
-  return (
-    <div className={styles['collaboration-comp']}>
-      <img src={collaboration_feature} />
-    </div>
-  );
-};
-
-const AiComp = () => {
-  return <>
-    <div className={styles['kairo-feature']}>
-      <img src={kairo_feature} />
-    </div>
-  </>
-}
-
-const FinancesComp = () => {
-  return <>
-    <div className={styles['finance-feature']}>
-      <img src={finance_management} />
-    </div>
-  </>
-}
-
-
-const ProjectManagementComp = () => {
-  return <>
-    <div className={styles['project-feature']}>
-      <img src={project_management} />
-    </div>
-  </>
-}
-
-const IntegrationsComp = () => {
-  return <>
-    <div className={styles['integration-feature']}>
-      <img src={integration} />
-    </div>
-  </>
-}
 
 
 
 
-
-
-
-// --- Data Configuration ---
-const coreFeatures = [
-  {
-    id: 'projects',
-    icon: projectmanagement,
-    component: <ProjectManagementComp />, // Replace with <ProjectManagementComp />
-    title: 'Project Management',
-    description: 'Plan, track, and deliver projects on time. Use timelines, Kanban boards, and lists to manage your work, your way.'
-  },
-  {
-    id: 'collaboration',
-    icon: collaboration,
-    component: <CollaborationComp />,
-    title: 'Collaboration',
-    description: 'Keep your team in sync. Link conversations to tasks, share files, and centralize all project communication.'
-  },
-  {
-    id: 'finances',
-    icon: rupee,
-    component: <FinancesComp />, // Replace with <FinancesComp />
-    title: 'Finances',
-    description: 'Track budgets, log time, and manage invoices without ever leaving your workspace. Get a clear view of every project\'s financial health.'
-  },
-  {
-    id: 'clients',
-    icon: client,
-    component: <CollaborationComp />, // Replace with <ClientComp />
-    title: 'Client Management',
-    description: 'From onboarding to reporting, deliver a world-class client experience with branded portals and automated status updates.'
-  },
-  {
-    id: 'ai',
-    icon: kairo,
-    component: <AiComp />, // Replace with <AiComp />
-    title: 'Kairo Copilot',
-    description: 'Let our AI automate summaries, flag risks, and provide predictive insights, so you can focus on strategic work.'
-  },
-  {
-    id: 'integrations',
-    icon: integrations,
-    component: <IntegrationsComp />, // Replace with <IntegrationsComp />
-    title: 'Integrations',
-    description: 'Connect Gravyn to the tools you already use, from Slack to GitHub, creating a truly unified command center.'
-  },
-];
-
-// --- Main Component ---
-const UnifiedWorkspace = () => {
-  // Default to the first feature in the array
-  const [activeFeatureId, setActiveFeatureId] = useState(coreFeatures[0].id);
-
-  // Find the component to render based on the active ID
-  const activeComponent = coreFeatures.find(f => f.id === activeFeatureId)?.component;
-
-  return (
-    <section className="unified-workspace-section">
-      <div className="features-header">
-        <h2>From Scattered to Seamless.</h2>
-        <p>Gravyn provides the foundational tools for clarity and control, so you can build the exact workflow your team needs.</p>
-      </div>
-
-      <div className="workspace-grid">
-        {/* --- Left Side: The Visual --- */}
-        <div className="workspace-visual">
-          <div className='workspace-visual-header'>
-            {/* You can add a dynamic header here if you wish */}
-          </div>
-          <div className='mock-diagonal' />
-
-          <div className="mock-ui-placeholder">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeFeatureId} // The key tells AnimatePresence when to switch
-                initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                // This div will stretch to fill the component-wrapper
-                style={{ width: '100%', height: '100%' }}
-              >
-                {activeComponent}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* --- Right Side: The Feature Grid --- */}
-        <div className="workspace-features">
-          <div className="features-grid">
-            {coreFeatures.map(feature => (
-              <div
-                key={feature.id}
-                className={`feature-item ${activeFeatureId === feature.id ? 'active' : ''}`}
-                onMouseEnter={() => setActiveFeatureId(feature.id)}
-              >
-                <div className="feature-icon"><img src={feature.icon} alt={feature.title} /></div>
-                <div className="feature-text">
-                  <h3>{feature.title}</h3>
-                  <p>{feature.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 
 const ProjectMonoSection = () => {
@@ -743,6 +594,23 @@ const HomePage = () => {
   // --- END NEW ---
 
 
+  const location = useLocation();
+  const parentRef = useRef(null);
+  const imageRef = useRef(null);
+  const [email, setEmail] = useState("");
+
+  const handleJoinWaitlist = () => {
+    // Your join waitlist logic
+  };
+
+  // Scroll when coming from NavBar
+  useEffect(() => {
+    if (location.state?.scrollToWaitlist && parentRef.current) {
+      setTimeout(() => {
+        parentRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    }
+  }, [location]);
 
   console.log("Current Environment:", environment);
 
@@ -868,9 +736,23 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   // --- END NEW ---
-
+  const location = useLocation();
   const parentRef = useRef(null);
+
+  const workspaceRef = useRef(null);
+
+  useEffect(() => {
+    if (location.state?.scrollToSection) {
+      // Scroll smoothly to workspace section
+      parentRef.current?.scrollIntoView({ behavior: "smooth" });
+
+      // 🧼 Clear the state to prevent future auto-scrolls
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
   const imageRef = useRef(null);
+
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -956,17 +838,9 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
   };
   return (
     <div style={{
-      width: `${getWindowWidth}px`
-    }} className="page-wrapper">
+      width: `${getWindowWidth}px`}} className="page-wrapper">
       {bannerVisible && (
-        <div className='banner'>
-          <div className='banner-content-wrapper'>
-            <img src={championsIcons} alt="champions" />
-            <p>Be Among the First 100 Subscribers — Join the Gravyn Founding 100!</p>
-            <p onClick={() => setBadgeVisible(true)}>Know More</p>
-          </div>
-          <img onClick={() => setBannerVisible(false)} className='close-icon' src={close} alt="close" />
-        </div>
+        <Banner setBadgeVisible={setBadgeVisible} setBannerVisible = { setBannerVisible }/>
       )}
       <NavBar />
       <div className="landing-page">
@@ -1198,6 +1072,9 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
         </div>
 
       </div>
+
+      <UnifiedWorkspace />
+
 
       <SectionWrapper icon={leaves} alt="leaves" title="Plan and Execute" description="Plan with precision and adapt effortlessly." />
       <SectionWrapper icon={heart} alt="collaboration" title="Collaboration" description="Connect seamlessly and foster creativity." />

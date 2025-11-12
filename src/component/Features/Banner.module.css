@@ -1,0 +1,57 @@
+.banner {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(270deg, #8000ff, #3017ee, #d013de);
+    background-size: 400% 400%;
+    animation: gradientFlow 10s ease infinite;
+    position: relative;
+}
+
+.banner-content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.banner-content-wrapper img {
+    height: 17px;
+}
+
+.banner-content-wrapper p {
+    font-size: 13px;
+    letter-spacing: -0.25px;
+}
+
+.banner-content-wrapper p:nth-child(2) {
+    font-weight: 600;
+}
+
+.banner-content-wrapper p:nth-child(3) {
+    font-weight: 600;
+    padding: 7px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color .2s;
+}
+
+.banner-content-wrapper p:nth-child(3):hover {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.close-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 30px;
+    height: 12px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.close-icon:hover {
+    opacity: 1;
+}

@@ -1,0 +1,462 @@
+
+/* ================================== */
+/* ===== Section Layout & Grid ===== */
+/* ================================== */
+.unified-workspace-section {
+    padding: 100px 15%;
+    width: 100%;
+    background-color: black;
+}
+
+.features-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.features-header h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -1px;
+}
+
+.features-header p {
+    font-size: 1.125rem;
+    color: #a0a0a0;
+    margin-top: 1rem;
+}
+
+/* --- THE KEY CHANGE FOR 60/40 SPLIT --- */
+.workspace-grid {
+    display: grid;
+    /* 
+      Use fractional units to define the ratio.
+      This gives the first column 3 parts and the second 2 parts,
+      which is equivalent to a 60/40 split.
+    */
+    grid-template-columns: 2.75fr 2fr;
+    gap: 0;
+    /* Keep it seamless */
+    align-items: start;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+}
+
+
+/* ============================== */
+/* ===== Left Side: Visual ===== */
+/* ============================== */
+.workspace-visual {
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ... (visual-content and mock-ui-placeholder styles remain the same) ... */
+.visual-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.workspace-visual-header {
+    height: 10%;
+    width: 100%;
+    background-color: transparent;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.07);
+}
+
+.mock-ui-placeholder {
+    color: #666;
+    position: relative;
+    height: calc(100% - 10% - 0px);
+    width: 100%;
+}
+
+
+.mock-ui-placeholder img {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+}
+
+/* ================================= */
+/* ===== Right Side: Features ===== */
+/* ================================= */
+.workspace-features {
+    /* No changes needed here */
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* This will now be 2 columns within the 40% width */
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0;
+    height: 100%;
+}
+
+.feature-item {
+    padding: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0;
+}
+
+.feature-item:hover {}
+
+/* ... (rest of the styles remain the same as the "tightly packed" version) ... */
+.feature-item:nth-child(2n) {
+    border-right: none;
+}
+
+.feature-item:nth-child(5),
+.feature-item:nth-child(6) {
+    border-bottom: none;
+}
+
+.feature-item:hover {}
+
+.feature-icon {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+}
+
+.feature-icon img {
+    height: 19px;
+    width: 19px;
+}
+
+.feature-text h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+.feature-text p {
+    color: #888;
+    line-height: 1.5;
+    font-size: 0.75rem;
+}
+
+.mock-diagonal {
+    width: 100%;
+    height: 70;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 10%;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.2);
+    /* A subtle text color */
+    font-size: 1.5rem;
+    text-transform: capitalize;
+
+    /* --- This is the key part for the diagonal stripes --- */
+    background: repeating-linear-gradient(-45deg,
+            rgba(255, 255, 255, 0.02),
+            rgba(255, 255, 255, 0.02) 10px,
+            rgba(255, 255, 255, 0.03) 10px,
+            rgba(255, 255, 255, 0.03) 20px);
+}
+
+
+
+
+
+
+
+
+
+.collaboration-comp,
+.integration-feature {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 50px;
+}
+
+
+.collaboration-comp::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 20;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            transparent 35%,
+            black 100%);
+}
+
+
+.collaboration-comp img {
+    border: none !important;
+    scale: 1;
+    margin-top: 20px;
+    position: absolute;
+    width: 85%;
+    left: 50%;
+    bottom: 10%;
+    z-index: 10;
+    transform: translateX(-50%) translateY(0%);
+}
+
+
+.integration-feature::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 20;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            black 65%,
+            black 100%);
+}
+
+
+.kairo-feature {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 50px;
+}
+
+
+
+.kairo-feature img {
+    border: none !important;
+    scale: 1;
+    margin-top: 20px;
+    position: absolute;
+    height: 70%;
+    left: 50%;
+    bottom: 10%;
+    z-index: 200;
+    transform: translateX(-50%) translateY(-10%);
+}
+
+
+.kairo-feature::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+
+    z-index: 20;
+    background: linear-gradient(to right, transparent, black)
+}
+
+.finance-feature {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 50px;
+}
+
+.finance-feature::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            transparent 50%,
+            black 100%);
+}
+
+
+.finance-feature img {
+    border: none !important;
+    scale: 1;
+    margin-top: 20px;
+    position: absolute;
+    width: 90%;
+    left: 51.5%;
+    bottom: 10%;
+    z-index: 10;
+    transform: translateX(-50%) translateY(-10%);
+}
+
+.project-feature {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 50px;
+}
+
+.project-feature::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            transparent 40%,
+            black 100%);
+}
+
+
+.project-feature img {
+    border: none !important;
+    scale: 1;
+    margin-top: 20px;
+    position: absolute;
+    width: 95%;
+    left: 50%;
+    bottom: 10%;
+    z-index: 10;
+    transform: translateX(-50%) translateY(-10%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ________________________ */
+/* MOBILE SCREEN */
+/* ________________________ */
+
+
+
+
+.unified-workspace-section-mobile {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 30px 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.features-header-mobile {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.features-header-mobile h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.features-header-mobile p {
+    font-size: 1rem;
+    color: #cccccc;
+}
+
+.carousel-wrapper {
+    display: flex;
+    gap: 16px;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.carousel-card {
+    background-color: #121212;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.07);
+    flex: 0 0 280px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #eee;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.carousel-card:hover {
+    transform: scale(1.05);
+}
+
+.carousel-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 16px;
+}
+
+.carousel-text {
+    text-align: center;
+}
+
+.carousel-text h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.carousel-text p {
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+/* Workspace Visual container */
+
+.workspace-visual-mobile {
+    width: 100%;
+    height: 300px;
+    margin-top: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    background-color: #181818;
+    position: relative;
+}
+
+
+
+
+/* ________________________ */
+/* MOBILE SCREEN */
+/* ________________________ */
