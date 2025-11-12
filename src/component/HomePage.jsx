@@ -619,12 +619,15 @@ const HomePage = () => {
 
   if (environment === 'development') {
     // This code runs only when you use 'npm start'
-    alert("Yes development")
     console.log("Running in development mode.");
   } else if (environment === 'production') {
     // This code runs when you use 'npm run build'
     console.log("Running in production mode.");
   }
+  else if (environment === 'staging') {
+    alert('Staging', API_BASE_URL)
+  }
+
   useEffect(() => {
     const fetchWaitlistCount = async () => {
       try {
@@ -742,7 +745,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
           <div className="landing-content-text-wrapper">
             <DynamicPhrase />
             <p className="hero-subtitle">
-              Discover a unified workspace that simplifies project delivery, client collaboration, and finances — all enhanced by powerful AI-driven insights. Join the waitlist for early access and transform how your team works.
+              {/* Discover a unified workspace that simplifies project delivery, client collaboration, and finances — all enhanced by powerful AI-driven insights. Join the waitlist for early access and transform how your team works. */}
             </p>
           </div>
           <div className="waitlist-wrapper">
@@ -847,7 +850,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
         <div className="landing-content-text-wrapper">
           <DynamicPhrase />
           <p className="hero-subtitle">
-            A unified workspace for project delivery, client collaboration, and finances, all enhanced by AI.
+            {/* A unified workspace for project delivery, client collaboration, and finances, all enhanced by AI. */}
           </p>
         </div>
         <div className="waitlist-wrapper">
