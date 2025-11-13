@@ -807,7 +807,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
           <p><span>{count}</span>+ people waiting for the launch.</p>
         </div>
         <div className="landing-banner">
-          <img src={hero} alt="banner" />
+          <img src={banner} alt="banner" />
         </div>
 
       </div>
