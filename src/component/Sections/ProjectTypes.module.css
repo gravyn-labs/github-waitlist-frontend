@@ -41,15 +41,18 @@
 }
 
 .project-mobile-text p:first-child{
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 600;
-    letter-spacing: -1px;
+    letter-spacing: -0.75px;
     line-height: 1.25;
     font-family: Poppins, 'sans-serif';
+    width: 95%;
 }
 
 .project-mobile-text p:last-child{
     font-weight: 13px;
+    font-size: 15px;
+    line-height: 1.65;
 }
 
 .project-mobile-section{
@@ -93,7 +96,7 @@
 
 .feature-callouts-grid-mobile .feature-callout {
     text-align: left !important;
-    width: 50%;
+    width: 47% !important;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -106,18 +109,18 @@
 }
 
 .feature-callouts-grid-mobile .feature-callout .feature-icon img {
-    height: 16px;
-    width: 16px;
+    height: 15px;
+    width: 15px;
 }
 
 .feature-callouts-grid-mobile .feature-callout h4 {
     font-size: 1rem;
     font-weight: 600;
-    margin-top: 7px;
+    margin-top: 5px;
 }
 
 .feature-callouts-grid-mobile .feature-callout p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #8a8f98;
     margin-top: 5px;
     line-height: 1.6;

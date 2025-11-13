@@ -83,8 +83,8 @@
   }
   
   .mobile-menu-trigger img {
-    height: 24px;
-    width: 24px;
+    height: 18px;
+    width: 18px;
   }
 
   /* Style the mobile overlay */
@@ -97,8 +97,10 @@
     top: 55px; /* Position it just below the navbar */
     left: 0;
     width: 100%;
+    z-index: 100;
     height: calc(100vh - 55px);
-    background-color: rgba(11, 13, 26, 0.98);
+    backdrop-filter: blur(20px) !important;
+    background-color: rgba(0, 0, 0, 0.947);
     padding-top: 2rem;
   }
 

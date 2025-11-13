@@ -4,7 +4,6 @@ import banner from '../assets/images/LandingBannerv1.svg';
 import faces from '../assets/images/faces.svg';
 import "./HomePage.css";
 import leaves from "../assets/icons/leaves.svg";
-import heart from "../assets/icons/heart.svg";
 import close from "../assets/icons/close.svg";
 import Orbiez from "./Orbiez";
 import check from "../assets/icons/check.svg";
@@ -32,16 +31,12 @@ import rm from "../assets/images/rm.png"
 import milestone from "../assets/images/milestone_finalv5.png"
 import taskmanage from "../assets/images/taskmanagev1.png"
 import timelinebanner from "../assets/images/timelinebanner.png"
-import rbafeature from "../assets/images/rbafeaturev1.png"
 
 import { useLocation } from 'react-router-dom';
 
 
 import { motion, AnimatePresence, time } from 'framer-motion';
 
-
-import calendarfeature from "../assets/images/calendarfeaturev1.png"
-import filefeature from "../assets/images/files_feature.png"
 
 import blackhole from "../assets/images/blackhole.svg"
 import logo_noise from "../assets/images/logo_noise.png"
@@ -56,6 +51,7 @@ import Banner from './Features/Banner';
 import { UnifiedWorkspace } from './Features/UnifiedWorkspace';
 import WaitlistWrapper from './Sections/WaitlistWrapper';
 import { ProjectTypes } from './Sections/ProjectTypes';
+import { CollaborationWrapper } from './Sections/CollaborationWrapper';
 
 
 // 🎉 PartyPopper Component
@@ -425,62 +421,6 @@ const PlanWrapper = () => {
   );
 }
 
-const CollaborationWrapper = () => {
-  return (
-    <div className='section-wrapper collaboration-section'>
-      <div className='section-text-wrapper'>
-        <p><img src={heart} /> Collabration</p>
-        <p>Connect seamlessly and foster creativity in teams and clients</p>
-      </div>
-      <div className='section-content'>
-        {/* Bento grid or other content would go here */}
-
-        <div className='collaborate-grid-view'>
-          <div className='collaborate-gird-c plan-gird-c1'>
-            <div className='collaborate-gird-cr collaborate-gird-c1-r1'>
-              <div className='collaborate-grid-cr-image'>
-                <img src={calendarfeature} />
-              </div>
-              <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
-                <p>Your Team's Shared Schedule.</p>
-                <p>See all your project deadlines, key milestones, and team meetings in one unified calendar. Schedule events, check availability, and ensure everyone is on the same page.</p>
-              </div>
-            </div>
-            <div className='collaborate-gird-cr collaborate-gird-c1-r2'>
-              <div className='collaborate-grid-cr-image'>
-                <img src={filefeature} />
-              </div>
-              <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
-                <p>Your Files, Finally Organized.</p>
-                <p>Attach assets, documents, and designs directly to the work they relate to, creating a central, version-controlled library for every project.</p>
-              </div>
-            </div>
-          </div>
-          <div className='collaborate-gird-c collaborate-gird-c2'>
-            <div className='collaborate-gird-cr collaborate-gird-c2-r1'>
-              <div className='collaborate-grid-cr-image'>
-                <img src={rbafeature}/>
-              </div>
-              <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
-                <p>Clarity and Control for Everyone.</p>
-                <p>clear roles and permissions for your team members, clients, and freelancers. Role-Based Access (RBA) ensures everyone has access to exactly what they need—and nothing they don't.</p>
-              </div>
-            </div>
-            <div className='collaborate-gird-cr collaborate-gird-c2-r2'>
-              <div className='collaborate-grid-cr-image'>
-              </div>
-              <div className='collaborate-grid-cr-text collaborate-grid-c1r1-text'>
-                <p>Conversations with Context.</p>
-                <p>Ditch the scattered threads and email chains. Have focused, threaded discussions directly on tasks, files, or documents, so every conversation is automatically organized and easy to find later.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 
 // --- Custom Hook to Detect Screen Size ---
 const useMediaQuery = (query) => {
@@ -816,8 +756,8 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
 
       <PlanWrapper />
-      <CollaborationWrapper />
 
+      <CollaborationWrapper />
       <ProjectTypes />
 
       
@@ -926,6 +866,8 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
         </div>
 
       </div>
+
+      <CollaborationWrapper />
 
       <ProjectTypes />
 
