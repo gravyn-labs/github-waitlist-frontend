@@ -202,7 +202,7 @@ body {
 
 .landing-banner img {
     opacity: 0.95;
-    border :none;
+    border: none;
 }
 
 .section-wrapper {
@@ -600,16 +600,17 @@ body {
         z-index: 101;
     }
 
-           .landing-page-mobile::after {
-               content: '';
-               position: absolute;
-               bottom: 0;
-               left: 0;
-               height: 100%;
-               width: 10%;
-               background: linear-gradient(to right, transparent, black);
-               z-index: 101;
-           }
+    .landing-page-mobile::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 10%;
+        background: linear-gradient(to right, transparent, black);
+        z-index: 101;
+    }
+
     .landing-page {}
 
     .landing-content {
@@ -693,9 +694,8 @@ body {
         position: absolute;
         right: -55% !important;
         transform: translateX(-50%);
-        bottom: -27% !important;
+        bottom: -200px !important;
         z-index: 0 !important;
-        backdrop-filter: blur(10px);
     }
 
     .landing-banner img {
@@ -1030,14 +1030,14 @@ body {
     overflow: hidden;
 }
 
-.footer-wrapper::before{
+.footer-wrapper::before {
     position: absolute;
     content: '';
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background: linear-gradient(to bottom , black , transparent);
+    background: linear-gradient(to bottom, black, transparent);
     z-index: 2;
 }
 
@@ -1079,7 +1079,7 @@ body {
     justify-content: space-between;
 }
 
-.footer-main-flex-right{
+.footer-main-flex-right {
     display: flex;
     align-items: start;
     gap: 70px;
@@ -1123,24 +1123,22 @@ body {
     color: grey;
 }
 
-.list-main{
+.list-main {}
 
-}
-
-.list-main > p{
+.list-main>p {
     font-size: 13px;
     margin-bottom: 10px;
     font-weight: 500;
 }
 
-.list-main .list-main-item{
+.list-main .list-main-item {
     display: flex;
     flex-direction: column;
     gap: 14px;
     margin-top: 21px;
 }
 
-.list-main-item p{
+.list-main-item p {
     color: rgba(255, 255, 255, 0.75);
     font-size: 13px;
     white-space: nowrap;
@@ -1165,6 +1163,6 @@ body {
 }
 
 
-.mobile-layout{
+.mobile-layout {
     width: 100vw;
 }
