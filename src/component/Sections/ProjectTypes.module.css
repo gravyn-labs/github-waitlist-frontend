@@ -73,7 +73,7 @@
     flex-direction: column;
     width: 100%;
     min-height: 650px;
-    margin-top: 50px;
+    margin-top: 30px;
     padding: 0px 30px;
     box-sizing: border-box;
     padding-top: 30px;
@@ -111,13 +111,13 @@
 }
 
 .feature-callouts-grid-mobile .feature-callout h4 {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     margin-top: 7px;
 }
 
 .feature-callouts-grid-mobile .feature-callout p {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #8a8f98;
     margin-top: 5px;
     line-height: 1.6;
@@ -135,7 +135,7 @@
 }
 
 .project-mobile-grid .visual-container h4 {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     margin-top: 7px;
 
@@ -145,7 +145,7 @@
     color: #8a8f98;
     line-height: 1.5;
     margin-top: 7px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .project-mobile-grid .project-type-image {
