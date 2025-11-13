@@ -8,7 +8,6 @@ import close from "../assets/icons/close.svg";
 import Orbiez from "./Orbiez";
 import check from "../assets/icons/check.svg";
 import NavBar from './NavBar';
-import championBadge from "../assets/images/championbage.svg";
 import hero from "../assets/images/hero_screen.svg";
 import projectmanagement from "../assets/icons/project.svg";
 import collaboration from "../assets/icons/collaborations.svg";
@@ -53,6 +52,8 @@ import WaitlistWrapper from './Sections/WaitlistWrapper';
 import { ProjectTypes } from './Sections/ProjectTypes';
 import { CollaborationWrapper } from './Sections/CollaborationWrapper';
 import { PlanningWrapper } from './Sections/PlanningWrapper';
+import { Founding100 } from './Sections/Founding100';
+import { Founding100v2 } from './Sections/Founding100v2';
 
 
 // 🎉 PartyPopper Component
@@ -283,74 +284,6 @@ export const useWindowWidth = () => {
   return width;
 };
 
-const Founding100 = ({ isVisible, onClose }) => {
-  useEffect(() => {
-    if (isVisible) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isVisible]);
-
-  if (!isVisible) return null;
-
-  return (
-    <div className="overlay" onClick={onClose}>
-      <img className='close-btn' src={close} alt="Close" onClick={onClose} />
-      <div className="founding-100-wrapper" onClick={(e) => e.stopPropagation()}>
-        <div className="f-100-header">
-          <Orbiez />
-          <img src={championBadge} alt="Founding 100 Badge" />
-        </div>
-        <div className="f-100-content">
-          <div className="f-100-section-first">
-            <p>Join the Gravyn Founding 100</p>
-          </div>
-          <div className="f-100-section">
-            <p>
-              Become one of the first 100 teams to subscribe to Gravyn and secure your place in our history. The Gravyn Founding 100 is an exclusive, one-time opportunity for our earliest and most passionate supporters.
-              <br /><br />
-              As a member, you're not just a customer—you're a core part of our founding story. Your early support grants you exclusive lifetime benefits and a direct line to our team, helping us shape the future of project management.
-            </p>
-          </div>
-          <div className="f-100-section">
-            <div className="benefits-grid">
-              <div className="benefit-item">
-                <p className="benefit-title"><img src={check} alt="Checkmark" /> A Lifetime 20% Discount</p>
-                <p className="benefit-description">Receive a permanent 20% discount on your Team plan subscription, for life.</p>
-              </div>
-              <div className="benefit-item">
-                <p className="benefit-title"><img src={check} alt="Checkmark" /> The "Founding 100" Badge</p>
-                <p className="benefit-description">A unique badge will be permanently displayed on your team's profile.</p>
-              </div>
-              <div className="benefit-item">
-                <p className="benefit-title"><img src={check} alt="Checkmark" /> Direct Access to the Founders</p>
-                <p className="benefit-description">Get a direct line of communication with our founding team to share your feedback.</p>
-              </div>
-              <div className="benefit-item">
-                <p className="benefit-title"><img src={check} alt="Checkmark" /> Access to Beta Features</p>
-                <p className="benefit-description">Be the first to test and use new features before they are released to the public.</p>
-              </div>
-            </div>
-          </div>
-          <div className="f-100-section">
-            <p>
-              This exclusive offer is available to the first 100 teams that subscribe to any Gravyn Team plan. Simply choose a plan that fits your needs, and you'll be automatically enrolled in the Founding 100.
-            </p>
-          </div>
-          <div className="f-100-section">
-            <p className="f-100-closing">
-              This is more than just a subscription—it's a partnership. We're incredibly excited about what we're building, and we want you to be a part of it.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const SectionWrapper = ({ icon, alt, title, description }) => {
   return (
@@ -567,7 +500,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
   const [ajBanner, setAJBanner] = useState(false);
   const [ojBanner, setOJBanner] = useState(false);
-
+  const [championTierVisibility, setChampionTierVisibility] = useState(false);
 
   useEffect(() => {
     handleCelebrate();
@@ -620,7 +553,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
     <div style={{
       width: `${getWindowWidth}px`}} className="page-wrapper">
       {bannerVisible && (
-        <Banner setBadgeVisible={setBadgeVisible} setBannerVisible = { setBannerVisible }/>
+        <Banner setBadgeVisible={setBadgeVisible} setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility}/>
       )}
       <NavBar />
       <div className="landing-page">
@@ -661,43 +594,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
       <UnifiedWorkspace />
 
-      {/* <div className="join-waitlist-wrapper">
-        <Orbiez />
-        <div className="gradient-overlay" />
-        <div className="content-wrapper">
-          <div className='content-wrapper-i'>
-            <div className='content-wrapper-i-header'>
-              <p>Join the Gravyn Waitlist and Unlock Exclusive Benefits.</p>
-            </div>
-            <div className='content-wrapper-area'>
-              {waitlistPerks.map((perk, i) => (
-                <div className='content-benefits-wrapper' key={i}>
-                  <p><img src={check} alt="check" />{perk.heading}</p>
-                  <p>{perk.detail}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className='content-wrapper-i'>
-            <div className='content-waitlist-form-wrapper'>
-              <div className='waitlist-form-header'>
-                <img src={logo} alt="logo" />
-                <p>Join our journey and get early access</p>
-                <p>
-                  Join our growing waitlist to unlock exclusive benefits, accelerate your productivity, and get notified the moment we launch.
-                </p>
-              </div>
-              <div className='faces'>
-                {faceImages.map((src, i) => (<img src={src} alt="waitlist avatar" key={i} />))}
-              </div>
-              <div className='waitlist-form-input-wrapper'>
-                <input placeholder='Enter your email address' />
-                <button>Join Our Waitlist</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      
 
 
       <PlanningWrapper />
@@ -765,6 +662,8 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
       {badgeVisible && <Founding100 isVisible={true} onClose={() => setBadgeVisible(false)} />}
       {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}
       {ojBanner && <OnceJoined setOJBanner={ojBanner} />}
+      {championTierVisibility && <Founding100v2 championTierVisibility={championTierVisibility} setChampionTierVisibility={setChampionTierVisibility} />
+}
     </div>
   );
 };
@@ -773,6 +672,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 //      MOBILE-SPECIFIC LAYOUT
 // ===================================
 const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeVisible, count, targetCount }) => {
+  const [championTierVisibility, setChampionTierVisibility] = useState(false);
 
   // NOTE: In a professional setup, you would also implement the API_BASE_URL logic here 
   // and for the mobile waitlist form. For now, we will leave the mobile fetch hardcoded 
@@ -782,10 +682,11 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
     <div className="page-wrapper mobile-layout">
 
       {bannerVisible && (
-        <div className='banner'>
+        <div onClick={() => {setChampionTierVisibility(true)}} className='banner'>
           <div className='banner-content-wrapper'>
             <p>Join the Gravyn Founding 100!</p>
-            <p onClick={() => setBadgeVisible(true)}>Know More</p>
+            <p></p>
+
           </div>
           <img onClick={() => setBannerVisible(false)} className='close-icon' src={close} alt="close" />
         </div>
@@ -837,7 +738,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
           </div>
         </div>
       </div> */}
-      {badgeVisible && <Founding100 isVisible={true} onClose={() => setBadgeVisible(false)} />}
+      <Founding100v2 championTierVisibility={championTierVisibility} setChampionTierVisibility={setChampionTierVisibility} />
 
     </div>
   );

@@ -4,6 +4,7 @@
     background: linear-gradient(to bottom, black, black);
 }
 
+
 .section-text-wrapper p:first-child {
     display: flex;
     align-items: center;

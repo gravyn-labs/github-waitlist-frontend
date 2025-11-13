@@ -4,13 +4,13 @@ import close from "../../assets/icons/close.svg";
 import styles from "../Features/Banner.module.css";
 
 
-const Banner = ({ setBadgeVisible, setBannerVisible }) => {
+const Banner = ({ setBadgeVisible, setBannerVisible , setChampionTierVisibility }) => {
     return (
         <div className={styles['banner']}>
             <div className={styles['banner-content-wrapper']}>
                 <img src={championsIcons} alt="champions" />
                 <p>Be Among the First 100 Subscribers — Join the Gravyn Founding 100!</p>
-                <p onClick={() => setBadgeVisible(true)}>Know More</p>
+                <p onClick={() => setChampionTierVisibility(true)}>Know More</p>
             </div>
             <img
                 onClick={() => setBannerVisible(false)}
