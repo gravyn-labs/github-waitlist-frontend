@@ -1,0 +1,339 @@
+/* ProjectTypes.css */
+
+.project-types-section {
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+    padding-top: 100px;
+    background-color: black;
+}
+
+.project-types-text {
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 15%;
+}
+
+.project-types-text p:first-child {
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.25;
+    font-family: Poppins;
+    letter-spacing: -1px;
+    width: 75%;
+}
+
+.project-types-text p:last-child {
+    font-size: 18px;
+    font-family: Inter;
+    width: 65%;
+    margin-top: 20px;
+    color: #8a8f98;
+}
+
+.project-mobile-text{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: start;
+    padding: 0 30px;
+}
+
+.project-mobile-text p:first-child{
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.25;
+    font-family: Poppins, 'sans-serif';
+}
+
+.project-mobile-text p:last-child{
+    font-weight: 13px;
+}
+
+.project-mobile-section{
+    padding: 20px 0;
+}
+
+/* --- Main Two-Column Grid --- */
+.project-types-grid {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 650px;
+    margin-top: 50px;
+    padding: 0px 15%;
+    box-sizing: border-box;
+    border-bottom: 0.5px dashed rgba(255, 255, 255, 0.1);
+    border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-mobile-grid {
+    flex-direction: column;
+    width: 100%;
+    min-height: 650px;
+    margin-top: 50px;
+    padding: 0px 30px;
+    box-sizing: border-box;
+    padding-top: 30px;
+    border-top: 0.5px dashed rgba(255, 255, 255, 0.2);
+}
+
+.feature-callouts-grid-mobile {
+    width: 100%;
+    display: flex;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    align-items: start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.035);
+}
+
+.feature-callouts-grid-mobile .feature-callout {
+    text-align: left !important;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+
+
+.feature-callouts-grid-mobile .feature-callout .feature-icon {
+    /* You would replace this with your actual icon component or <img> tag */
+}
+
+.feature-callouts-grid-mobile .feature-callout .feature-icon img {
+    height: 16px;
+    width: 16px;
+}
+
+.feature-callouts-grid-mobile .feature-callout h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 7px;
+}
+
+.feature-callouts-grid-mobile .feature-callout p {
+    font-size: 0.8rem;
+    color: #8a8f98;
+    margin-top: 5px;
+    line-height: 1.6;
+}
+
+.feature-callouts-grid-mobile .feature-callout:nth-child(3),
+.feature-callouts-grid-mobile .feature-callout:nth-child(4){
+    margin-top: 30px;
+}
+
+.project-mobile-grid .project-type-header {
+    width: 100%;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.project-mobile-grid .visual-container h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 7px;
+
+}
+
+.project-mobile-grid .visual-container p {
+    color: #8a8f98;
+    line-height: 1.5;
+    margin-top: 7px;
+    font-size: 12px;
+}
+
+.project-mobile-grid .project-type-image {
+    width: 100%;
+    min-height: 300px;
+    height: 38vh;
+    position: relative;
+    margin-top: 20px;
+}
+
+.project-mobile-grid .project-type-image::before {
+    position: absolute;
+    content: '';
+    height: 50%;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom, transparent, black);
+    z-index: 20;
+}
+
+.project-mobile-grid .project-type-image img {
+    width: 99%;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.project-mobile-grid .visual-container {
+    width: 100%;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 0 !important;
+}
+
+.project-mobile-grid .visual-container:nth-child(2){
+    margin-top:20px;
+    border : none;
+}
+
+.project-type-column {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
+}
+
+.decorative-dots {
+    color: #ff9800;
+    /* Example color */
+    letter-spacing: 2px;
+}
+
+.project-types-grid .visual-container h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+.project-types-grid .visual-container p {
+    color: #8a8f98;
+    line-height: 1.75;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.project-type-image {}
+
+.project-types-grid .visual-container {
+    width: 50%;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
+    height: 100%;
+    overflow: hidden;
+}
+
+.project-type-header {
+    width: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.project-type-image {
+    width: 100%;
+    height: 75%;
+    position: relative;
+}
+
+.project-type-image::before {
+    position: absolute;
+    content: '';
+    height: 50%;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom, transparent, black);
+    z-index: 20;
+}
+
+.project-type-image img {
+    width: 92%;
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.visual-container:last-child {
+    border-left: 0.5px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* --- Placeholder for your visuals --- */
+.mock-visual {
+    color: #aaa;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+
+/* --- Bottom Four-Column Feature Grid --- */
+.feature-callouts-grid {
+    width: 100%;
+    display: flex;
+    padding: 50px 15%;
+    box-sizing: border-box;
+    align-items: start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: rgba(255, 255, 255, 0.035);
+}
+
+.feature-callout {
+    text-align: left;
+    width: 22%;
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+    /* You would replace this with your actual icon component or <img> tag */
+}
+
+.feature-icon img {
+    height: 20px;
+    width: 20px;
+}
+
+.feature-callout h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: -10px;
+}
+
+.feature-callout p {
+    font-size: 0.8rem;
+    color: #8a8f98;
+    margin-top: 7px;
+    line-height: 1.6;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+    .feature-callouts-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .project-types-grid {
+        grid-template-columns: 1fr;
+        /* Stack the main columns */
+    }
+
+    .feature-callouts-grid {
+        grid-template-columns: 1fr;
+        /* Stack the feature callouts */
+        text-align: center;
+    }
+
+    .feature-callout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

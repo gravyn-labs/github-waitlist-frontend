@@ -27,13 +27,7 @@ import finance_management from "../assets/images/fm2.png"
 import project_management from "../assets/images/project_managementv1.png"
 import collaboration_feature from "../assets/images/collaboration_feature.png"
 import kairo_feature from "../assets/images/kairo_featurev1.png"
-import terminal from "../assets/images/terminal.png"
-import contiguous from "../assets/images/contiguous.png"
 
-import bullseye from "../assets/icons/bullseye.svg";
-import growth from "../assets/icons/growth.svg";
-import ai from "../assets/icons/ai.svg";
-import unified from "../assets/icons/unified.svg";
 import rm from "../assets/images/rm.png"
 import milestone from "../assets/images/milestone_finalv5.png"
 import taskmanage from "../assets/images/taskmanagev1.png"
@@ -61,6 +55,7 @@ import logov1 from "../assets/logo/logov2.svg"
 import Banner from './Features/Banner';
 import { UnifiedWorkspace } from './Features/UnifiedWorkspace';
 import WaitlistWrapper from './Sections/WaitlistWrapper';
+import { ProjectTypes } from './Sections/ProjectTypes';
 
 
 // 🎉 PartyPopper Component
@@ -180,80 +175,7 @@ const PartyPopper = ({ trigger = false, duration = 2000, delay = 0 }) => {
 
 
 
-const ProjectTypes = () => {
-  return (
-    <section className="project-types-section">
 
-
-      <div className='project-types-text'>
-        {/* Fill the heading and subheading here aws well 
-         */}
-        <p>Built for the Sprint to the Finish Line, and the Marathon That Never Ends.</p>
-        <p>Whether you're shipping a feature or managing a department, Gravyn provides the exact workflow to match the nature of your work.</p>
-      </div>
-
-      {/* =================================== */}
-      {/* ====== Two-Column Main Grid ====== */}
-      {/* =================================== */}
-      <div className="project-types-grid">
-        <div className='visual-container'>
-          <div className='project-type-header'>
-            <div className="decorative-dots">••••••••••</div>
-            <h3>For Projects: The Path to Delivery.</h3>
-            <p>
-              Perfect for work with a defined scope and a clear finish line. Move initiatives sequentially through phases, manage dependencies, and launch on time, every time.            </p>
-          </div>
-          <div className='project-type-image'>
-            <img src={terminal} />
-
-          </div>
-        </div>
-        <div className='visual-container'>
-          <div className='project-type-header'>
-            <div className="decorative-dots">••••••••••</div>
-            <h3>For Processes: The Rhythm of Operation.</h3>
-            <p>
-              Ideal for the never-ending work of running a team or a system. Manage a continuous flow of tasks, track performance, and optimize your processes month after month.            </p>
-          </div>
-          <div className='project-type-image'>
-            <img src={contiguous} />
-          </div>
-        </div>
-      </div>
-
-      {/* ====================================== */}
-      {/* ====== Four-Column Feature Grid ====== */}
-      {/* ====================================== */}
-      <div className="feature-callouts-grid">
-
-        <div className="feature-callout">
-          <div className="feature-icon"><img src={bullseye} /></div>
-          <h4>Precision & Predictability</h4>
-          <p>Tools built to keep your fixed-scope projects on time and on budget.</p>
-        </div>
-
-        <div className="feature-callout">
-          <div className="feature-icon"><img src={growth} /></div>
-          <h4>Growth & Retention</h4>
-          <p>Tools built to prove your value and grow client relationships over the long term.</p>
-        </div>
-
-        <div className="feature-callout">
-          <div className="feature-icon"><img src={ai} /></div>
-          <h4>AI-Powered Reporting</h4>
-          <p>Use Kairo to automatically generate weekly digests and client status updates.</p>
-        </div>
-
-        <div className="feature-callout">
-          <div className="feature-icon"><img src={unified} /></div>
-          <h4>Unified Toolset</h4>
-          <p>One platform for projects, clients, and financials. No more scattered data.</p>
-        </div>
-
-      </div>
-    </section>
-  );
-};
 
 
 
@@ -1004,6 +926,9 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
         </div>
 
       </div>
+
+      <ProjectTypes />
+
 
       <WaitlistWrapper />
 
