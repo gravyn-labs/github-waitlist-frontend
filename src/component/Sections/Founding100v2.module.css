@@ -1,168 +1,62 @@
+/* ================================
+   BASE STYLES (Desktop & Tablet)
+   ================================ */
+
 .tier-modal-overlay {
     position: fixed;
-    z-index: 100;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    pointer-events: visible;
-    width: 100vw;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(20px);
     display: flex;
+    justify-content: center;
+    /* ✅ horizontally centers modal */
+    align-items: flex-start;
+    /* ✅ top-aligned, overlay scrolls */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 60px 0 120px;
+    /* ✅ adds breathing scroll */
     z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.75);
-}
-
-.tier-wrapper {
-    display: flex;
-    position: absolute;
-    align-items: center;
-    gap: 7px;
-}
-
-.tier {
-    position: relative;
-    transition: all 0.5s;
-    cursor: pointer;
-}
-
-.tier img:first-child {
-    height: 45px;
-    transition: all 0.5s;
-}
-
-.tier:hover {
-    scale: 1.2;
-}
-
-.tier:hover img:first-child {
-    transform: rotateZ(-45deg);
-}
-
-.tier img:last-child {
-    height: 15px;
-    display: none;
-    position: absolute;
-    top: 48%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.close-btn {
-    display: none;
 }
 
 .tier-modal-wrapper {
-    position: absolute;
-    top: 50%;
-    border: var(--border-ultra-light);
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-height: 80%;
-    padding: 5px;
-    border-radius: 30px;
-    backdrop-filter: blur(2000px) !important;
-    background: linear-gradient(to bottom right, #08080c, #08080c);
-    z-index: 100;
-    border: 5px solid #08080c;
-    display: flex;
+    position: relative;
     width: 70%;
-    border: 0.5px solid rgba(255, 255, 255, 0.1)
+    background: linear-gradient(to bottom right, #08080c, #08080c);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    backdrop-filter: blur(2000px);
+    z-index: 100;
 }
 
-.tier-modal-wrapper p {
-    font-family: Inter, 'sans-serif';
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 200;
+}
+
+.close-btn img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.75;
 }
 
 .tier-header {
-    width: 30% !important;
+    width: 30%;
     position: relative;
     overflow: hidden;
     border-radius: 30px;
-    background: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 1.2;
-}
-
-
-.tier-modal-header-img {
-    position: relative;
-    animation: appear 0.5s forwards;
-}
-
-
-
-@keyframes appear {
-    0% {
-        transform: translateY(200%);
-    }
-
-    100% {
-        transform: translateY(0%);
-    }
-}
-
-
-
-.style-badge-blur:first-child {
-    position: absolute;
-    top: 20px;
-    left: 40px;
-}
-
-
-
-.tier-modal-header-img img {
-    height: 280px !important;
-    filter: grayscale(0) brightness(1) drop-shadow(0 0 20px black);
-    opacity: 1;
-}
-
-
-
-@keyframes scaleglow {
-    0% {
-        filter: grayscale(1) brightness(1);
-        scale: 0.85;
-        transform: rotateY(0deg);
-    }
-
-    50% {
-        filter: grayscale(0) brightness(1);
-        scale: 1.1;
-
-    }
-
-    100% {
-        filter: grayscale(0) brightness(1);
-        scale: 1;
-        transform: rotateY(360deg);
-    }
-}
-
-
-
-
-.tier-modal-content {
-    padding: 30px;
-    flex: 1;
-}
-
-.tier-content-header {}
-
-.tier-content-header-heading {
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    display: flex;
-    letter-spacing: -0.5px;
-    font-family: Poppins, 'sans-serif' !important;
-    align-items: center;
-}
-
-.tier-content-header-heading span {
-    font-weight: 600;
 }
 
 .tier-content-header-heading p {
@@ -171,12 +65,19 @@
     padding: 2px 6px;
     border-radius: 5px;
     font-weight: 500;
-    margin-left: 10px;
     width: min-content;
     white-space: nowrap;
     position: relative;
     overflow: hidden;
     font-size: 12px;
+}
+
+.tier-content-header-heading span {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 5px;
+    letter-spacing: -1px;
+    font-family: Poppins, 'sans-serif';
 }
 
 .tier-content-header-heading p::before {
@@ -199,192 +100,117 @@
     }
 }
 
-.tier-content-header-heading span {
-    font-weight: 600;
-    color: #ffffff !important;
+.tier-modal-header-img img {
+    height: 280px;
+    filter: brightness(1) drop-shadow(0 0 20px black);
 }
 
-.tier-content-header-subheading {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 13px;
+.tier-modal-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.tier-content-header-heading {
+    color: #ffffff;
+    font-size: 16px;
     font-weight: 500;
-    font-family: Inter, 'sans-serif' !important;
-    margin-top: 5px;
-    width: 100% !important;
-    line-height: 1.6;
-    letter-spacing: -0.2px;
-}
-
-.tier-perks-wrapper {
-    margin-top: 50px !important;
-}
-
-
-.perks-heading {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.perks-heading p {
-    letter-spacing: 0.5px;
-    font-size: 12px;
-    font-weight: 700;
-    font-family: Overpass, sans-serif !important;
-    color: #ffffff;
-    text-transform: capitalize;
+.tier-content-header-subheading {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px !important;
+    margin-top: 5px;
+    line-height: 1.6;
 }
 
-.perks-wrapper {
-    margin-top: 18px;
+.perks-heading p {
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.tier-perks-wrapper {
+    margin-top: 40px;
 }
 
 .perk-wrapper {
     display: flex;
+    align-items: flex-start;
     gap: 10px;
-    align-items: start;
-}
-
-.perk-text-wrapper {}
-
-.perk-wrapper img {
-    margin-top: 2px;
-}
-
-
-.perk-text-wrapper p {
-    color: #ffffff;
+    margin-top: 20px;
 }
 
 .perk-text-heading {
-    font-weight: 600;
     font-size: 13.5px;
-    letter-spacing: -0.05px;
-    font-family: Poppins;
+    font-weight: 600;
+    color: #ffffff;
 }
 
 .perk-text-subheading {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5) !important;
+    color: rgba(255, 255, 255, 0.5);
     margin-top: 5px;
-    font-weight: 500;
 }
-
-.perk-wrapper:not(:first-child) {
-    margin-top: 20px;
-}
-
 
 /* ================================
    MOBILE VIEW OPTIMIZATION
    ================================ */
 @media screen and (max-width: 768px) {
     .tier-modal-overlay {
-        backdrop-filter: blur(10px);
-        background-color: rgba(0, 0, 0, 0.8);
-        padding: 0 10px;
-    }
-
-    .close-btn {
-        position: absolute;
-        display: block;
-        top: 15px;
-        right: 15px;
-        z-index: 200;
-        box-sizing: border-box;
-        height: 15px;
-        border-radius: 100px;
-        opacity: 0.75;
+        padding: 40px 10px 100px;
     }
 
     .tier-modal-wrapper {
         flex-direction: column;
         width: 95%;
-        height: auto;
-        min-height: unset;
-        top: 50%;
-        left: 50%;
-        height: 90vh;
-        transform: translate(-50%, -50%);
-        border-radius: 20px;
         padding: 15px;
-        overflow-y: auto;
+        border-radius: 20px;
     }
 
     .tier-header {
-        width: 100% !important;
-        height: 300px;
-        flex: none;
+        width: 100%;
+        height: 220px;
         border-radius: 15px;
     }
 
     .tier-modal-header-img img {
-        height: 150px !important;
+        height: 150px;
     }
 
     .tier-modal-content {
-        padding: 15px;
-        width: 100%;
-        text-align: left;
+        padding: 20px;
     }
 
     .tier-content-header-heading {
         font-size: 14px;
+        flex-direction: column;
         align-items: flex-start;
-        gap: 4px;
-    }
-
-    .tier-content-header-heading p {
-        font-size: 10px;
-        padding: 2px 5px;
-        margin-left: 0;
     }
 
     .tier-content-header-subheading {
         font-size: 12px;
-        line-height: 1.5;
-        width: 100%;
-    }
-
-    .tier-perks-wrapper {
-        margin-top: 25px !important;
-    }
-
-    .perks-heading {
-        gap: 8px;
-    }
-
-    .perks-heading p {
-        font-size: 11px;
-    }
-
-    .perk-wrapper {
-        gap: 8px;
-        align-items: flex-start;
     }
 
     .perk-wrapper img {
-        height: 15px;
-        width: 15px;
+        height: 12px;
+    }
+    .perk-wrapper{
+        display: flex;
+        align-items: start;
+    }
+
+    .perk-text-wrapper{
+        margin-top: -5px;
     }
 
     .perk-text-heading {
-        font-size: 12.5px;
+        font-size: 14.5px;
     }
 
     .perk-text-subheading {
-        font-size: 11.5px;
-        line-height: 1.4;
-    }
-
-    /* Reduce modal blur and borders for performance */
-    .tier-modal-wrapper {
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(30px);
-    }
-
-    /* Ensure scroll inside modal doesn’t overflow viewport */
-    .tier-modal-overlay {
-        overflow-y: auto;
+        font-size: 13.5px;
     }
 }
