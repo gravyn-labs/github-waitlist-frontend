@@ -1,174 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
+import styles from "./Contact.module.css";
 import championsIcons from "../assets/icons/championsvv2.svg";
 import close from "../assets/icons/close.svg";
 import sales from "../assets/icons/sales.svg";
 import billing from "../assets/icons/rupee.svg";
 import support from "../assets/icons/productsupport.svg";
 import serviceunavail from "../assets/icons/unavailable.svg";
-import "./Contact.css";
+import bg_noise from "../assets/images/grad.png";
 import check from "../assets/icons/check.svg"
-import bg_noise from "../assets/images/grad.png"
+import Banner from "./Features/Banner";
 
 const Contact = () => {
-  // ------------------------------
-  // State Management
-  // ------------------------------
   const [bannerVisible, setBannerVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
     message: "",
   });
-  const [status, setStatus] = useState({
-    loading: false,
-    error: null,
-    success: null,
-  });
+  const [status, setStatus] = useState({ loading: false, success: "", error: "" });
 
-  // ------------------------------
-  // Handlers
-  // ------------------------------
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Handle form field changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Submit handler (you can connect this to your /api/waitlist or email API)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ loading: true, error: null, success: null });
-
+    setStatus({ loading: true, success: "", error: "" });
     try {
-      const response = await fetch("https://api.gravyn.app/api/contact-sales", {
+      const response = await fetch("/api/sales", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Something went wrong");
-
-      setStatus({ loading: false, success: result.success, error: null });
-      setFormData({ name: "", email: "", company: "", message: "" });
-    } catch (error) {
-      setStatus({ loading: false, success: null, error: error.message });
+      const data = await response.json();
+      if (response.ok) {
+        setStatus({ loading: false, success: data.message || "We'll get back soon!", error: "" });
+        setFormData({ name: "", email: "", company: "", message: "" });
+      } else {
+        setStatus({ loading: false, success: "", error: data.error || "Failed to send message" });
+      }
+    } catch (err) {
+      setStatus({ loading: false, success: "", error: "Network error. Try again later." });
     }
   };
 
-  // ------------------------------
-  // UI Rendering
-  // ------------------------------
-  return (
-    <div className="contact-page-wrapper">
-      {/* Banner */}
-      {bannerVisible && !isModalOpen && (
-        <div className="banner">
-          <div className="banner-content-wrapper">
-            <img src={championsIcons} alt="Champions" />
-            <p>
-              Be Among the First 100 Subscribers — Join the Gravyn Founding 100!
-            </p>
-            <p>Know More</p>
-          </div>
-          <img
-            onClick={() => setBannerVisible(false)}
-            className="close-icon"
-            src={close}
-            alt="Close"
-          />
-        </div>
+  // -----------------------
+  // Desktop Layout
+  // -----------------------
+  const DesktopView = () => (
+    <div className={styles["desktop-wrapper"]}>
+      {bannerVisible && (
+        <Banner />
       )}
 
-      {/* Navbar always visible */}
       <NavBar />
 
-      {/* Full-page Modal */}
+      {/* FULLSCREEN FORM MODAL */}
       {isModalOpen ? (
-        <div className="contact-fullscreen-form">
-
-          {/* <div className="contact-form-header">
-            <h2>Contact Sales</h2>
-            <button
-              className="modal-close-btn"
-              onClick={() => setIsModalOpen(false)}
-            >
-              &times;
-            </button>
-          </div>
-          <p className="contact-form-subtitle">
-            Fill out the form below and our team will get back to you shortly.
-          </p>
-
-          {status.success ? (
-            <div className="success-message">
-              <h3>Message Sent!</h3>
-              <p>{status.success}</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="contact-form">
-              <div className="form-group">
-                <label htmlFor="name">Full Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="company">Company</label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="4"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                ></textarea>
-              </div>
-              {status.error && (
-                <p className="error-message">{status.error}</p>
-              )}
-              <button
-                type="submit"
-                className="submit-btn"
-                disabled={status.loading}
-              >
-                {status.loading ? "Sending..." : "Send Message"}
-              </button>
-            </form>
-          )} */}
-
-          <div className="contact-sales-section-i contact-sales-section-left">
-            <div className="contact-sales-section-left-text">
-              <div className="contact-sales-section-left-text-header">
+        <div className={styles["contact-fullscreen-form"]}>
+          <div className={styles["contact-sales-section-left"]}>
+            <div className={styles["contact-sales-section-left-text"]}>
+              <div className={styles["contact-sales-section-left-text-header"]}>
                 <p>Get in touch with our sales team.</p>
-                <p>Whether you're a startup scaling fast or an enterprise modernizing your workflow, our team is here to craft the perfect solution for you.</p>
+                <p>
+                  Whether you're a startup scaling fast or an enterprise modernizing
+                  your workflow, our team is here to craft the perfect solution for you.
+                </p>
               </div>
             </div>
             <div className="contact-sales-section-left-text-footer">
@@ -187,158 +98,289 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="contact-sales-section-i contact-sales-section-right">
-            <div className="contact-form-area">
+          <div className={styles["contact-sales-section-right"]}>
+            <div className={styles["contact-form-area"]}>
               {status.success ? (
-                <div className="success-message">
+                <div className={styles["success-message"]}>
                   <h3>Message Sent!</h3>
                   <p>{status.success}</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="contact-form">
-                  <div className="form-header">
+                <form onSubmit={handleSubmit} className={styles["contact-form"]}>
+                  <div className={styles["form-header"]}>
                     <p>Fill your details here.</p>
+                    <button
+                      className={styles["modal-close-btn"]}
+                      onClick={() => setIsModalOpen(false)}
+                      type="button"
+                    >
+                      ×
+                    </button>
                   </div>
-                  <div className="form-group-holder">
-                    <div className="form-group">
+
+                  <div className={styles["form-group-holder"]}>
+                    <div className={styles["form-group"]}>
                       <label htmlFor="name">Full Name</label>
                       <input
-                        type="text"
                         id="name"
                         name="name"
+                        type="text"
                         placeholder="Enter your full name"
                         value={formData.name}
                         onChange={handleChange}
                         required
                       />
                     </div>
-                    <div className="form-group">
+                    <div className={styles["form-group"]}>
                       <label htmlFor="email">Email Address</label>
                       <input
-                        type="email"
                         id="email"
                         name="email"
-                        placeholder="Enter your email name"
-
+                        type="email"
+                        placeholder="Enter your email"
                         value={formData.email}
                         onChange={handleChange}
                         required
                       />
                     </div>
-                    <div className="form-group">
+                    <div className={styles["form-group"]}>
                       <label htmlFor="company">Company</label>
                       <input
-                        type="text"
                         id="company"
-                        placeholder="Enter your company name"
-
                         name="company"
+                        type="text"
+                        placeholder="Enter your company name"
                         value={formData.company}
                         onChange={handleChange}
                       />
                     </div>
-                    <div className="form-group">
+                    <div className={styles["form-group"]}>
                       <label htmlFor="message">Message</label>
                       <textarea
                         id="message"
                         name="message"
+                        placeholder="Describe your enquiry..."
                         rows="4"
                         value={formData.message}
                         onChange={handleChange}
-                        placeholder="Desribe your enquiry..."
-
                         required
-                      ></textarea>
+                      />
                     </div>
                   </div>
 
-                  {status.error && (
-                    <p className="error-message">{status.error}</p>
-                  )}
+                  {status.error && <p className={styles["error-message"]}>{status.error}</p>}
 
-                  <div className="button-bolder">
+                  <div className={styles["button-bolder"]}>
                     <button
                       type="submit"
-                      className="submit-btn"
+                      className={styles["submit-btn"]}
                       disabled={status.loading}
                     >
                       {status.loading ? "Sending..." : "Send Message"}
                     </button>
                   </div>
-
                 </form>
               )}
             </div>
           </div>
-          <img className="bg-noise" src={bg_noise} />
-
+          <img className={styles["bg-noise"]} src={bg_noise} alt="Noise" />
         </div>
       ) : (
-        // Normal Contact Page
-        <div className="contact-hero-section">
-          <div className="contact-hero-text-wrapper">
-            <p className="title">
-              <span className="ripple" />
-              Gravyn Sales Operational
+        <>
+          {/* Normal contact section */}
+          <div className={styles["contact-hero-section"]}>
+            <div className={styles["contact-hero-text-wrapper"]}>
+              <p className={styles["title"]}>
+                <span className={styles["ripple"]} />
+                Gravyn Sales Operational
+              </p>
+              <p className={styles["heading"]}>We're here to help.</p>
+              <p className={styles["subheading"]}>
+                We’re passionate about helping teams succeed. Whether you have a
+                question about features, pricing, or anything else, our team is ready
+                to answer all your questions.
+              </p>
+            </div>
+
+            <div className={styles["contact-content"]}>
+              <div className={`${styles["row"]} ${styles["row-one"]}`}>
+                <div className={styles["contact-content-header"]}>
+                  <img src={sales} alt="Sales" />
+                  <p>Reach out to sales</p>
+                  <p>
+                    Interested in a custom Enterprise plan, exploring partnership
+                    opportunities, or have questions about volume pricing? Our sales
+                    specialists are ready to help.
+                  </p>
+                </div>
+                <p
+                  onClick={() => setIsModalOpen(true)}
+                  className={styles["contact-button"]}
+                >
+                  Contact Sales
+                </p>
+              </div>
+
+              <div className={`${styles["row"]} ${styles["row-two"]}`}>
+                {[{ icon: billing, title: "Billing Inquiries" },
+                { icon: support, title: "Product Support" }].map((section, i) => (
+                  <div key={i} className={styles["contact-i"]}>
+                    <div className={styles["avail-wrapper"]}>
+                      <img src={serviceunavail} alt="Unavailable" />
+                      <p>Service Unavailable</p>
+                    </div>
+                    <div className={styles["contact-content-header"]}>
+                      <img src={section.icon} alt={section.title} />
+                      <p>{section.title}</p>
+                      <p>
+                        {section.title === "Billing Inquiries"
+                          ? "For questions related to your subscription or invoices."
+                          : "Need help with a feature or technical issue?"}
+                      </p>
+                    </div>
+                    <p className={styles["contact-button"]}>
+                      Contact {section.title} Support
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+
+  // -----------------------
+  // Mobile Layout
+  // -----------------------
+  const MobileView = () => (
+    <div className={styles["mobile-wrapper"]}>
+      {bannerVisible  && (
+        <Banner />
+
+      )}
+
+      <NavBar />
+
+      {isModalOpen ? (
+        <div className={styles["contact-fullscreen-form-mobile"]}>
+          <form onSubmit={handleSubmit} className={styles["contact-form-mobile"]}>
+            <div className={styles["form-header"]}>
+              <p>Contact Sales</p>
+              <button
+                className={styles["modal-close-btn"]}
+                onClick={() => setIsModalOpen(false)}
+                type="button"
+              >
+                ×
+              </button>
+            </div>
+
+            <label>Full Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              placeholder="Enter your name"
+              onChange={handleChange}
+              required
+            />
+
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              placeholder="Enter your email"
+              onChange={handleChange}
+              required
+            />
+
+            <label>Company</label>
+            <input
+              type="text"
+              name="company"
+              value={formData.company}
+              placeholder="Your company name"
+              onChange={handleChange}
+            />
+
+            <label>Message</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              placeholder="Describe your enquiry..."
+              rows="3"
+              onChange={handleChange}
+              required
+            ></textarea>
+
+            <button
+              className={styles["submit-btn"]}
+              disabled={status.loading}
+              type="submit"
+            >
+              {status.loading ? "Sending..." : "Send Message"}
+            </button>
+
+            {status.success && <p className={styles["success-message"]}>{status.success}</p>}
+            {status.error && <p className={styles["error-message"]}>{status.error}</p>}
+          </form>
+        </div>
+      ) : (
+        <>
+          <div className={styles["mobile-hero-text"]}>
+            <p className={styles["title"]}>
+              <span className={styles["ripple"]} /> Gravyn Sales Operational
             </p>
-            <p className="heading">We're here to help.</p>
-            <p className="subheading">
+            <p className={styles["heading"]}>We're here to help.</p>
+            <p className={styles["subheading"]}>
               We’re passionate about helping teams succeed. Whether you have a
               question about features, pricing, or anything else, our team is
               ready to answer all your questions.
             </p>
           </div>
 
-          {/* Contact Options */}
-          <div className="contact-content">
-            <div className="row row-one contact-i-1">
-              <div className="contact-content-header contact-content-header-1">
-                <img src={sales} alt="Sales" />
-                <p>Reach out to sales</p>
-                <p>
-                  Interested in a custom Enterprise plan, exploring partnership
-                  opportunities, or have questions about volume pricing? Our
-                  sales specialists are ready to help.
-                </p>
-              </div>
-              <p
+          <div className={styles["mobile-contact-cards"]}>
+            <div className={styles["contact-card"]}>
+              <img src={sales} alt="Sales" />
+              <h3>Reach out to Sales</h3>
+              <p>Interested in custom enterprise plans or partnerships? Our team is ready to help.</p>
+              <button
+                className={styles["contact-btn"]}
                 onClick={() => setIsModalOpen(true)}
-                className="contact-button"
               >
                 Contact Sales
-              </p>
+              </button>
             </div>
 
-            <div className="row row-two">
-              {[
-                { icon: billing, title: "Billing Inquiries" },
-                { icon: support, title: "Product Support" }
-              ].map((section, index) => (
-                <div key={index} className="contact-i">
-                  <div className="avail-wrapper">
-                    <img src={serviceunavail} alt="Unavailable" />
-                    <p>Service Unavailable</p>
-                  </div>
-                  <div className="contact-content-header">
-                    <img src={section.icon} alt={section.title} />
-                    <p>{section.title}</p>
-                    <p>
-                      {section.title === "Billing Inquiries"
-                        ? "For questions related to your subscription, invoices, or payments, our billing team is here to assist."
-                        : "Experiencing a technical issue or need help with a feature? Our support team is ready to get you back on track."}
-                    </p>
-                  </div>
-                  <p className="contact-button">
-                    Contact {section.title} Support
-                  </p>
-                </div>
-              ))}
+            <div className={styles["contact-card"]}>
+              <img src={billing} alt="Billing" />
+              <h3>Billing Inquiries</h3>
+              <p>For questions related to invoices or payments.</p>
+              <div className={styles["unavailable"]}>
+                <img src={serviceunavail} alt="Unavailable" />
+                <p>Service Unavailable</p>
+              </div>
+            </div>
+
+            <div className={styles["contact-card"]}>
+              <img src={support} alt="Support" />
+              <h3>Product Support</h3>
+              <p>Experiencing a technical issue? We’ll help you get back on track.</p>
+              <div className={styles["unavailable"]}>
+                <img src={serviceunavail} alt="Unavailable" />
+                <p>Service Unavailable</p>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
+
+  return isMobile ? <MobileView /> : <DesktopView />;
 };
 
 export default Contact;

@@ -47,7 +47,6 @@ import text from "../assets/images/text.svg"
 
 
 
-import logov1 from "../assets/logo/logov2.svg"
 import Banner from './Features/Banner';
 import { UnifiedWorkspace } from './Features/UnifiedWorkspace';
 import WaitlistWrapper from './Sections/WaitlistWrapper';
@@ -56,6 +55,7 @@ import { CollaborationWrapper } from './Sections/CollaborationWrapper';
 import { PlanningWrapper } from './Sections/PlanningWrapper';
 import { Founding100 } from './Sections/Founding100';
 import { Founding100v2 } from './Sections/Founding100v2';
+import { Footer } from './Sections/Footer';
 
 
 // 🎉 PartyPopper Component
@@ -605,61 +605,9 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
       <ProjectTypes />
 
       
-      <WaitlistWrapper/>
-
-
-      <footer className='footer-wrapper'>
-        {/* <img className='footer-blackhole' src={blackhole} /> */}
-        <img className='text-image' src={blackhole}/>
-        <div className='footer-main'>
-          <div className='footer-main-flex'>
-            <div className='footer-main-flex-i footer-main-flex-left'>
-              <div className='footer-main-flex-left-header'>
-                <p><img src={logov1} />Gravyn.</p>
-                <p>Let’s redefine how teams work. Gravyn unites planning, collaboration, and execution in one intelligent workspace, built to help you move faster and think smarter.</p>
-              </div>
-              <div className='followus-wrapper'>
-                <a href='https://www.linkedin.com/company/108729125/admin/dashboard/'><img src={linkedin} /></a>
-                <a href=''><img src={twitter} /></a>
-              </div>
-            </div>
-            <div className='footer-main-flex-i footer-main-flex-right'>
-              <div className='list-main'>
-                <p>Platfrom</p>
-                <div className='list-main-item'>
-                  <p>Home</p>
-                  <p>Pricing</p>
-                </div>
-              </div>
-              <div className='list-main'>
-                <p>Company</p>
-                <div className='list-main-item'>
-                  <p>Contact Us</p>
-                  <p>Career</p>
-                </div>
-              </div>
-              <div className='list-main'>
-                <p>Reach Us</p>
-                <div className='list-main-item'>
-                  <p>aryan@gravyn.app</p>
-                  <p>support@gravyn.app</p>
-                  <p>20H, Sector 63, Noida, 201301</p>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='footer-main-bottom'>
-            <div className='footer-main-bottom-i'>
-              <p>© 2025 Gravyn Labs Private Limited. All rights reserved.</p>
-            </div>
-            <div className='footer-main-bottom-i'>
-              <a>Privacy Poliy</a>
-              <a>Terms & Condition</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <WaitlistWrapper />
+      
+      <Footer />
 
       {badgeVisible && <Founding100 isVisible={true} onClose={() => setBadgeVisible(false)} />}
       {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}
@@ -676,26 +624,69 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeVisible, count, targetCount }) => {
   const [championTierVisibility, setChampionTierVisibility] = useState(false);
 
-  // NOTE: In a professional setup, you would also implement the API_BASE_URL logic here 
-  // and for the mobile waitlist form. For now, we will leave the mobile fetch hardcoded 
-  // as it is not currently active with API calls in the provided code block.
+  // NEW STATES
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // API URL
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+  // BANNERS
+  const [ajBanner, setAJBanner] = useState(false);
+  const [ojBanner, setOJBanner] = useState(false);
+
+  const handleJoinWaitlist = async () => {
+    if (!email) {
+      setMessage("Please enter an email address.");
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/waitlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setEmail("");
+        setOJBanner(true);
+        setTimeout(() => setOJBanner(false), 5000);
+      } else {
+        setAJBanner(true);
+        setTimeout(() => setAJBanner(false), 5000);
+      }
+    } catch (err) {
+      console.error(err);
+      setAJBanner(true);
+      setTimeout(() => setAJBanner(false), 5000);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="page-wrapper mobile-layout">
 
       {bannerVisible && (
-        <div onClick={() => {setChampionTierVisibility(true)}} className='banner'>
+        <div onClick={() => { setChampionTierVisibility(true); }} className='banner'>
           <div className='banner-content-wrapper'>
             <img src={championsIcons} alt="champions" />
-            
             <p>Join the Gravyn Founding 100!</p>
-            <p style={{display : 'none'}}></p>
-
+            <p style={{ display: 'none' }}></p>
           </div>
           <img onClick={() => setBannerVisible(false)} className='close-icon' src={close} alt="close" />
         </div>
       )}
+
       <NavBar />
+
       <div className="landing-page-mobile">
         <div className="landing-content-text-wrapper">
           <DynamicPhrase />
@@ -703,49 +694,48 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
             A unified workspace for project delivery, client collaboration, and finances, all enhanced by AI.
           </p>
         </div>
+
+        {/* FIXED: FULL MOBILE WAITLIST LOGIC */}
         <div className="waitlist-wrapper">
-          <input placeholder="Enter Your Email address..." />
-          <button><ShinyText text={"Join Waitlist"} /></button>
+          <input
+            type="email"
+            placeholder="Enter Your Email Address..."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button onClick={handleJoinWaitlist} disabled={loading}>
+            {loading ? "Joining..." : <ShinyText text={"Join Waitlist"} />}
+          </button>
         </div>
+
+        {message && <p className="waitlist-message">{message}</p>}
+
         <div className="joined-wrapper">
           <img src={faces} alt="joined" />
           <p><span>{count}</span>+ people waiting for the launch.</p>
         </div>
+
         <div className="landing-banner">
           <img src={banner} alt="banner" />
         </div>
-
       </div>
 
-      <PlanningWrapper/>
-
+      <PlanningWrapper />
       <CollaborationWrapper />
-
       <ProjectTypes />
-
-
       <WaitlistWrapper />
 
-      {/* <div className="join-waitlist-wrapper-mobile">
-        <div className='content-waitlist-form-wrapper'>
-          <div className='waitlist-form-header'>
-            <img src={logo} alt="logo" />
-            <p>Join our journey</p>
-            <p>Get notified the moment we launch.</p>
-          </div>
-          <div className='faces'>
-            {faceImages.slice(0, 5).map((src, i) => (<img src={src} alt="waitlist avatar" key={i} />))}
-          </div>
-          <div className='waitlist-form-input-wrapper'>
-            <input placeholder='Enter your email address' />
-            <button>Join Our Waitlist</button>
-          </div>
-        </div>
-      </div> */}
-      <Founding100v2 championTierVisibility={championTierVisibility} setChampionTierVisibility={setChampionTierVisibility} />
+      {/* FIXED: SHOW MOBILE BANNERS */}
+      {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}
+      {ojBanner && <OnceJoined setOJBanner={setOJBanner} />}
 
+      <Founding100v2
+        championTierVisibility={championTierVisibility}
+        setChampionTierVisibility={setChampionTierVisibility}
+      />
     </div>
   );
 };
+
 
 export default HomePage;

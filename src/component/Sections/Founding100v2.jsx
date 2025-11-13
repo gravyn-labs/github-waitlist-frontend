@@ -63,7 +63,6 @@ export const Founding100v2 = ({ user, championTierVisibility, setChampionTierVis
                     <div className={styles["tier-content-header"]}>
                         <p className={styles["tier-content-header-heading"]}>
                             <p>Become Exclusive Member</p>
-
                             <span>Gravyn Founding 100</span>
                         </p>
                         <p className={styles["tier-content-header-subheading"]}>
