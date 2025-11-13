@@ -52,6 +52,7 @@ import { UnifiedWorkspace } from './Features/UnifiedWorkspace';
 import WaitlistWrapper from './Sections/WaitlistWrapper';
 import { ProjectTypes } from './Sections/ProjectTypes';
 import { CollaborationWrapper } from './Sections/CollaborationWrapper';
+import { PlanningWrapper } from './Sections/PlanningWrapper';
 
 
 // 🎉 PartyPopper Component
@@ -360,62 +361,6 @@ const SectionWrapper = ({ icon, alt, title, description }) => {
       </div>
       <div className='section-content'>
         {/* Bento grid or other content would go here */}
-      </div>
-    </div>
-  );
-}
-
-const PlanWrapper = () => {
-  return (
-    <div className='section-wrapper plan-section'>
-      <div className='section-text-wrapper'>
-        <p><img src={leaves} /> Plan & Execute</p>
-        <p>Plan with precision and adapt effortlessly to shifting priorities</p>
-      </div>
-      <div className='section-content'>
-        {/* Bento grid or other content would go here */}
-        <div className='plan-grid-view'>
-          <div className='plan-gird-c plan-gird-c1'>
-            <div className='plan-gird-cr plan-gird-c1-r1'>
-              <div className='plan-grid-cr-image'>
-                <img src={rm} />
-              </div>
-              <div className='plan-grid-cr-text plan-grid-c1r1-text'>
-                <p>Allocate Your Team with Confidence.</p>
-                <p>Get a bird's-eye view of your entire team's workload and capacity. Balance assignments, prevent burnout, and ensure the right people are on the right projects.</p>
-              </div>
-            </div>
-            <div className='plan-gird-cr plan-gird-c1-r2'>
-              <div className='plan-grid-cr-image'>
-                <img src={taskmanage} />
-              </div>
-              <div className='plan-grid-cr-text plan-grid-c1r1-text'>
-                <p>Your Team's Command Center.</p>
-                <p>Transform chaos into clarity. Organize work with lists, Kanban boards, and calendars, and give every team member a clear view of their priorities so they can focus on what matters most.</p>
-              </div>
-            </div>
-          </div>
-          <div className='plan-gird-c plan-gird-c2'>
-            <div className='plan-gird-cr plan-gird-c2-r1'>
-              <div className='plan-grid-cr-image'>
-                <img src={timelinebanner} />
-              </div>
-              <div className='plan-grid-cr-text plan-grid-c1r1-text'>
-                <p>Visualize the Path Forward.</p>
-                <p>Build beautiful, interactive Gantt charts in seconds. Map out project phases and see how every piece of work connects to the bigger picture.</p>
-              </div>
-            </div>
-            <div className='plan-gird-cr plan-gird-c2-r2'>
-              <div className='plan-grid-cr-image'>
-                <img src={milestone} />
-              </div>
-              <div className='plan-grid-cr-text plan-grid-c1r1-text'>
-                <p>Turn Milestones into Momentum.</p>
-                <p>Don't just track key dates, automate them. Create powerful workflows that trigger when a milestone is completed, from notifying stakeholders to automatically kicking off the next phase of your project.</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -755,7 +700,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
       </div> */}
 
 
-      <PlanWrapper />
+      <PlanningWrapper />
 
       <CollaborationWrapper />
       <ProjectTypes />
@@ -866,6 +811,8 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
         </div>
 
       </div>
+
+      <PlanningWrapper/>
 
       <CollaborationWrapper />
 
