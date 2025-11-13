@@ -87,73 +87,15 @@
 
 
 
-
-
-.workspace-mobile-join-text-wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: start;
-    margin-top: 70%;
-}
-
-.workspace-mobile-join-text-wrapper img {
-    height: 520px;
-    position: absolute;
-    top: -200%;
-    z-index: 10;
-    animation: glow_come 1.25s ease forwards;
-
-}
-
-.workspace-mobile-join-text-wrapper img.animate-glow {
-    animation: glow_come1 1.25s ease forwards;
-}
-
-@keyframes glow_come1 {
-    0% {
-        top: -200%;
-    }
-
-    100% {
-        top: -7%;
-    }
-}
-
 @keyframes glow_come {
     0% {
         top: -200%;
     }
 
     100% {
-        top: -11%;
+        top: -12%;
     }
 }
-
-.workspace-mobile-join-text-wrapper>p:nth-child(2) {
-    font-size: 40px;
-    font-weight: 600;
-    font-family: Poppins;
-    letter-spacing: -1.75px;
-    text-align: center;
-    line-height: 1;
-    z-index: 10;
-    width: 90%;
-}
-
-.workspace-mobile-join-text-wrapper>p:nth-child(3) {
-    font-size: 1.1rem;
-    font-weight: 500;
-    font-family: Inter;
-    text-align: center;
-    line-height: 1.65;
-    z-index: 10;
-    color: grey;
-    margin-top: 15px;
-    width: 80%;
-}
-
-
 
 
 
@@ -329,13 +271,72 @@
 
 
 
+
+
+
+.workspace-mobile-join-text-wrapper>p:nth-child(2) {
+    font-size: 2.5rem;
+    font-weight: 600;
+    font-family: Poppins;
+    letter-spacing: -1.75px;
+    text-align: center;
+    line-height: 1;
+    z-index: 10;
+    width: 90%;
+}
+
+.workspace-mobile-join-text-wrapper>p:nth-child(3) {
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: Inter;
+    text-align: center;
+    line-height: 1.65;
+    z-index: 10;
+    color: grey;
+    margin-top: 15px;
+    width: 80%;
+}
+
+
+.workspace-mobile-join-text-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: start;
+    margin-top: 90%;
+}
+
+.workspace-mobile-join-text-wrapper img {
+    height: 520px;
+    position: absolute;
+    top: -250%;
+    z-index: 10;
+    animation: glow_come1 1.25s ease forwards;
+
+}
+
+.workspace-mobile-join-text-wrapper img.animate-glow {
+    animation: glow_come1 1.25s ease forwards;
+}
+
+@keyframes glow_come1 {
+    0% {
+        top: -250%;
+    }
+
+    100% {
+        top: -5%;
+    }
+}
+
+
 .workspace-mobile-input-area .workspace-mobile-input-area-i {
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
 }
 
-.workspace-mobile-input-area .workspace-mobile-input-area-i:first-child{
+.workspace-mobile-input-area .workspace-mobile-input-area-i:first-child {
     padding: 15px 15px;
 }
 
@@ -353,11 +354,11 @@
 }
 
 .workspace-mobile-input-area-i:first-child .workspace-mobile-input-area-left p:first-child {
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .workspace-mobile-input-area-i:first-child .workspace-mobile-input-area-left p:last-child {
-    font-size: 13px;
+    font-size: 0.9rem;
     margin-top: 2px;
     color: grey;
 }
@@ -367,9 +368,9 @@
     align-items: center;
 }
 
-.faces-wrapper{
+.faces-wrapper {
     display: flex;
-        align-items: center;
+    align-items: center;
 }
 
 .workspace-mobile-input-area-i-right img {
@@ -427,24 +428,429 @@
 }
 
 
-.followus-wrapper {
+.followus-mobile-wrapper {
     margin: 20px 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 13px;
+    width: 100%;
 }
 
-.followus-wrapper p {
+.followus-mobile-wrapper p {
     margin-right: 5px;
     font-size: 13px;
     color: grey;
     font-weight: 500;
 }
 
-.followus-wrapper a {}
+.followus-mobile-wrapper a {}
 
-.followus-wrapper a img {
-    height: 15px;
-    width: 15px;
+.followus-mobile-wrapper a img {
+    height: 13px;
+    width: 13px;
     opacity: 0.75;
+}
+
+
+
+
+
+
+
+/* 🌐 BASE MOBILE STYLES (DEFAULT MOBILE) */
+.workspace-mobile-join-section {
+    min-width: 100vw;
+    width: 100vw;
+    min-height: 100vh;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    padding: 30px;
+}
+
+.workspace-mobile-join-text-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: start;
+    margin-top: 90%;
+}
+
+.workspace-mobile-join-text-wrapper img {
+    height: 520px;
+    position: absolute;
+    top: -250%;
+    z-index: 10;
+    animation: glow_come1 1.25s ease forwards;
+}
+
+.workspace-mobile-join-text-wrapper img.animate-glow {
+    animation: glow_come1 1.25s ease forwards;
+}
+
+@keyframes glow_come1 {
+    0% {
+        top: -250%;
+    }
+
+    100% {
+        top: -5%;
+    }
+}
+
+.workspace-mobile-join-text-wrapper>p:nth-child(2) {
+    font-size: 2.5rem;
+    font-weight: 600;
+    font-family: Poppins;
+    letter-spacing: -1.75px;
+    text-align: center;
+    line-height: 1;
+    width: 90%;
+    z-index: 10;
+}
+
+.workspace-mobile-join-text-wrapper>p:nth-child(3) {
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: Inter;
+    text-align: center;
+    line-height: 1.65;
+    color: grey;
+    margin-top: 15px;
+    width: 80%;
+    z-index: 10;
+}
+
+/* 🧠 INPUT AREA */
+.workspace-mobile-input-area {
+    margin-top: 50px;
+    width: 100%;
+    border-radius: 20px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    background: radial-gradient(61.2% 61.22% at 50% 50%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.13) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.workspace-mobile-input-area .workspace-mobile-input-area-i {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.workspace-mobile-input-area .workspace-mobile-input-area-i:first-child {
+    padding: 15px;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.workspace-mobile-input-area-i:last-child {
+    padding-top: 0 !important;
+    margin-top: 7px;
+}
+
+.workspace-mobile-input-area-left p:first-child {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.workspace-mobile-input-area-left p:last-child {
+    font-size: 0.9rem;
+    margin-top: 2px;
+    color: grey;
+}
+
+.workspace-mobile-input-area-i-right {
+    display: flex;
+    align-items: center;
+}
+
+.faces-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.workspace-mobile-input-area-i-right img {
+    height: 25px;
+    width: 25px;
+    border-radius: 100px;
+}
+
+.workspace-mobile-input-area-i-right img:not(:first-child) {
+    margin-left: -5%;
+}
+
+.workspace-mobile-input-area-i .input-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 25px !important;
+    justify-content: space-between;
+    padding: 5px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    background: radial-gradient(61.2% 61.22% at 50% 50%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.13) 100%);
+}
+
+.workspace-mobile-input-area-i .input-area input {
+    width: 60%;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    margin-left: 15px;
+    font-family: Inter;
+    font-size: 13.75px;
+}
+
+.workspace-mobile-input-area-i .input-area button {
+    width: 30%;
+    padding: 10px 15px;
+    border-radius: 100px;
+    font-size: 12px;
+    white-space: nowrap;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    background: radial-gradient(61.2% 61.22% at 50% 50%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.13) 100%);
+}
+
+.workspace-mobile-input-area-i .input-area button:hover,
+.workspace-mobile-input-area-i .input-area button:focus {
+    border: none;
+}
+
+/* 🌐 SOCIALS */
+.followus-mobile-wrapper {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    width: 100%;
+}
+
+.followus-mobile-wrapper p {
+    font-size: 13px;
+    color: grey;
+    font-weight: 500;
+}
+
+.followus-mobile-wrapper a img {
+    height: 13px;
+    width: 13px;
+    opacity: 0.75;
+}
+
+/* 📱 RESPONSIVE MEDIA QUERIES (Range-based for clarity & control) */
+
+/* Very Small Phones (320px and below) */
+@media (max-width: 320px) {
+    .workspace-mobile-join-text-wrapper>p:nth-child(2) {
+        font-size: 1.8rem;
+        width: 95%;
+    }
+
+    .workspace-mobile-input-area {
+        margin-top: 30px;
+    }
+
+    .workspace-mobile-input-area-i .input-area input {
+        font-size: 12px;
+    }
+
+    .workspace-mobile-input-area-i .input-area button {
+        width: 35%;
+        font-size: 11px;
+    }
+}
+
+/* Small Phones (321px–375px, iPhone 11 Pro, Pixel 4a) */
+@media (min-width: 321px) and (max-width: 376px) {
+    .workspace-mobile-join-text-wrapper>p:nth-child(2) {
+        font-size: 2.1rem;
+    }
+
+    .workspace-mobile-input-area-left p:first-child {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .workspace-mobile-input-area-left p:last-child {
+        font-size: 0.9rem;
+        margin-top: 2px;
+        color: grey;
+    }
+
+    .workspace-mobile-input-area {
+        margin-top: 40px;
+    }
+
+    .workspace-mobile-join-text-wrapper>p:nth-child(2) {
+        font-size: 2.2rem;
+        width: 85%;
+    }
+
+    .workspace-mobile-join-text-wrapper>p:nth-child(3) {
+        font-size: 0.9rem;
+        width: 75%;
+    }
+
+    .workspace-mobile-join-text-wrapper {
+
+        margin-top: 80%;
+    }
+
+    .workspace-mobile-join-text-wrapper img {
+        height: 430px;
+        top: -230%;
+    }
+
+
+
+
+
+    .workspace-mobile-input-area-i .input-area input {
+        width: 58%;
+        font-size: 12px !important;
+    }
+
+    .workspace-mobile-input-area-left p:first-child {
+        font-size: 0.9rem !important;
+        font-weight: 500;
+    }
+
+    .workspace-mobile-input-area-left p:last-child {
+        font-size: 0.8rem !important;
+        margin-top: 2px;
+        color: grey;
+    }
+
+    .workspace-mobile-input-area-i-right img {
+        height: 20px;
+        width: 20px;
+        border-radius: 100px;
+    }
+
+    .workspace-mobile-input-area-i .input-area button {
+        width: 35%;
+        padding: 9px 12px;
+        font-size: 12px !important;
+    }
+
+}
+
+/* Medium Phones (376px–414px, iPhone 12–15, Galaxy S22) */
+@media (min-width: 377px) and (max-width: 414px) {
+    .workspace-mobile-input-area-i .input-area input {
+        width: 59%;
+
+        font-size: 13.25px;
+    }
+
+    .workspace-mobile-input-area-i .input-area button {
+        width: 35%;
+        padding: 10px 15px;
+    }
+
+    .workspace-mobile-join-text-wrapper>p:nth-child(2) {
+        font-size: 2.7rem;
+    }
+
+    .workspace-mobile-join-text-wrapper img {
+        height: 500px;
+        top: -200%;
+    }
+
+    .workspace-mobile-input-area {}
+}
+
+/* Large Phones (415px–480px, OnePlus/Xiaomi Standard) */
+@media (min-width: 415px) and (max-width: 480px) {
+    .workspace-mobile-join-text-wrapper>p:nth-child(2) {
+        font-size: 3rem;
+    }
+
+
+    .workspace-mobile-join-text-wrapper {
+
+        margin-top: 83%;
+    }
+
+    .workspace-mobile-join-text-wrapper img {
+        height: 520px;
+        top: -230%;
+    }
+
+    .workspace-mobile-input-area-i .input-area input {
+        width: 65%;
+        font-size: 14.5px;
+    }
+
+    .workspace-mobile-input-area-i .input-area button {
+        font-size: 13px !important;
+    }
+}
+
+
+/* Small Tablets / Phablets (481px–600px, iPad Mini, Big Phones) */
+@media (min-width: 481px) and (max-width: 600px) {
+    .workspace-mobile-join-text-wrapper {
+        margin-top: 60%;
+    }
+
+    .workspace-mobile-join-text-wrapper img {
+        height: 500px;
+        top: -180%;
+    }
+
+    .workspace-mobile-input-area {
+        width: 90%;
+    }
+}
+
+/* Tablets (601px–768px, iPad Air/Pro Portrait) */
+@media (min-width: 601px) and (max-width: 768px) {
+    .workspace-mobile-join-section {
+        padding: 50px;
+    }
+
+    .workspace-mobile-join-text-wrapper>p:nth-child(2) {
+        font-size: 2.8rem;
+        width: 80%;
+    }
+
+    .workspace-mobile-join-text-wrapper>p:nth-child(3) {
+        font-size: 1rem;
+        width: 75%;
+    }
+
+    .workspace-mobile-input-area-i .input-area {
+        gap: 15px;
+    }
+
+    .workspace-mobile-input-area-i .input-area input {
+        font-size: 14px;
+    }
+}
+
+/* Landscape Tablets / Small Laptops (769px–1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .workspace-mobile-join-text-wrapper {
+        margin-top: 40%;
+    }
+
+    .workspace-mobile-join-text-wrapper img {
+        height: 550px;
+        top: -150%;
+    }
+
+    .workspace-mobile-input-area {
+        width: 80%;
+    }
+
+    .workspace-mobile-input-area-i .input-area input {
+        width: 65%;
+    }
 }

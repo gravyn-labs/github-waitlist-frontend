@@ -138,7 +138,7 @@ const WaitlistWrapper = () => {
             </div>
         </div>
 
-        <div className={styles["followus-wrapper"]}>
+        <div className={styles["followus-mobile-wrapper"]}>
             <p>Follow Us</p>
             <a href="https://www.linkedin.com/company/108729125/admin/dashboard/">
                 <img src={linkedin} alt="LinkedIn" />
