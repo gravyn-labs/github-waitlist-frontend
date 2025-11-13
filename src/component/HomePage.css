@@ -694,7 +694,7 @@ body {
         position: absolute;
         right: -55% !important;
         transform: translateX(-50%);
-        bottom: -200px !important;
+        top:40% !important;
         z-index: 0 !important;
     }
 
