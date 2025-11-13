@@ -17,9 +17,8 @@ import rupee from "../assets/icons/rupee.svg";
 import client from "../assets/icons/client.svg";
 import kairo from "../assets/icons/kairo.svg";
 import integrations from "../assets/icons/integrations.svg";
-import face1 from "../assets/images/face5.png";
-import face2 from "../assets/images/face6.png";
-import face3 from "../assets/images/face8.png";
+import twitter from "../assets/icons/twitter.svg"
+import linkedin from "../assets/icons/linkedin.svg"
 
 import integration from "../assets/images/integration1.svg"
 import kairoFeature from "../assets/images/kairoFeature1.svg"
@@ -52,19 +51,16 @@ import filefeature from "../assets/images/files_feature.png"
 
 import blackhole from "../assets/images/blackhole.svg"
 import logo_noise from "../assets/images/logo_noise.png"
-import bg_noise from "../assets/images/grad.png"
 import logo_waitlist from "../assets/logo/logo_waitlist.svg"
-import glow_logo from "../assets/images/glow_logo.svg"
 
 import text from "../assets/images/text.svg"
 
 
-import twitter from "../assets/icons/twitter.svg"
-import linkedin from "../assets/icons/linkedin.svg"
 
 import logov1 from "../assets/logo/logov2.svg"
 import Banner from './Features/Banner';
 import { UnifiedWorkspace } from './Features/UnifiedWorkspace';
+import WaitlistWrapper from './Sections/WaitlistWrapper';
 
 
 // 🎉 PartyPopper Component
@@ -754,29 +750,6 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
 
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            imageRef.current.classList.add("animate-glow");
-          } else {
-            imageRef.current.classList.remove("animate-glow");
-          }
-        });
-      },
-      { threshold: 0.3 } // triggers when 40% of parent is visible
-    );
-
-    if (parentRef.current) {
-      observer.observe(parentRef.current);
-    }
-
-    return () => {
-      if (parentRef.current) observer.unobserve(parentRef.current);
-    };
-  }, []);
-
 
   const [celebrate, setCelebrate] = useState(false);
 
@@ -925,49 +898,9 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
       <ProjectTypes />
 
+      
+      <WaitlistWrapper/>
 
-      <div ref={parentRef} className='workspace-join-section-wrapper'>
-        <img src={bg_noise} />
-        <Orbiez/>
-        <div className='workspace-join-central-wrapper'>
-          <div className='workspace-join-text-wrapper'>
-
-            <img ref={imageRef} src={glow_logo} />
-            <p>Work Smarter. Deliver Faster.</p>
-            <p></p>
-          </div>
-          <div className='workspace-join-input-area'>
-            <div className='workspace-join-input-area-i'>
-              <div className='workspace-join-input-area-left'>
-                <p>Join the waitlist</p>
-                <p>Join our waitlist to get notified the moment we launch.</p>
-              </div>
-              <div className='workspace-join-input-area-i-right'>
-                <div className='faces-wrapper'> 
-                  <img src={face1} />
-                  <img src={face3} />
-                  <img src={face2} />
-                </div>
-              </div>
-            </div>
-            <div className='workspace-join-input-area-i'>
-              <div className='input-area'>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={"Enter Email Address..."} />
-                <button onClick={handleJoinWaitlist}>Join Waitlist</button>
-              </div>
-            </div>
-          </div>
-          <div className='followus-wrapper'>
-            <p>Follow Us</p>
-            <a href='https://www.linkedin.com/company/108729125/admin/dashboard/'><img src={linkedin} /></a>
-            <a href=''><img src={twitter} /></a>
-          </div>
-        </div>
-      </div>
 
       <footer className='footer-wrapper'>
         {/* <img className='footer-blackhole' src={blackhole} /> */}
@@ -1052,7 +985,6 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
       )}
       <NavBar />
       <div className="landing-page-mobile">
-        <Orbiez />
         <div className="landing-content-text-wrapper">
           <DynamicPhrase />
           <p className="hero-subtitle">
@@ -1073,19 +1005,9 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
 
       </div>
 
-      <UnifiedWorkspace />
+      <WaitlistWrapper />
 
-
-      <SectionWrapper icon={leaves} alt="leaves" title="Plan and Execute" description="Plan with precision and adapt effortlessly." />
-      <SectionWrapper icon={heart} alt="collaboration" title="Collaboration" description="Connect seamlessly and foster creativity." />
-
-
-
-      <PlanWrapper />
-
-
-
-      <div className="join-waitlist-wrapper-mobile">
+      {/* <div className="join-waitlist-wrapper-mobile">
         <div className='content-waitlist-form-wrapper'>
           <div className='waitlist-form-header'>
             <img src={logo} alt="logo" />
@@ -1100,7 +1022,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
             <button>Join Our Waitlist</button>
           </div>
         </div>
-      </div>
+      </div> */}
       {badgeVisible && <Founding100 isVisible={true} onClose={() => setBadgeVisible(false)} />}
 
     </div>

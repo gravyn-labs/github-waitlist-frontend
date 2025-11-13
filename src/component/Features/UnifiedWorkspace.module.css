@@ -1,4 +1,7 @@
 
+
+
+
 /* ================================== */
 /* ===== Section Layout & Grid ===== */
 /* ================================== */
@@ -54,9 +57,9 @@
 .workspace-visual {
     height: 100%;
     width: 100%;
-
     overflow: hidden;
     border-right: 1px solid rgba(255, 255, 255, 0.07);
+    position: relative;
 }
 
 /* ... (visual-content and mock-ui-placeholder styles remain the same) ... */
@@ -64,8 +67,10 @@
     width: 100%;
     height: 100%;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
+    background-color: rebeccapurple;
 }
 
 .workspace-visual-header {
@@ -80,6 +85,7 @@
     position: relative;
     height: calc(100% - 10% - 0px);
     width: 100%;
+    position: relative;
 }
 
 
@@ -173,6 +179,9 @@
             rgba(255, 255, 255, 0.03) 10px,
             rgba(255, 255, 255, 0.03) 20px);
 }
+
+
+
 
 
 
@@ -343,120 +352,3 @@
     z-index: 10;
     transform: translateX(-50%) translateY(-10%);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ________________________ */
-/* MOBILE SCREEN */
-/* ________________________ */
-
-
-
-
-.unified-workspace-section-mobile {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 30px 16px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
-
-.features-header-mobile {
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-.features-header-mobile h2 {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
-    font-weight: 700;
-}
-
-.features-header-mobile p {
-    font-size: 1rem;
-    color: #cccccc;
-}
-
-.carousel-wrapper {
-    display: flex;
-    gap: 16px;
-    overflow: hidden;
-    width: 100%;
-    margin-bottom: 24px;
-    position: relative;
-}
-
-.carousel-card {
-    background-color: #121212;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.07);
-    flex: 0 0 280px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #eee;
-    user-select: none;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.carousel-card:hover {
-    transform: scale(1.05);
-}
-
-.carousel-image {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-    margin-bottom: 16px;
-}
-
-.carousel-text {
-    text-align: center;
-}
-
-.carousel-text h3 {
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #fff;
-}
-
-.carousel-text p {
-    font-size: 0.9rem;
-    color: #bbb;
-}
-
-/* Workspace Visual container */
-
-.workspace-visual-mobile {
-    width: 100%;
-    height: 300px;
-    margin-top: 10px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-    background-color: #181818;
-    position: relative;
-}
-
-
-
-
-/* ________________________ */
-/* MOBILE SCREEN */
-/* ________________________ */
