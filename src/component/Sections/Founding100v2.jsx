@@ -5,6 +5,7 @@ import Orbiez from "../Orbiez";
 import championBadge from "../../assets/images/championbage.svg";
 import confetti from "canvas-confetti";
 import Aurora from "./Aurora";
+import close from "../../assets/icons/close.svg"
 
 export const Founding100v2 = ({ user, championTierVisibility, setChampionTierVisibility }) => {
     const fireConfetti = () => {
@@ -40,7 +41,7 @@ export const Founding100v2 = ({ user, championTierVisibility, setChampionTierVis
         <div className={styles["tier-modal-overlay"]}>
             <div ref={modalRef} className={styles["tier-modal-wrapper"]}>
                 <div className={styles["tier-header"]}>
-                    <Orbiez />
+                    <img onClick={()=>{setChampionTierVisibility(false)}} src={close} className={styles['close-btn']}/>
                     <Aurora
                         amplitude={0.5}
                         colorStops={["#3017ee", "#6617ee", "#3017ee"]}

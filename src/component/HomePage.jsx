@@ -30,6 +30,8 @@ import rm from "../assets/images/rm.png"
 import milestone from "../assets/images/milestone_finalv5.png"
 import taskmanage from "../assets/images/taskmanagev1.png"
 import timelinebanner from "../assets/images/timelinebanner.png"
+import championsIcons from "../assets/icons/championsvv2.svg";
+
 
 import { useLocation } from 'react-router-dom';
 
@@ -684,8 +686,10 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
       {bannerVisible && (
         <div onClick={() => {setChampionTierVisibility(true)}} className='banner'>
           <div className='banner-content-wrapper'>
+            <img src={championsIcons} alt="champions" />
+            
             <p>Join the Gravyn Founding 100!</p>
-            <p></p>
+            <p style={{display : 'none'}}></p>
 
           </div>
           <img onClick={() => setBannerVisible(false)} className='close-icon' src={close} alt="close" />

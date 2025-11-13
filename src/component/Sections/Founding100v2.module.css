@@ -47,6 +47,10 @@
     transform: translate(-50%, -50%);
 }
 
+.close-btn {
+    display: none;
+}
+
 .tier-modal-wrapper {
     position: absolute;
     top: 50%;
@@ -256,7 +260,7 @@
     font-weight: 600;
     font-size: 13.5px;
     letter-spacing: -0.05px;
-    font-family: Poppins ;
+    font-family: Poppins;
 }
 
 .perk-text-subheading {
@@ -281,6 +285,18 @@
         padding: 0 10px;
     }
 
+    .close-btn {
+        position: absolute;
+        display: block;
+        top: 15px;
+        right: 15px;
+        z-index: 200;
+        box-sizing: border-box;
+        height: 15px;
+        border-radius: 100px;
+        opacity: 0.75;
+    }
+
     .tier-modal-wrapper {
         flex-direction: column;
         width: 95%;
@@ -288,6 +304,7 @@
         min-height: unset;
         top: 50%;
         left: 50%;
+        height: 90vh;
         transform: translate(-50%, -50%);
         border-radius: 20px;
         padding: 15px;
