@@ -633,7 +633,7 @@
         justify-content: start;
         align-items: center;
         z-index: 2000;
-        padding: 10% 0 20% 0;
+        padding: 10% 0 50% 0;
         animation: fadeIn 0.3s ease-in-out;
     }
 
