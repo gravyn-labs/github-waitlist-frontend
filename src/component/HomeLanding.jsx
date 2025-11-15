@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import styles from "./HomeLanding.module.css";
 import banner1 from '../assets/images/banner1.png';
 import banner2 from '../assets/images/banner2.png';
-import faces from '../assets/images/faces2.svg';
+import faces from '../assets/images/faces.svg';
 
 // --- Placeholder Components (as defined in previous turns) ---
 import { AlreadyJoined } from "./HomePage";
-import { ShinyText } from "./HomePage"; // Assuming you have this component
+import { ShinyText } from "./HomePage";
 
 
 // ====================================================================================
@@ -41,8 +41,7 @@ export function DynamicPhrase() {
     }, []);
 
     return (
-        <p
-            className={styles['dynamic-phrase']}>
+        <p className={styles['dynamic-phrase']}>
             Where Intelligent <span className={fade ? "fade-in" : "fade-out"}>{rotatingWords[index]}</span> Build Brilliant Workflows.
         </p>
     );
@@ -70,8 +69,6 @@ const DesktopView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount
             </button>
         </div>
 
-        {/* {message && <p className={styles['waitlist-message']}>{message}</p>} */}
-
         <div className={styles['joined-wrapper']}>
             <img src={faces} alt="A collage of user profile pictures" />
             <p>
@@ -84,13 +81,11 @@ const DesktopView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount
             <img src={banner2} alt="Product screenshot showing financial analytics" />
         </div>
 
-
         {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}
-
     </div>
 );
 
-const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, message, targetCount, ojBanner, ajBanner, setAJBanner, setOJBanner }) => (
+const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount }) => (
     <div className={styles['landing-page-mobile']}>
         <div className={styles['landing-content-text-wrapper']}>
             <DynamicPhrase />
@@ -105,8 +100,6 @@ const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, message, tar
                 {loading ? "Joining..." : <ShinyText text={"Join Waitlist"} />}
             </button>
         </div>
-
-        {/* {message && <p className={styles['waitlist-message']}>{message}</p>} */}
 
         <div className={styles['joined-wrapper']}>
             <img src={faces} alt="A collage of user profile pictures" />
@@ -126,34 +119,56 @@ const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, message, tar
 // ====================================================================================
 
 export const HomeLanding = () => {
-    // --- State and Handlers (Shared Logic) ---
     const [width] = useWindowSize();
-    const isMobile = width <= 768; // Set your mobile breakpoint
+    const isMobile = width <= 768;
+
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
-    const [targetCount, setTargetCount] = useState(0); // Example count
-
+    const [targetCount, setTargetCount] = useState(0);
 
     const [ajBanner, setAJBanner] = useState(false);
     const [ojBanner, setOJBanner] = useState(false);
-    const [championTierVisibility, setChampionTierVisibility] = useState(false);
-
-    // --- NEW: Define API Base URL ---
-    const environment = process.env.NODE_ENV;
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+    // ====================================================================================
+    // ⏳ NEW: Fetch waitlist count from backend
+    // ====================================================================================
+    const fetchWaitlistCount = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/waitlist/count`);
+            const data = await response.json();
+            if (response.ok && data.count !== undefined) {
+                setTargetCount(data.count);
+            }
+        } catch (error) {
+            console.error("Failed to fetch waitlist count:", error);
+        }
+    };
 
+    // Fetch on mount
+    useEffect(() => {
+        fetchWaitlistCount();
+    }, []);
+
+    // Auto-refresh count every 20 seconds
+    useEffect(() => {
+        const interval = setInterval(fetchWaitlistCount, 20000);
+        return () => clearInterval(interval);
+    }, []);
+
+
+
+    // ====================================================================================
+    // JOIN WAITLIST LOGIC
+    // ====================================================================================
 
     const handleJoinWaitlist = async () => {
-        if (!email) {
-            return;
-        }
+        if (!email) return;
 
         setLoading(true);
 
         try {
-            // --- MODIFIED: Use API_BASE_URL ---
             const response = await fetch(`${API_BASE_URL}/api/waitlist`, {
                 method: "POST",
                 headers: {
@@ -161,35 +176,36 @@ export const HomeLanding = () => {
                 },
                 body: JSON.stringify({ email }),
             });
-            // --- END MODIFIED ---
 
             const data = await response.json();
+
             if (response.ok) {
                 setEmail("");
                 setOJBanner(true);
-                setTimeout(() => {
-                    setOJBanner(false)
-                }, 5000)
+                setTimeout(() => setOJBanner(false), 5000);
+
+                // refresh count after successful join
+                fetchWaitlistCount();
+
             } else {
                 setAJBanner(true);
-                setTimeout(() => {
-                    setAJBanner(false)
-                }, 5000)
+                setTimeout(() => setAJBanner(false), 5000);
             }
         } catch (error) {
             console.error(error);
             setAJBanner(true);
-            setTimeout(() => {
-                setAJBanner(false)
-            }, 5000)
+            setTimeout(() => setAJBanner(false), 5000);
         } finally {
             setLoading(false);
         }
     };
 
 
-    // --- Conditional Rendering ---
-    // Pass all necessary state and handlers down to the active view component
+
+    // ====================================================================================
+    // RENDER
+    // ====================================================================================
+
     return isMobile ? (
         <MobileView
             email={email}
@@ -197,12 +213,6 @@ export const HomeLanding = () => {
             handleJoinWaitlist={handleJoinWaitlist}
             loading={loading}
             targetCount={targetCount}
-            setTargetCount={setTargetCount}
-            ojBanner={ojBanner}
-            ajBanner={ajBanner}
-            setAJBanner={setAJBanner}
-            setOJBanner={setOJBanner}
-
         />
     ) : (
         <DesktopView
@@ -210,7 +220,6 @@ export const HomeLanding = () => {
             setEmail={setEmail}
             handleJoinWaitlist={handleJoinWaitlist}
             loading={loading}
-            setTargetCount={setTargetCount}
             targetCount={targetCount}
             ojBanner={ojBanner}
             ajBanner={ajBanner}
@@ -218,6 +227,6 @@ export const HomeLanding = () => {
             setOJBanner={setOJBanner}
         />
     );
-}
+};
 
 export default HomeLanding;
