@@ -432,13 +432,14 @@ const Contact = () => {
     // Functional update to avoid depending on formData
     setFormData((prev) => ({ ...prev, [name]: value }));
   }, []);
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       setStatus({ loading: true, success: "", error: "" });
       try {
-        const response = await fetch("/api/sales", {
+        const response = await fetch(`${API_BASE_URL}/api/contact-sales`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),

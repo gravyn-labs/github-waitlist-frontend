@@ -8,7 +8,7 @@ import close from "../assets/icons/close.svg"
 
 const menuItems = [
   { label: "Pricing", to: "/pricing" },
-  { label: "Career", to: "/career" },
+  // { label: "Career", to: "/career" },
   { label: "Contact Us", to: "/contact" },
   { label: "Join Waitlist", to: "/", highlight: true, isWaitlist: true },
 ];
