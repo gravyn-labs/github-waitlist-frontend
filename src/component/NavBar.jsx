@@ -4,6 +4,7 @@ import "./NavBar.css";
 import logo from '../assets/logo/gravyn_logo.svg';
 import collapseIcon from '../assets/icons/collapse.svg';
 import { ShinyText } from './HomePage'; // Assuming you have this component
+import close from "../assets/icons/close.svg"
 
 const menuItems = [
   { label: "Pricing", to: "/pricing" },

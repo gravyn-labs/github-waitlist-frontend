@@ -148,11 +148,11 @@
     height: 100%;
     border-radius: 50%;
     background-color: #34d399;
-    animation: ripple-effect 1.5s infinite;
+    animation: ripple-effect 2.5s infinite;
 }
 
 .ripple::after {
-    animation-delay: -0.75s;
+    animation-delay: -1s;
 }
 
 @keyframes ripple-effect {

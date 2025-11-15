@@ -272,56 +272,80 @@ const Contact = () => {
 
         {isModalOpen ? (
           <div className={styles["contact-fullscreen-form-mobile"]}>
+            <button
+              className={styles["modal-close-btn"]}
+              onClick={() => setIsModalOpen(false)}
+              type="button"
+            >
+              <img src={close}/>
+            </button>
+            <div className={styles["contact-sales-section-left"]}>
+              <div className={styles["contact-sales-section-left-text"]}>
+                <div className={styles["contact-sales-section-left-text-header"]}>
+                  <p>Get in touch with our sales team.</p>
+                  <p>
+                    Whether you're a startup scaling fast or an enterprise modernizing
+                    your workflow, our team is here to craft the perfect solution for you.
+                  </p>
+                </div>
+              </div>
+        
+            </div>
+
             <form onSubmit={handleSubmit} className={styles["contact-form-mobile"]}>
-              <div className={styles["form-header"]}>
-                <p>Contact Sales</p>
-                <button
-                  className={styles["modal-close-btn"]}
-                  onClick={() => setIsModalOpen(false)}
-                  type="button"
-                >
-                  ×
-                </button>
+              {/* Group 1: Full Name */}
+              <div className={styles["form-mobile-group"]}>
+                <label htmlFor="name">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  placeholder="Enter your name"
+                  onChange={handleChange}
+                />
               </div>
 
-              <label>Full Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                placeholder="Enter your name"
-                onChange={handleChange}
-                required
-              />
+              {/* Group 2: Email */}
+              <div className={styles["form-mobile-group"]}>
+                <label htmlFor="email">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  placeholder="Enter your email address"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-              <label>Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                placeholder="Enter your email"
-                onChange={handleChange}
-                required
-              />
+              {/* Group 3: Company */}
+              <div className={styles["form-mobile-group"]}>
+                <label htmlFor="company">Company</label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  value={formData.company}
+                  placeholder="Your company name"
+                  onChange={handleChange}
+                />
+              </div>
 
-              <label>Company</label>
-              <input
-                type="text"
-                name="company"
-                value={formData.company}
-                placeholder="Your company name"
-                onChange={handleChange}
-              />
-
-              <label>Message</label>
-              <textarea
-                name="message"
-                value={formData.message}
-                placeholder="Describe your enquiry..."
-                rows="3"
-                onChange={handleChange}
-                required
-              ></textarea>
+              {/* Group 4: Message */}
+              <div className={styles["form-mobile-group"]}>
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  placeholder="Describe your enquiry..."
+                  rows="4" // Increased rows for better usability
+                  onChange={handleChange}
+                  required
+                ></textarea>
+              </div>
 
               <button
                 className={styles["submit-btn"]}
@@ -334,6 +358,21 @@ const Contact = () => {
               {status.success && <p className={styles["success-message"]}>{status.success}</p>}
               {status.error && <p className={styles["error-message"]}>{status.error}</p>}
             </form>
+
+            <div className={styles['contact-sales-section-mobile-text-footer']}>
+              <div className={styles['sales-perks-item']}>
+                <p><img src={check} />Tailored Plans for Every Stage</p>
+                <p>From early teams to growing enterprises, we design solutions that fit your unique goals — not one-size-fits-all pricing.</p>
+              </div>
+              <div className={styles['sales-perks-item']}>
+                <p><img src={check} />Dedicated Onboarding & Support</p>
+                <p>Get personalized onboarding, setup assistance, and access to a dedicated Gravyn advisor for your organization.</p>
+              </div>
+              <div className={styles['sales-perks-item']}>
+                <p><img src={check} />Integrations That Work for You</p>
+                <p>Our experts will guide you on how Gravyn connects with your existing tools and data stack for seamless adoption.</p>
+              </div>
+            </div>
           </div>
         ) : (
           <>
