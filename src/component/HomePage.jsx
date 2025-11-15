@@ -624,6 +624,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
       <CollaborationWrapper />
       <ProjectTypes />
       <WaitlistWrapper />
+      <Footer />
 
       {/* FIXED: SHOW MOBILE BANNERS */}
       {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}

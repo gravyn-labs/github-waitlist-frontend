@@ -11,6 +11,7 @@ import bg_noise from "../assets/images/grad.png";
 import check from "../assets/icons/check.svg"
 import Banner from "./Features/Banner";
 import { Founding100v2 } from "./Sections/Founding100v2";
+import { Footer } from "./Sections/Footer";
 
 const Contact = () => {
   const [bannerVisible, setBannerVisible] = useState(true);
@@ -383,6 +384,7 @@ const Contact = () => {
             </div>
           </>
         )}
+        <Footer />
         <Founding100v2 />
         {championTierVisibility && <Founding100v2 championTierVisibility={championTierVisibility} setChampionTierVisibility={setChampionTierVisibility}/>}
       </div>

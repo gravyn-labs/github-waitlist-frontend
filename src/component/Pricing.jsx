@@ -9,6 +9,7 @@ import indianFlag from "../assets/icons/indiaflagv1.svg";
 import styles from './Pricing.module.css';
 import Banner from './Features/Banner';
 import { Founding100v2 } from './Sections/Founding100v2';
+import { Footer } from './Sections/Footer';
 
 // ====================================================================================
 // 1. UNIFIED PRICING & DISCOUNT ARCHITECTURE
@@ -348,6 +349,8 @@ const MobilePricingView = ({ plans, currency, bannerVisible, setBannerVisible, b
         })}
       </section>
 
+      <Footer/>
+
       {championTierVisibility && <Founding100v2 setChampionTierVisibility={setChampionTierVisibility}/>}
     </div>
 
@@ -364,7 +367,7 @@ function PricingPage() {
 
   const [bannerVisible, setBannerVisible] = useState(true);
   const [market, setMarket] = useState(MARKETS.INDIA);
-  const [segment, setSegment] = useState("individuals");
+  const [segment, setSegment] = useState("team");
   const [billingCycle, setBillingCycle] = useState("monthly");
   const [isUserModalOpen, setUserModalOpen] = useState(false);
   const [user, setUser] = useState({ loggedIn: true, discounts: ['founding100'] });

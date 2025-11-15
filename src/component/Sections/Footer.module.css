@@ -1,0 +1,210 @@
+.footer-wrapper {
+    min-height: 59vh;
+    width: 100%;
+    padding: 100px 15%;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.footer-main {}
+
+
+.footer-main-flex-left-header {}
+
+.footer-main-flex-left-header p:first-child {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-family: Poppins;
+    font-weight: 600;
+    letter-spacing: -1px;
+}
+
+.footer-main-flex {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.footer-main-flex-right {
+    display: flex;
+    align-items: start;
+    gap: 70px;
+}
+
+.footer-main-flex-left-header p:first-child img {
+    height: 15px;
+    width: 15px;
+    ;
+}
+
+.footer-main-flex-left-header p:last-child {
+    width: 35%;
+    line-height: 1.75;
+    margin-top: 10px;
+    color: #8a8f98;
+    font-size: 13px;
+}
+
+.footer-main-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 40px;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-main-bottom-i:last-child {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.footer-main-bottom-i p {
+    font-size: 13px;
+}
+
+.footer-main-bottom-i a {
+    font-size: 13px;
+    text-decoration: underline;
+    color: grey;
+}
+
+
+/* =================================================== */
+/* 2. MOBILE-SPECIFIC STYLES (Using a Media Query)     */
+/* =================================================== */
+
+@media (max-width: 768px) {
+
+    /* Target the mobile wrapper class specifically */
+    .footer-wrapper.mobile {
+        padding: 0px 30px;
+        text-align: center;
+        border-top: 0.5px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .footer-main {
+        height: calc(100% - 0px);
+        box-sizing: border-box;
+        border-radius: 0px !important;
+        width: calc(100% - 0%) !important;
+        display: flex;
+        padding: 30px 0px;
+        flex-direction: column;
+        z-index: 100 !important;
+        justify-content: space-between;
+    }
+
+    /* Hide desktop-only elements on mobile */
+    .footer-wrapper.mobile .footer-main-flex-right {
+        display: none;
+    }
+
+    .footer-wrapper.mobile .footer-main-flex {
+        flex-direction: column;
+        align-items: start;
+        border-bottom: none;
+        /* No border on mobile before the links */
+        padding-bottom: 0;
+    }
+
+    .footer-wrapper.mobile .footer-main-flex-left-header {
+        display: flex;
+        flex-direction: column;
+        width: 100% !important;
+        align-items: start;
+    }
+
+    .footer-wrapper.mobile .footer-main-flex-left-header p:first-child {
+        margin-bottom: -0;
+        width: 100% !important;
+        font-weight: 500 !important;
+        font-size: 18px !important;
+    }
+
+    .footer-wrapper.mobile .footer-main-flex-left-header p:last-child {
+        font-size: 15px !important;
+        width: 100%;
+        text-align: start !important;
+        color: white !important;
+    }
+
+    .list-main {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .list-main>p {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .list-main-item {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .list-main-item a {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+
+
+    .mobile-links-container {
+        display: flex;
+        text-align: center;
+        justify-content: space-evenly;
+        margin: 40px 0;
+        padding-bottom: 40px;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-wrapper.mobile .followus-wrapper {
+        justify-content: center;
+        margin-top: 30px;
+        margin-bottom: 40px;
+    }
+
+    .footer-wrapper.mobile .footer-main-bottom {
+        flex-direction: column-reverse;
+        /* Stack copyright below links */
+        gap: 25px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .followus-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .footer-links {
+
+        display: flex;
+        gap: 10px;
+    }
+
+    .footer-links a {
+        font-size: 13px !important;
+        color: grey !important;
+        text-decoration: none;
+    }
+
+    .followus-wrapper img {
+        height: 15px;
+        width: 15px;
+        opacity: 0.65;
+    }
+}

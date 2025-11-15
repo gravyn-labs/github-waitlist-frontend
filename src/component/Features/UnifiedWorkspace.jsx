@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef , useMemo, useCallback} from "react"
 
 import styles from "./UnifiedWorkspace.module.css";
 
-import integration from "../../assets/images/integration1.svg";
+import integration from "../../assets/images/integrationv1.svg";
 import kairoFeature from "../../assets/images/kairoFeature1.svg";
 import kairoEditor from "../../assets/images/kairo_editor.png";
 import finance_management from "../../assets/images/fm2.png";
@@ -48,22 +48,22 @@ const IntegrationsComp = () => (
     </div>
 );
 
-const coreFeatures = [
+export const coreFeatures = [
     {
         id: "projects",
         icon: projectmanagement,
         component: <ProjectManagementComp />,
-        title: "Project Management",
-        img : project_management,
+        title: "Unified Project Hubs", // Changed
+        img: project_management,
         description:
             "Plan, track, and deliver projects on time. Use timelines, Kanban boards, and lists to manage your work, your way.",
     },
     {
         id: "finances",
         icon: rupee,
-        img : finance_management,
+        img: finance_management,
         component: <FinancesComp />,
-        title: "Finance Management",
+        title: "Integrated Financial Tracking", // Changed
         description:
             "Track budgets, log time, and manage invoices without ever leaving your workspace. Get a clear view of every project's financial health.",
     },
@@ -72,38 +72,39 @@ const coreFeatures = [
         icon: integrations,
         img: integration,
         component: <IntegrationsComp />,
-        title: "Comprehensive Integrations",
+        title: "Seamless Tool Integrations", // Changed
         description:
             "Connect Gravyn to the tools you already use, from Slack to GitHub, creating a truly unified command center.",
     },
     {
         id: "clients",
         icon: client,
-        img : collaboration_feature,
-        component: <CollaborationComp />, // Replace with ClientComp if available
-        title: "Client Management",
+        img: integration,
+        component: <CollaborationComp />,
+        title: "Branded Client Portals", // Changed
         description:
             "From onboarding to reporting, deliver a world-class client experience with branded portals and automated status updates.",
     },
     {
         id: "ai",
         icon: kairo,
-        img : kairo_feature,
+        img: integration,
         component: <AiComp />,
-        title: "Kairo Copilot",
+        title: "Your AI Copilot", // Kept as is, it's already strong
         description:
             "Let our AI automate summaries, flag risks, and provide predictive insights, so you can focus on strategic work.",
     },
     {
         id: "collaboration",
         icon: collaboration,
-        img: collaboration_feature,
+        img: integration,
         component: <CollaborationComp />,
-        title: "Collaboration",
+        title: "Centralized Team Collaboration", // Changed
         description:
             "Keep your team in sync. Link conversations to tasks, share files, and centralize all project communication.",
     },
 ];
+
 
 // ====================================================================================
 // 1. DYNAMIC CONFIGURATION & HOOKS
