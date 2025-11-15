@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./HomeLanding.module.css";
 import banner1 from '../assets/images/banner1.png';
 import banner2 from '../assets/images/banner2.png';
-import faces from '../assets/images/faces.svg'; // Assuming this is your asset path
+import faces from '../assets/images/faces2.svg';
 
 // --- Placeholder Components (as defined in previous turns) ---
 import { AlreadyJoined } from "./HomePage";
@@ -90,7 +90,7 @@ const DesktopView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount
     </div>
 );
 
-const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, message, targetCount,ojBanner, ajBanner, setAJBanner, setOJBanner }) => (
+const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, message, targetCount, ojBanner, ajBanner, setAJBanner, setOJBanner }) => (
     <div className={styles['landing-page-mobile']}>
         <div className={styles['landing-content-text-wrapper']}>
             <DynamicPhrase />
@@ -131,7 +131,7 @@ export const HomeLanding = () => {
     const isMobile = width <= 768; // Set your mobile breakpoint
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
-    const [targetCount, setTargetCount] = useState(30); // Example count
+    const [targetCount, setTargetCount] = useState(0); // Example count
 
 
     const [ajBanner, setAJBanner] = useState(false);
@@ -197,6 +197,7 @@ export const HomeLanding = () => {
             handleJoinWaitlist={handleJoinWaitlist}
             loading={loading}
             targetCount={targetCount}
+            setTargetCount={setTargetCount}
             ojBanner={ojBanner}
             ajBanner={ajBanner}
             setAJBanner={setAJBanner}
@@ -209,6 +210,7 @@ export const HomeLanding = () => {
             setEmail={setEmail}
             handleJoinWaitlist={handleJoinWaitlist}
             loading={loading}
+            setTargetCount={setTargetCount}
             targetCount={targetCount}
             ojBanner={ojBanner}
             ajBanner={ajBanner}

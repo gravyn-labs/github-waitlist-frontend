@@ -4,7 +4,7 @@ import banner from '../assets/images/LandingBannerv1.svg';
 import banner1 from '../assets/images/banner1.png';
 import banner2 from '../assets/images/banner2.png';
 
-import faces from '../assets/images/faces.svg';
+import faces from '../assets/images/faces2.svg';
 import "./HomePage.css";
 import leaves from "../assets/icons/leaves.svg";
 import close from "../assets/icons/close.svg";
