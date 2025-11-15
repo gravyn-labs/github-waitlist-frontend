@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef , useMemo, useCallback} from "react";
 
 import styles from "./UnifiedWorkspace.module.css";
 
@@ -17,6 +16,7 @@ import rupee from "../../assets/icons/rupee.svg";
 import client from "../../assets/icons/client.svg";
 import kairo from "../../assets/icons/kairo.svg";
 import integrations from "../../assets/icons/integrations.svg";
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 
 const CollaborationComp = () => (
     <div className={styles["collaboration-comp"]}>
@@ -54,28 +54,32 @@ const coreFeatures = [
         icon: projectmanagement,
         component: <ProjectManagementComp />,
         title: "Project Management",
+        img : project_management,
         description:
             "Plan, track, and deliver projects on time. Use timelines, Kanban boards, and lists to manage your work, your way.",
     },
     {
-        id: "collaboration",
-        icon: collaboration,
-        component: <CollaborationComp />,
-        title: "Collaboration",
-        description:
-            "Keep your team in sync. Link conversations to tasks, share files, and centralize all project communication.",
-    },
-    {
         id: "finances",
         icon: rupee,
+        img : finance_management,
         component: <FinancesComp />,
-        title: "Finance",
+        title: "Finance Management",
         description:
             "Track budgets, log time, and manage invoices without ever leaving your workspace. Get a clear view of every project's financial health.",
     },
     {
+        id: "integrations",
+        icon: integrations,
+        img: integration,
+        component: <IntegrationsComp />,
+        title: "Comprehensive Integrations",
+        description:
+            "Connect Gravyn to the tools you already use, from Slack to GitHub, creating a truly unified command center.",
+    },
+    {
         id: "clients",
         icon: client,
+        img : collaboration_feature,
         component: <CollaborationComp />, // Replace with ClientComp if available
         title: "Client Management",
         description:
@@ -84,193 +88,163 @@ const coreFeatures = [
     {
         id: "ai",
         icon: kairo,
+        img : kairo_feature,
         component: <AiComp />,
         title: "Kairo Copilot",
         description:
             "Let our AI automate summaries, flag risks, and provide predictive insights, so you can focus on strategic work.",
     },
     {
-        id: "integrations",
-        icon: integrations,
-        component: <IntegrationsComp />,
-        title: "Integrations",
+        id: "collaboration",
+        icon: collaboration,
+        img: collaboration_feature,
+        component: <CollaborationComp />,
+        title: "Collaboration",
         description:
-            "Connect Gravyn to the tools you already use, from Slack to GitHub, creating a truly unified command center.",
+            "Keep your team in sync. Link conversations to tasks, share files, and centralize all project communication.",
     },
 ];
 
+// ====================================================================================
+// 1. DYNAMIC CONFIGURATION & HOOKS
+// ====================================================================================
 
-const CARD_WIDTH = 250; // width of one card plus margin (match CSS)
-const VISIBLE_CARDS = 3;
-const AUTO_SNAP_DELAY = 3000; // ms
+const useWindowSize = () => {
+    const [size, setSize] = useState([0, 0]);
+    useEffect(() => {
+        function updateSize() {
+            setSize([window.innerWidth, window.innerHeight]);
+        }
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+};
+
+const AUTO_SLIDE_INTERVAL = 4000; // ms
+const CARD_MARGIN = 20;
+
+// ====================================================================================
+// 2. THE CAROUSEL COMPONENT
+// ====================================================================================
 
 function SnapCarousel({ features, onCardClick }) {
-    const total = features.length;
-    const extendedFeatures = [...features, ...features]; // for infinite snap
+    const [width] = useWindowSize();
+
+    const CARD_WIDTH = useMemo(() => {
+        if (width > 768) return 320; // Fixed width for desktop
+        return width - 60; // Dynamic width for mobile
+    }, [width]);
+
+    const cardFullWidth = CARD_WIDTH + CARD_MARGIN;
+
     const [currentIndex, setCurrentIndex] = useState(0);
-    const timeoutRef = useRef(null);
+    const trackRef = useRef(null);
+    const intervalRef = useRef(null);
+    const x = useMotionValue(0);
 
-    // Auto snap timer
+    // Use a simpler padding for the infinite effect
+    const paddedFeatures = useMemo(() => {
+        if (features.length === 0) return [];
+        const start = features.slice(-2);
+        const end = features.slice(0, 2);
+        return [...start, ...features, ...end];
+    }, [features]);
+
+    // --- AUTOSCROLL LOGIC (RESTORED) ---
+    const startAutoSlide = useCallback(() => {
+        intervalRef.current = setInterval(() => {
+            setCurrentIndex(prev => prev + 1);
+        }, AUTO_SLIDE_INTERVAL);
+    }, []);
+
+    const stopAutoSlide = () => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+    };
+
     useEffect(() => {
-        timeoutRef.current = setTimeout(() => {
-            setCurrentIndex(i => (i + 1) % total);
-        }, AUTO_SNAP_DELAY);
+        startAutoSlide();
+        return stopAutoSlide;
+    }, [startAutoSlide]);
 
-        return () => clearTimeout(timeoutRef.current);
-    }, [currentIndex, total]);
+    // --- INFINITE SCROLL TRANSITION ---
+    // When the animation completes, check if we need to jump to the non-padded equivalent
+    const onUpdate = (latest) => {
+        if (latest.x <= -((features.length + 1) * cardFullWidth)) {
+            x.set(-(cardFullWidth)); // Jump to the first real item
+            setCurrentIndex(0);
+        } else if (latest.x >= 0) {
+            x.set(-(features.length * cardFullWidth)); // Jump to the last real item
+            setCurrentIndex(features.length - 1);
+        }
+    }
 
-    // Calculate translateX for snapping animation
-    const translateX = currentIndex * CARD_WIDTH;
+    const centeredOffset = `calc(50% - ${CARD_WIDTH / 2}px)`;
 
     return (
-        <div className={styles["carousel-viewport"]} style={{ width: CARD_WIDTH * VISIBLE_CARDS, overflow: "hidden", margin: "auto" }}>
+        <div
+            className={styles['carousel-viewport']}
+            onMouseEnter={stopAutoSlide}
+            onMouseLeave={startAutoSlide}
+        >
             <motion.div
-                className={styles["carousel-track"]}
-                animate={{ x: -translateX }}
-                transition={{ type: "tween", ease: "easeInOut", duration: 0.7 }}
-                style={{ display: "flex" }}
+                ref={trackRef}
+                className={styles['carousel-track']}
+                drag="x"
+                dragConstraints={{
+                    left: -((features.length + 2) * cardFullWidth),
+                    right: cardFullWidth,
+                }}
+                style={{ x, paddingLeft: centeredOffset, paddingRight: centeredOffset }}
+                animate={{ x: -(currentIndex * cardFullWidth) }}
+                transition={{ type: "tween", ease: "easeInOut", duration: 0.8 }}
+                onUpdate={onUpdate}
             >
-                {extendedFeatures.map((feature, idx) => {
-                    const relativeIndex = (idx - currentIndex + total) % total;
-                    // relativeIndex = 0 means center card
-                    let scale = 0.8;
-                    if (relativeIndex === 0) scale = 1;
-                    else if (relativeIndex === 1 || relativeIndex === total - 1) scale = 0.9;
-
-                    let opacity = relativeIndex <= 1 || relativeIndex >= total - 1 ? 1 : 0.5;
-                    let zIndex = relativeIndex === 0 ? 3 : relativeIndex === 1 || relativeIndex === total - 1 ? 2 : 1;
-
-                    return (
-                        <motion.div
-                            key={`${feature.id}-${idx}`}
-                            className={styles["carousel-card"]}
-                            style={{
-                                width: CARD_WIDTH,
-                                minWidth: CARD_WIDTH,
-                                margin: "0 -35px",
-                                scale,
-                                opacity,
-                                zIndex,
-                                transformOrigin: "center center",
-                            }}
-                            animate={{ scale }}
-                            transition={{ type: "spring", stiffness: 260, damping: 25 }}
-                            onClick={() => onCardClick(feature.id)}
-                        >
-                            <div className={styles["feature-icon-mobile"]}>
-                                <img src={feature.icon} alt={feature.title} />
-                            </div>
-                            <div className={styles["feature-text-mobile"]}>
-                                <h3>{feature.title}</h3>
-                                <p>{feature.description}</p>
-                            </div>
-                        </motion.div>
-                    );
-                })}
+                {paddedFeatures.map((feature, i) => (
+                    <Card
+                        key={`${feature.id}-${i}`}
+                        feature={feature}
+                        cardWidth={CARD_WIDTH}
+                        cardMargin={CARD_MARGIN}
+                        onCardClick={onCardClick}
+                    />
+                ))}
             </motion.div>
         </div>
     );
 }
 
+// ====================================================================================
+// 3. THE CARD SUB-COMPONENT
+// ====================================================================================
 
-
-// Mobile Carousel with continuous sliding
-function MobileFeatureCarousel({ features, onCardClick }) {
-    const containerRef = useRef(null);
-    const [offsetX, setOffsetX] = useState(0);
-    const totalFeatures = features.length;
-    const CARD_WIDTH = 250; // pixels (adjust to your CSS card width)
-    const VISIBLE_CARDS = 3;
-    const extendedFeatures = [...features, ...features]; // duplicate for infinite effect
-
-    // Animate continuous sliding using requestAnimationFrame
-    useEffect(() => {
-        let animationFrameId;
-        let lastTimestamp = 0;
-        const scrollSpeedPxPerSec = 40; // adjust speed here
-
-        const animate = (time) => {
-            if (!lastTimestamp) lastTimestamp = time;
-            const elapsed = time - lastTimestamp;
-            lastTimestamp = time;
-
-            setOffsetX((prev) => {
-                let nextOffset = prev + (scrollSpeedPxPerSec * elapsed) / 1000;
-                const resetPoint = CARD_WIDTH * totalFeatures;
-                if (nextOffset >= resetPoint) nextOffset = nextOffset - resetPoint;
-                return nextOffset;
-            });
-
-            animationFrameId = requestAnimationFrame(animate);
-        };
-
-        animationFrameId = requestAnimationFrame(animate);
-        return () => cancelAnimationFrame(animationFrameId);
-    }, [totalFeatures]);
-
-    // Calculate the center card index in real time
-    const centerIndexFloat = offsetX / CARD_WIDTH + VISIBLE_CARDS / 2;
-    const centerIndex = Math.floor(centerIndexFloat) % totalFeatures;
-
+function Card({ feature, cardWidth, cardMargin, onCardClick }) {
     return (
-        <div
-            className={styles["carousel-viewport"]}
-            style={{ width: CARD_WIDTH * VISIBLE_CARDS, overflow: "hidden", margin: "0 auto" }}
-            ref={containerRef}
+        <motion.div
+            className={styles['carousel-card']}
+            style={{
+                width: cardWidth,
+                minWidth: cardWidth,
+                marginRight: cardMargin,
+            }}
+            onClick={() => onCardClick(feature.id)}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
-            <motion.div
-                className={styles["carousel-track"]}
-                style={{
-                    display: "flex",
-                    transform: `translateX(${-offsetX}px)`,
-                    userSelect: "none",
-                    cursor: "grab",
-                }}
-            >
-                {extendedFeatures.map((feature, idx) => {
-                    // Calculate distance from center for scaling
-                    let dist = Math.min(
-                        Math.abs(idx % totalFeatures - centerIndex),
-                        totalFeatures - Math.abs(idx % totalFeatures - centerIndex)
-                    );
-
-                    let scale = 0.8;
-                    if (dist === 0) scale = 1;
-                    else if (dist === 1) scale = 0.9;
-
-                    let opacity = dist <= 1 ? 1 : 1;
-                    let zIndex = dist === 0 ? 3 : dist === 1 ? 2 : 1;
-
-                    return (
-                        <motion.div
-                            key={`${feature.id}-${idx}`}
-                            className={styles["carousel-card"]}
-                            style={{
-                                width: CARD_WIDTH,
-                                minWidth: CARD_WIDTH,
-                                margin: "0 -35px",
-                                zIndex: zIndex,
-                                opacity: opacity,
-                                scale: scale,
-                                transformOrigin: "center center",
-                                userSelect: "none",
-                            }}
-                            animate={{ scale }}
-                            transition={{ type: "spring", stiffness: 260, damping: 25 }}
-                            onClick={() => onCardClick(feature.id)}
-                        >
-                            <div className={styles["feature-icon-mobile"]}>
-                                <img src={feature.icon} alt={feature.title} />
-                            </div>
-                            <div className={styles["feature-text-mobile"]}>
-                                <h3>{feature.title}</h3>
-                                <p>{feature.description}</p>
-                            </div>
-                        </motion.div>
-                    );
-                })}
-            </motion.div>
-        </div>
+            <div className={styles['feature-image']}>
+                <img src={feature.img}/>
+            </div>
+            {/* <div className={styles['feature-icon-mobile']}>
+                <img src={feature.icon} alt={feature.title} />
+            </div> */}
+            <div className={styles['feature-text-mobile']}>
+                <p>{feature.title}</p>
+                <p>{feature.description}</p>
+            </div>
+        </motion.div>
     );
 }
 
@@ -278,7 +252,7 @@ function MobileFeatureCarousel({ features, onCardClick }) {
 const MobileLayout = ({ activeFeatureId, setActiveFeatureId }) => (
     <section className={styles["unified-workspace-section-mobile"]}>
         <div className={styles["features-header-mobile"]}>
-            <h2>From Scattered to Seamless.</h2>
+            <p>From Scattered to Seamless.</p>
             <p>Gravyn provides the foundational tools for clarity and control, so you can build the exact workflow your team needs.</p>
         </div>
         <SnapCarousel features={coreFeatures} onCardClick={setActiveFeatureId} />
@@ -290,23 +264,26 @@ const MobileLayout = ({ activeFeatureId, setActiveFeatureId }) => (
 const DesktopLayout = ({ activeFeatureId, setActiveFeatureId, activeComponent }) => (
     <section className={styles["unified-workspace-section"]}>
         <div className={styles["features-header"]}>
-            <h2>From Scattered to Seamless.</h2>
+            <p>From Scattered to Seamless.</p>
             <p>Gravyn provides the foundational tools for clarity and control, so you can build the exact workflow your team needs.</p>
         </div>
         <div className={styles["workspace-grid"]}>
             <div className={styles["workspace-visual"]}>
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={activeFeatureId}
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        style={{ width: "100%", height: "100%" }}
-                    >
-                        {activeComponent}
-                    </motion.div>
-                </AnimatePresence>
+                <div className={styles['visual-content']}> 
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeFeatureId}
+                            initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            style={{ width: "100%", height: "100%" }}
+                        >
+                            {activeComponent}
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+
             </div>
             <div className={styles["workspace-features"]}>
                 <div className={styles["features-grid"]}>

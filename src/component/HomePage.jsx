@@ -59,6 +59,7 @@ import { PlanningWrapper } from './Sections/PlanningWrapper';
 import { Founding100 } from './Sections/Founding100';
 import { Founding100v2 } from './Sections/Founding100v2';
 import { Footer } from './Sections/Footer';
+import HomeLanding from './HomeLanding';
 
 
 // 🎉 PartyPopper Component
@@ -232,7 +233,6 @@ const waitlistPerks = [
 ];
 
 // Rotating 'Teams' for hero section
-const rotatingWords = ["Teams", "Freelancers", "Individuals", "Agencies", "Businesses"];
 
 // --- Reusable Components ---
 
@@ -243,29 +243,6 @@ export const ShinyText = ({ text, className = '' , textSize}) => (
     }}
     className={`shiny-text ${className}`}>{text}</div>
 );
-
-function DynamicPhrase() {
-  const [index, setIndex] = useState(0);
-  const [fade, setFade] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFade(false);
-      setTimeout(() => {
-        setIndex((prev) => (prev + 1) % rotatingWords.length);
-        setFade(true);
-      }, 500);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <p
-      className="dynamic-phrase">
-      Where Intelligent <span className={fade ? "fade-in" : "fade-out"}>{rotatingWords[index]}</span> Build Brilliant Workflows.
-    </p>
-  );
-}
 
 const getWindowWidth = () => {
   // Check if window is defined (for server-side rendering)
@@ -439,7 +416,7 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-const AlreadyJoined = ({ setAJBanner }) => {
+export const AlreadyJoined = ({ setAJBanner }) => {
   const isMobile = useIsMobile();
 
   return (
@@ -467,7 +444,7 @@ const AlreadyJoined = ({ setAJBanner }) => {
   );
 };
 
-const OnceJoined = ({ setOJBanner }) => {
+export const OnceJoined = ({ setOJBanner }) => {
   const isMobile = useIsMobile();
 
   return (
@@ -543,49 +520,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
     handleCelebrate();
   }, [])
 
-  const handleJoinWaitlist = async () => {
-    if (!email) {
-      setMessage("Please enter an email address.");
-      return;
-    }
 
-    setLoading(true);
-    setMessage("");
-
-    try {
-      // --- MODIFIED: Use API_BASE_URL ---
-      const response = await fetch(`${API_BASE_URL}/api/waitlist`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-      // --- END MODIFIED ---
-
-      const data = await response.json();
-      if (response.ok) {
-        setEmail("");
-        setOJBanner(true);
-        setTimeout(() => {
-          setOJBanner(false)
-        }, 5000)
-      } else {
-        setAJBanner(true);
-        setTimeout(() => {
-          setAJBanner(false)
-        }, 5000)
-      }
-    } catch (error) {
-      console.error(error);
-      setAJBanner(true);
-      setTimeout(() => {
-        setAJBanner(false)
-      }, 5000)
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <div style={{
       width: `${getWindowWidth}px`}} className="page-wrapper">
@@ -593,42 +528,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
         <Banner setBadgeVisible={setBadgeVisible} setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility}/>
       )}
       <NavBar />
-      <div className="landing-page">
-
-        <div className='landing-illustration' />
-        <div className="landing-content">
-          <div className="landing-content-text-wrapper">
-            <DynamicPhrase />
-            <p className="hero-subtitle">
-              Discover a unified workspace that simplifies project delivery, client collaboration, and finances — all enhanced by powerful AI-driven insights. Join the waitlist for early access and transform how your team works.
-            </p>
-          </div>
-          <div className="waitlist-wrapper">
-            <input
-              type="email"
-              placeholder="Enter Your Email Address..."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button onClick={handleJoinWaitlist} disabled={loading}>
-              {loading ? "Joining..." : <ShinyText text={"Join Waitlist"} />}
-            </button>
-          </div>
-
-          {message && <p className="waitlist-message">{message}</p>}
-
-          <div className="joined-wrapper">
-            <img src={faces} alt="joined" />
-            <p>
-              <span>{targetCount}</span> {targetCount === 1 ? "Person" : "People"} are waiting to step in future.
-            </p>
-          </div>
-          <div className="landing-banner">
-
-            <img src={banner2} alt="banner" />
-          </div>
-        </div>
-      </div>
+      <HomeLanding />
 
       <UnifiedWorkspace />
 
@@ -716,39 +616,9 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
 
       <NavBar />
 
-      <div className="landing-page-mobile">
-        <div className="landing-content-text-wrapper">
-          <DynamicPhrase />
-          <p className="hero-subtitle">
-            A unified workspace for project delivery, client collaboration, and finances, all enhanced by AI.
-          </p>
-        </div>
-
-        {/* FIXED: FULL MOBILE WAITLIST LOGIC */}
-        <div className="waitlist-wrapper">
-          <input
-            type="email"
-            placeholder="Enter Your Email Address..."
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button onClick={handleJoinWaitlist} disabled={loading}>
-            {loading ? "Joining..." : <ShinyText text={"Join Waitlist"} />}
-          </button>
-        </div>
-
-        {message && <p className="waitlist-message">{message}</p>}
-
-        <div className="joined-wrapper">
-          <img src={faces} alt="joined" />
-          <p><span>{count}</span>+ people waiting for the launch.</p>
-        </div>
-
-        <div className="landing-mobile-banner">
-          <img src={banner1} alt="banner" />
-          <img src={banner2} alt="banner" />
-        </div>
-      </div>
+      <HomeLanding />
+      
+      <UnifiedWorkspace />
 
       <PlanningWrapper />
       <CollaborationWrapper />

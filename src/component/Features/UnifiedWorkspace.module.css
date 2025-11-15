@@ -1,7 +1,3 @@
-
-
-
-
 /* ================================== */
 /* ===== Section Layout & Grid ===== */
 /* ================================== */
@@ -43,7 +39,7 @@
     */
     grid-template-columns: 2.75fr 2fr;
     gap: 0;
-    /* Keep it seamless */
+    background-color: yellow;
     align-items: start;
     margin: 0 auto;
     border: 1px solid rgba(255, 255, 255, 0.07);
@@ -64,13 +60,13 @@
 
 /* ... (visual-content and mock-ui-placeholder styles remain the same) ... */
 .visual-content {
+    background-color: red;
     width: 100%;
     height: 100%;
     display: flex;
     position: relative;
     align-items: center;
     justify-content: center;
-    background-color: rebeccapurple;
 }
 
 .workspace-visual-header {
@@ -323,6 +319,7 @@
     top: 0;
     left: 0;
     margin-top: 50px;
+    background-color: yellow;
 }
 
 .project-feature::before {
@@ -350,4 +347,127 @@
     bottom: 10%;
     z-index: 10;
     transform: translateX(-50%) translateY(-10%);
+}
+
+
+@media (max-width : 780px) {
+    .unified-workspace-section-mobile {
+        padding: 30px 0;
+    }
+
+    .features-header-mobile {
+        padding: 0px 30px;
+    }
+
+    .features-header-mobile>p:first-child {
+        font-size: 20px !important;
+        font-family: Poppins !important;
+        font-weight: 600;
+        letter-spacing: -0.75px;
+    }
+
+
+    .features-header-mobile>p:last-child {
+        font-size: 14px !important;
+        margin-top: 7px;
+    }
+
+    .carousel-viewport {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        cursor: grab;
+        margin: 30px 0;
+        /* Indicates the element is draggable */
+    }
+
+    .carousel-viewport:active {
+        cursor: grabbing;
+    }
+
+    /* Add a fade effect to the edges */
+    .carousel-viewport::before,
+    .carousel-viewport::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100px;
+        /* Width of the fade */
+        z-index: 20;
+        pointer-events: none;
+        /* Allows dragging through the fade */
+    }
+
+
+
+    .carousel-track {
+        display: flex;
+        position: relative;
+    }
+
+    .carousel-card {
+        background: black;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 20px;
+        display: flex;
+        overflow: hidden;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transform-origin: center center;
+    }
+
+    .feature-image {
+        height: 250px !important;
+        width: 100%;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .feature-image img {
+        width: 95%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .feature-icon-mobile {
+        background-color: rgba(255, 255, 255, 0.05);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .feature-icon-mobile img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .feature-text-mobile {
+        display: flex;
+        align-items: start;
+        gap: 5px;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .feature-text-mobile p:first-child {
+        font-size: 0.85rem;
+        letter-spacing: -0.5px;
+        font-weight: 600;
+        font-family: Poppins , 'sans-serif';
+    }
+
+    .feature-text-mobile p:last-child {
+        font-size: 0.8rem;
+        color: #a0a0a0;
+        line-height: 1.5;
+        text-align: start !important;
+    }
 }
