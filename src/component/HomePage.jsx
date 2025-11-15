@@ -433,7 +433,7 @@ export const AlreadyJoined = ({ setAJBanner }) => {
         </div>
 
         <div className="alreadyjoin-text">
-          <p>🎉 You’re Already on the Waitlist! 🎉</p>
+          <p>You’re Already on the Waitlist!</p>
           <p>
             Looks like you’ve already reserved your spot. Sit back and relax — we’ll reach out
             as soon as it’s your turn to access Gravyn.
@@ -461,7 +461,7 @@ export const OnceJoined = ({ setOJBanner }) => {
         </div>
 
         <div className="alreadyjoin-text">
-          <p>You’ve Successfully Joined the Waitlist!</p>
+          <p>🎉 You’ve Successfully Joined the Waitlist! 🎉</p>
           <p>
             You’re officially part of the Gravyn early community. We’ll notify you the moment your
             early access is unlocked.
@@ -528,7 +528,7 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
         <Banner setBadgeVisible={setBadgeVisible} setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility}/>
       )}
       <NavBar />
-      <HomeLanding />
+      <HomeLanding ojBanner={ojBanner} ajBanner={ajBanner} setOJBanner={setOJBanner} setAJBanner={setAJBanner}/>
 
       <UnifiedWorkspace />
 
@@ -616,7 +616,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
 
       <NavBar />
 
-      <HomeLanding />
+      <HomeLanding ojBanner={ojBanner} ajBanner={ajBanner} setOJBanner={setOJBanner} setAJBanner={setAJBanner}/>
       
       <UnifiedWorkspace />
 

@@ -118,7 +118,7 @@ const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount 
 // 3. MAIN PARENT COMPONENT (HomeLanding)
 // ====================================================================================
 
-export const HomeLanding = () => {
+export const HomeLanding = ({ojBanner , ajBanner , setOJBanner, setAJBanner}) => {
     const [width] = useWindowSize();
     const isMobile = width <= 768;
 
@@ -126,8 +126,7 @@ export const HomeLanding = () => {
     const [loading, setLoading] = useState(false);
     const [targetCount, setTargetCount] = useState(0);
 
-    const [ajBanner, setAJBanner] = useState(false);
-    const [ojBanner, setOJBanner] = useState(false);
+
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
