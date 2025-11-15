@@ -580,7 +580,6 @@ body {
     .landing-mobile-banner img {
         width: 200vw !important;
         border-radius: 10px;
-        opacity: 1 !important;
     }
 
     .landing-mobile-banner img:nth-child(1) {
@@ -588,6 +587,8 @@ body {
         position: absolute;
         left: -5%;
         top: 5%;
+        opacity: 0;
+        animation: banner1 1s forwards 0.3s;
     }
 
     .landing-mobile-banner img:nth-child(2) {
@@ -595,6 +596,35 @@ body {
         left: 50%;
         top: 15%;
         position: absolute;
+        animation: banner2 1s forwards;
+    }
+
+    @keyframes banner1 {
+        0% {
+            left: -10%;
+            top: 10%;
+            opacity: 0;
+        }
+
+        100% {
+            left: -5%;
+            top: 5%;
+            opacity: 1;
+        }
+    }
+
+    @keyframes banner2 {
+        0% {
+            left: 25%;
+            top: 30%;
+            opacity: 0;
+        }
+
+        100% {
+            left: 50%;
+            top: 15%;
+            opacity: 1;
+        }
     }
 
     .waitlist-form-input-wrapper {
