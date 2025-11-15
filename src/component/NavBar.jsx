@@ -1,70 +1,94 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "./NavBar.css";
 import logo from '../assets/logo/gravyn_logo.svg';
 import collapseIcon from '../assets/icons/collapse.svg';
+import { ShinyText } from './HomePage'; // Assuming you have this component
 
 const menuItems = [
   { label: "Pricing", to: "/pricing" },
   { label: "Career", to: "/career" },
   { label: "Contact Us", to: "/contact" },
-  { label: "Join Waitlist", to: "/", highlight: true, reach: true },
+  { label: "Join Waitlist", to: "/", highlight: true, isWaitlist: true },
 ];
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Get current location
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [joinList , setJoinList] = useState(false)
-
-  const handleNavigation = (to, scrollToSection = false) => {
-    if (to === "/") {
-      navigate(to, { state: { scrollToSection } }); // 👈 send flag
+  /**
+   * Handles all navigation clicks.
+   * @param {string} to - The path to navigate to.
+   * @param {boolean} scrollToWaitlist - A flag to indicate if we should scroll to the waitlist section.
+   */
+  const handleNavigation = (to, scrollToWaitlist = false) => {
+    // If we are already on the homepage and want to scroll,
+    // manually trigger the scroll instead of navigating.
+    if (to === "/" && location.pathname === "/" && scrollToWaitlist) {
+      const waitlistSection = document.getElementById('waitlist-section'); // Assumes your waitlist has this ID
+      if (waitlistSection) {
+        waitlistSection.scrollIntoView({ behavior: 'smooth' });
+      }
     } else {
-      navigate(to);
+      // Otherwise, navigate normally, passing the state.
+      navigate(to, { state: { scrollToWaitlist } });
     }
-    setMobileMenuOpen(false);
+
+    setMobileMenuOpen(false); // Always close mobile menu on navigation
   };
 
+  // This useEffect is for handling the scroll after navigation to the homepage
+  useEffect(() => {
+    if (location.state?.scrollToWaitlist) {
+      const waitlistSection = document.getElementById('waitlist-section');
+      if (waitlistSection) {
+        // Use a short timeout to ensure the component has rendered
+        setTimeout(() => {
+          waitlistSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
 
   return (
     <nav className="nav-bar">
       <div className="nav-content">
-        <div className="logo-wrapper" onClick={() => handleNavigation({ to: '/' })}>
+        {/* --- CORRECTED LOGO LINK --- */}
+        <div className="logo-wrapper" onClick={() => handleNavigation('/')}>
           <img src={logo} alt="Gravyn logo" />
           <p>Gravyn</p>
         </div>
 
-        {/* Desktop Menu */}
+        {/* --- DESKTOP MENU (Corrected Logic) --- */}
         <div className="menu-wrapper">
-          {menuItems.map(({ label, to, highlight }) => (
+          {menuItems.map(({ label, to, highlight, isWaitlist }) => (
             <div
               key={label}
               className={`menu-item ${highlight ? 'waitlist-menu-item' : ''}`}
-              onClick={() => handleNavigation(to, highlight && label === "Join Waitlist")}
+              onClick={() => handleNavigation(to, isWaitlist)}
             >
-              <p>{label}</p>
+              {highlight ? <ShinyText text={label} /> : <p>{label}</p>}
             </div>
           ))}
-
         </div>
 
-        {/* Mobile Hamburger Icon */}
+        {/* --- MOBILE HAMBURGER ICON --- */}
         <div className="mobile-menu-trigger" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
           <img src={collapseIcon} alt="Menu" />
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* --- MOBILE MENU OVERLAY (Corrected Logic) --- */}
       {isMobileMenuOpen && (
         <div className="mobile-menu-overlay">
-          {menuItems.map((item) => (
+          {menuItems.map(({ label, to, isWaitlist }) => (
             <div
-              key={item.label}
+              key={label}
               className="mobile-menu-item"
-              onClick={() => handleNavigation(item)}
+              onClick={() => handleNavigation(to, isWaitlist)}
             >
-              <p>{item.label}</p>
+              <p>{label}</p>
             </div>
           ))}
         </div>

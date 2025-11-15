@@ -27,7 +27,6 @@ const useWindowSize = () => {
 
 const DesktopFooter = () => (
     <footer className={styles['footer-wrapper']}>
-        <img className={styles['text-image']} src={blackhole} alt="Abstract background graphic" />
         <div className={styles['footer-main']}>
             <div className={styles['footer-main-flex']}>
                 <div className={`${styles['footer-main-flex-i']} ${styles['footer-main-flex-left']}`}>
