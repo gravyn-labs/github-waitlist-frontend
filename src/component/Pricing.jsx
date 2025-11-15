@@ -1,501 +1,420 @@
-import React, { useState, useMemo } from 'react';
-
+import React, { useState, useMemo, useEffect } from 'react';
 import NavBar from './NavBar';
 import { ShinyText } from './HomePage';
 
 import championsIcons from "../assets/icons/championsvv2.svg";
 import close from "../assets/icons/close.svg";
 import checkIcon from "../assets/icons/check.svg";
-import "./Pricing.css";
+import indianFlag from "../assets/icons/indiaflagv1.svg";
+import styles from './Pricing.module.css';
+import Banner from './Features/Banner';
 
-// ----------- Constants & Pricing Data -----------
+// ====================================================================================
+// 1. UNIFIED PRICING & DISCOUNT ARCHITECTURE
+// ====================================================================================
 
-const YEARLY_DISCOUNT = 0.2; // 20%
+const YEARLY_DISCOUNT_PERCENTAGE = 0.2;
+const INTERNATIONAL_PRICE_MULTIPLIER = 1.5;
+const USD_TO_INR_RATE = 88.7;
 
-const MARKETS = {
-  INDIA: 'india',
-  INTERNATIONAL: 'international',
-};
-
+const MARKETS = { INDIA: 'india', INTERNATIONAL: 'international' };
 const CURRENCY_MAP = {
-  [MARKETS.INDIA]: { sign: '₹', label: 'INR', code: 'INR' },
-  [MARKETS.INTERNATIONAL]: { sign: '$', label: 'USD', code: 'USD' },
+  [MARKETS.INDIA]: { sign: '₹', code: 'INR' },
+  [MARKETS.INTERNATIONAL]: { sign: '$', code: 'USD' },
 };
 
-// Plans: fully declared here to avoid undefined errors
-
-const INDIVIDUAL_TIERS = {
-  india: [
+// SINGLE SOURCE OF TRUTH: All prices are base INR.
+const PLANS = {
+  individuals: [
     {
+      id: "solo_starter",
       name: "Solo Starter",
-      price: 499,
-      features: [
-        "Task Management",
-        "Issue Management",
-        "Calendar View",
-        "Reminders",
-        "File Sharing (2GB total)",
-        "Up to 3 Projects",
-        "Basic Client Management (2 clients)",
-      ],
+      basePriceInr: 499,
+      suitableFor: "For freelancers & individuals getting started.",
+      features: ["Task Management", "Issue Management", "Calendar View", "Reminders", "File Sharing (2GB/Project)", "Up to 3 Projects", "Basic Client Management (2 clients)"],
+      discounts: [{ id: "founding100", percentage: 0.3 }]
     },
     {
+      id: "solo_pro",
       name: "Solo Pro",
-      price: 990,
+      basePriceInr: 990,
       highlight: true,
-      features: [
-        "Everything in Free, plus:",
-        "Unlimited Projects",
-        "Milestone Tracking",
-        "KairoAI (Basic)",
-        "AI Project Summaries",
-        "Meetings",
-        "File Sharing (10GB total)",
-        "Standard Integrations",
-      ],
+      suitableFor: "For professionals managing multiple projects.",
+      features: ["Everything in Starter", "Unlimited Projects", "Milestone Tracking", "KairoAI (75k tokens/day)", "AI Project Summaries", "Meetings", "File Sharing (10GB total)", "Standard Integrations"],
+      discounts: []
     },
     {
+      id: "solo_plus",
       name: "Solo Plus",
-      price: 1950,
-      features: [
-        "Everything in Solo Pro, plus:",
-        "Full Milestone Automations",
-        "DriftIQ",
-        "AITriage (Manual)",
-        "KairoAI (Advanced)",
-        "Unlimited Clients",
-        "3 Guest Collaborators",
-      ],
+      basePriceInr: 1950,
+      suitableFor: "For power users who need advanced automation.",
+      features: ["Everything in Solo Pro", "Full Milestone Automations", "DriftIQ", "AITriage (Manual)", "KairoAI (150k tokens/day)", "Unlimited Clients", "3 Guest Collaborators"],
+      discounts: []
     },
   ],
-  international: [
+  team: [
     {
-      name: "Solo Starter",
-      price: 6,
-      features: [
-        "Task Management",
-        "Issue Management",
-        "Calendar View",
-        "Reminders",
-        "File Sharing (2GB total)",
-        "Up to 3 Projects",
-        "Basic Client Management (2 clients)",
-      ],
-    },
-    {
-      name: "Solo Pro",
-      price: 14,
-      highlight: true,
-      features: [
-        "Everything in Free, plus:",
-        "Unlimited Projects",
-        "Milestone Tracking",
-        "KairoAI (Basic)",
-        "AI Project Summaries",
-        "Meetings",
-        "File Sharing (10GB total)",
-        "Standard Integrations",
-      ],
-    },
-    {
-      name: "Solo Plus",
-      price: 24,
-      features: [
-        "Everything in Solo Pro, plus:",
-        "Full Milestone Automations",
-        "DriftIQ",
-        "AITriage (Manual)",
-        "KairoAI (Advanced)",
-        "Unlimited Clients",
-        "3 Guest Collaborators",
-      ],
-    },
-  ],
-};
-
-const TEAM_TIERS = {
-  india: [
-    {
+      id: "team_starter",
       name: "Starter",
-      price: 749,
-      teamSize: "For small teams",
-      features: [
-        "Task Management",
-        "Issue Management",
-        "Calendar View & Meetings",
-        "In-App Messaging",
-        "File Sharing (10GB/user)",
-        "Standard Integrations",
-        "Basic Team RBA",
-        "75,000 Tokens per day"
-      ],
+      basePriceInr: 749,
+      suitableFor: "For small teams & startups (5-10 users).",
+      features: ["Task Management", "Issue Management", "Calendar View", "Reminders", "In-App Messaging", "File Sharing (2GB/Project)", "Basic Team RBA", "75,000 Tokens per day"],
+      discounts: [{ id: "founding100", percentage: 0.2 }]
     },
     {
+      id: "team_business",
       name: "Business",
-      price: 1549,
+      basePriceInr: 1499,
       highlight: true,
-      teamSize: "For growing teams",
-      features: [
-        "Everything in Starter, plus:",
-        "Milestone Automations",
-        "DriftIQ",
-        "AITriage (Manual)",
-        "Workload Analysis",
-        "Kairo.ai",
-        "Reminders",
-        "Full Client Management",
-        "Advanced Team RBA",
-        "Priority Email",
-        "Standard + Premium Intgeration",
-        "1,50,000 Tokens per day"
-
-      ],
+      suitableFor: "For growing businesses that need to scale (10-50).",
+      features: ["Everything in Starter", "Milestone Automations", "DriftIQ", "AITriage (Manual)", "Workload Analysis", "Kairo.ai", "Full Client Management", "Advanced Team RBA", "1,50,000 Tokens per day"],
+      discounts: [{ id: "founding100", percentage: 0.2 }]
     },
     {
+      id: "team_pro",
       name: "Pro",
-      price: 2459,
-      teamSize: "For large organizations",
-      features: [
-        "Everything in Business, plus:",
-        "AITriage (Automatic)",
-        "Advanced Security & Compliance",
-        "Premium Integrations",
-        "Dedicated Account Manager",
-        "Service Level Agreement (SLA)",
-        "White-Label Projects",
-        "3,50,000 Tokens per day"
-      ],
+      basePriceInr: 2499,
+      suitableFor: "For large teams & organizations (50+).",
+      features: ["Everything in Business", "AITriage (Automatic)", "Advanced Security & Compliance", "Dedicated Account Manager", "Service Level Agreement (SLA)", "2,50,000 Tokens per day"],
+      discounts: [{ id: "founding100", percentage: 0.2 }]
     },
-  ],
-  international: [
-    {
-      name: "Starter",
-      price: 12,
-      teamSize: "For small teams",
-      features: [
-        "Task Management",
-        "Issue Management",
-        "Calendar View & Meetings",
-        "In-App Messaging",
-        "File Sharing (10GB/user)",
-        "Standard Integrations",
-        "Basic Team RBA",
-      ],
-    },
-    {
-      name: "Business",
-      price: 22,
-      highlight: true,
-      teamSize: "For growing teams",
-      features: [
-        "Everything in Starter, plus:",
-        "Milestone Automations",
-        "DriftIQ & AITriage (Manual)",
-        "Workload Analysis",
-        "KairoAI (Generous)",
-        "Full Client Management",
-        "Advanced Team RBA",
-      ],
-    },
-    {
-      name: "Enterprise",
-      price: null,
-      teamSize: "For large organizations",
-      features: [
-        "Everything in Business, plus:",
-        "AITriage (Automatic)",
-        "Advanced Security & Compliance",
-        "Premium Integrations",
-        "Dedicated Account Manager",
-        "Service Level Agreement (SLA)",
-        "White-Label Projects"
-      ],
-    },
-  ],
+  ]
 };
 
-// Feature groups with values for extensive table
+// ====================================================================================
+// 2. DYNAMIC CALCULATION & RESPONSIVE HOOK
+// ====================================================================================
 
-const FEATURE_GROUPS = [
-  {
-    title: "File Sharing Limits",
-    features: [
-      {
-        name: "File Sharing",
-        values: {
-          "Solo Starter": "2GB total",
-          "Solo Pro": "10GB total",
-          "Solo Plus": "Unlimited",
-          "Starter": "10GB / user",
-          "Business": "50GB / user",
-          "Enterprise": "Unlimited",
-        },
-      },
-    ],
-  },
-  {
-    title: "Project & Client Limits",
-    features: [
-      {
-        name: "Projects",
-        values: {
-          "Solo Starter": "Up to 3 projects",
-          "Solo Pro": "Unlimited",
-          "Solo Plus": "Unlimited",
-          "Starter": "Unlimited",
-          "Business": "Unlimited",
-          "Enterprise": "Unlimited",
-        },
-      },
-      {
-        name: "Clients",
-        values: {
-          "Solo Starter": "2 clients",
-          "Solo Pro": "Unlimited",
-          "Solo Plus": "Unlimited",
-          "Starter": "Unlimited",
-          "Business": "Unlimited",
-          "Enterprise": "Unlimited",
-        },
-      },
-    ],
-  },
-  {
-    title: "AI & Automation Features",
-    features: [
-      {
-        name: "KairoAI",
-        values: {
-          "Solo Starter": "None",
-          "Solo Pro": "Basic",
-          "Solo Plus": "Advanced",
-          "Starter": "None",
-          "Business": "Generous",
-          "Enterprise": "Generous",
-        },
-      },
-      {
-        name: "AITriage",
-        values: {
-          "Solo Starter": "None",
-          "Solo Pro": "None",
-          "Solo Plus": "Manual",
-          "Starter": "None",
-          "Business": "Manual",
-          "Enterprise": "Fully Automatic",
-        },
-      },
-      {
-        name: "DriftIQ",
-        values: {
-          "Solo Starter": "None",
-          "Solo Pro": "None",
-          "Solo Plus": "Included",
-          "Starter": "None",
-          "Business": "Included",
-          "Enterprise": "Included",
-        },
-      },
-    ],
-  },
-  {
-    title: "Core Features",
-    features: [
-      "Task Management",
-      "Issue Management",
-      "Calendar View & Meetings",
-      "In-App Messaging",
-      "Standard Integrations",
-      "Premium Integrations",
-    ],
-  },
-];
+const calculateDisplayPrice = (plan, market, billingCycle, user) => {
+  if (plan.basePriceInr === null) return { finalPrice: "Custom", originalPrice: null, appliedDiscount: null };
 
-// Utility functions
+  let finalPrice = plan.basePriceInr;
+  let originalPrice = plan.basePriceInr;
+  let appliedDiscount = null;
 
-function getDisplayPrice(basePrice, cycle, yearlyDiscount) {
-  if (basePrice === null) return "Custom";
-  if (cycle === "yearly") {
-    return Math.round(basePrice  * (1 - yearlyDiscount));
+  const userDiscount = plan.discounts.find(d => user.discounts.includes(d.id));
+  if (userDiscount) {
+    appliedDiscount = userDiscount;
+    finalPrice *= (1 - userDiscount.percentage);
   }
-  return Math.round(basePrice);
-}
 
-function hasFeature(plan, featureName) {
-  return plan.features.some((f) =>
-    f.toLowerCase().includes(featureName.toLowerCase())
-  );
-}
+  if (billingCycle === "yearly") {
+    originalPrice = finalPrice;
+    finalPrice *= (1 - YEARLY_DISCOUNT_PERCENTAGE);
+    if (!appliedDiscount) {
+      appliedDiscount = { id: 'yearly', percentage: YEARLY_DISCOUNT_PERCENTAGE };
+    }
+  }
 
-// Main Component
+  if (market === MARKETS.INTERNATIONAL) {
+    finalPrice = (finalPrice * INTERNATIONAL_PRICE_MULTIPLIER) / USD_TO_INR_RATE;
+    originalPrice = (originalPrice * INTERNATIONAL_PRICE_MULTIPLIER) / USD_TO_INR_RATE;
+  }
 
-function PricingPage() {
-  const [bannerVisible, setBannerVisible] = useState(true);
-  const [market, setMarket] = useState(MARKETS.INDIA);
-  const [segment, setSegment] = useState("individuals");
-  const [billingCycle, setBillingCycle] = useState("monthly");
-  const [isUserModalSelectionOpen, setUserModalSelectionOpen] = useState(false);
+  const displayOriginalPrice = Math.round(originalPrice) > Math.round(finalPrice) ? Math.round(originalPrice) : null;
 
-  const plans = useMemo(() => {
-    return segment === "individuals"
-      ? INDIVIDUAL_TIERS[market]
-      : TEAM_TIERS[market];
-  }, [segment, market]);
+  return {
+    finalPrice: Math.round(finalPrice),
+    originalPrice: displayOriginalPrice,
+    appliedDiscount,
+  };
+};
 
-  const currency = CURRENCY_MAP[market];
+const useWindowSize = () => {
+  const [size, setSize] = useState([window.innerWidth]);
+  useEffect(() => {
+    const handleResize = () => setSize([window.innerWidth]);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return size;
+};
 
-  const priceSuffix = billingCycle === "yearly" ? ` (${currency.code})` : ` (${currency.code})`;
+// ====================================================================================
+// 3. VIEW-SPECIFIC CHILD COMPONENTS
+// ====================================================================================
 
-  return (
-    <div className="page-wrapper">
-      {bannerVisible && (
-        <div className="banner">
-          <div className="banner-content-wrapper">
-            <img src={championsIcons} alt="Champions" />
-            <p>Be Among the First 100 Subscribers — Join the Gravyn Founding 100!</p>
-            <p className="know-more">Know More</p>
-          </div>
-          <img
-            onClick={() => setBannerVisible(false)}
-            className="close-icon"
-            src={close}
-            alt="Close"
-          />
+const DesktopPricingView = ({ plans, currency, bannerVisible, setBannerVisible, billingCycle, market, user, setUser, setMarket, segment, setSegment, setBillingCycle, isUserModalOpen, setUserModalOpen }) => (
+
+  <div className={styles['page-wrapper']}>
+    {bannerVisible && (
+      <div className={styles['banner']}>
+        <div className={styles['banner-content-wrapper']}>
+          <img src={championsIcons} alt="Champions" />
+          <p>Be Among the First 100 Subscribers — Join the Gravyn Founding 100!</p>
+          <p className={styles['know-more']}>Know More</p>
         </div>
-      )}
+        <img onClick={() => setBannerVisible(false)} className={styles['close-icon']} src={close} alt="Close" />
+      </div>
+    )}
 
-      <NavBar />
+    <NavBar />
 
-      <main className="pricing-main">
-        {/* Header */}
-        <div className="pricing-header-section">
-          <div className="pricing-header-text-wrapper ">
-            <p>Simple, transparent pricing tailored for your team</p>
-            <p>
-              Choose the plan that fits your needs with flexible features and transparent pricing. Upgrade or adjust your subscription anytime as your goals evolve.
+    <main className={styles['pricing-main']}>
+      <div className={styles['pricing-header-section']}>
+        <div className={styles['pricing-header-text-wrapper']}>
+          <p>Simple, transparent pricing for your team</p>
+          <p>Choose the plan that fits your needs. Upgrade, downgrade, or adjust anytime.</p>
+        </div>
+        <div className={styles['market-toggle-container']}>
+          <div className={styles['market-toggle-wrapper']}>
+            <div className={`${styles['market-toggle-option']} ${market === MARKETS.INDIA ? styles['active'] : ''}`} onClick={() => setMarket(MARKETS.INDIA)}>
+              <img src={indianFlag} alt="Indian Flag" className={styles['flag-icon']} /> India (INR)
+            </div>
+            <div className={`${styles['market-toggle-option']} ${market === MARKETS.INTERNATIONAL ? styles['active'] : ''}`} onClick={() => setMarket(MARKETS.INTERNATIONAL)}>
+              🌍 International (USD)
+            </div>
+            <div className={styles['market-toggle-pill']} style={{ transform: market === MARKETS.INDIA ? 'translateX(0%)' : 'translateX(100%)' }} />
+          </div>
+        </div>
+      </div>
+
+      <div className={styles['pricing-controls-area']}>
+
+
+        <div className={styles['pricing-header-footer']}>
+          <div className={styles['pricing-header-button-wrapper']}>
+            <p>Choose the user type that best describes you</p>
+            <div onClick={() => setUserModalOpen(true)} className={styles['pricing-header-button']}>
+              <p><ShinyText text={segment === "individuals" ? "For Individuals" : "For Teams"} /></p>
+            </div>
+            {isUserModalOpen && (
+              <div className={styles['user-type-selection-wrapper']}>
+                <p onClick={() => { setSegment("individuals"); setUserModalOpen(false); }}>For Freelancers</p>
+                <p onClick={() => { setSegment("team"); setUserModalOpen(false); }}>For Teams</p>
+              </div>
+            )}
+          </div>
+          <div className={`${styles['plan-toggle-wrapper']} ${billingCycle === 'yearly' ? styles['active'] : ''}`}>
+            <p className={billingCycle === 'monthly' ? styles['active-text'] : ''} onClick={() => setBillingCycle('monthly')}>Monthly</p>
+            <div className={styles['toggle-wrapper']} onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}>
+              <div className={styles['toggle']} style={{ left: billingCycle === 'monthly' ? '2.5px' : 'calc(100% - 22.5px)' }} />
+            </div>
+            <p className={billingCycle === 'yearly' ? styles['active-text'] : ''} onClick={() => setBillingCycle('yearly')}>
+              {billingCycle === 'yearly' ? <ShinyText text={`Yearly (Save 20%)`} /> : `Yearly (Save 20%)`}
             </p>
           </div>
-          <div className="pricing-header-right">
-            <div className="pricing-header-button-wrapper">
-              <p>Choose the user type that best describes you to personalize your experience</p>
-              <div onClick={() => setUserModalSelectionOpen(true)} className="pricing-header-button">
-                <p>
-                  <ShinyText text={`${segment === "individuals" ? "Freelancers & Professionals" : "Teams & Businesses"}`} />
-                </p>
-              </div>
-              {isUserModalSelectionOpen && (
-                <div className="user-type-selection-wrapper">
-                  <p
-                    onClick={() => {
-                      setSegment("individuals");
-                      setUserModalSelectionOpen(false);
-                    }}
-                  >
-                    Freelancers & Professionals
-                  </p>
-                  <p
-                    onClick={() => {
-                      setSegment("team");
-                      setUserModalSelectionOpen(false);
-                    }}
-                  >
-                    Teams & Businesses
-                  </p>
-                </div>
-              )}
-            </div>
-            {/* Market Selection */}
-            <div className="pricing-market-header">
-              <div>
-                <button
-                  onClick={() => setMarket(MARKETS.INDIA)}
-                  className={market === MARKETS.INDIA ? "active" : ""}
-                >
-                  India (INR)
-                </button>
-                <button
-                  onClick={() => setMarket(MARKETS.INTERNATIONAL)}
-                  className={market === MARKETS.INTERNATIONAL ? "active" : ""}
-                >
-                  International (USD)
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
+      </div>
 
-        {/* Billing Toggle */}
-        <div className={`plan-toggle-wrapper ${billingCycle === "yearly" ? "active" : ""}`}>
-          <p
-            className={billingCycle === "monthly" ? "active-text" : ""}
-            onClick={() => setBillingCycle("monthly")}
-          >
-            Monthly
-          </p>
-          <div
-            className="toggle-wrapper"
-            onClick={() =>
-              setBillingCycle(billingCycle === "monthly" ? "yearly" : "monthly")
-            }
-          >
-            <div
-              className="toggle"
-              style={{
-                left: billingCycle === "monthly" ? "2.5px" : "calc(100% - 22.5px)",
-              }}
-            />
-          </div>
-          <p
-            className={billingCycle === "yearly" ? "active-text" : ""}
-            onClick={() => setBillingCycle("yearly")}
-          >
-            {billingCycle === "yearly" ? (
-              <ShinyText text={`Yearly (Save ${YEARLY_DISCOUNT * 100}%)`} />
-            ) : (
-              `Yearly (Save ${YEARLY_DISCOUNT * 100}%)`
-            )}
-          </p>
+      <section className={styles['pricing-section']}>
+        <div className={styles['founding100-wrapper']}>
+          <ShinyText text={"Exclusive 20% Discounts for Founding 100"} textSize={13} />
         </div>
-
-        {/* Pricing Cards */}
-        <section className="pricing-section">
-          <div className="cards-row">
-            {plans.map((plan, idx) => (
-              <div
-                className={`plan-card ${plan.highlight ? "highlight" : ""}`}
-                key={idx}
-              >
-                <div className="plan-header">
-                  <p>{plan.name}</p>
-                  {/* <p>{plan.teamSize}</p> */}
-                  <p className="pricing">
-                    {plan.price === null ? (
-                      "Custom"
-                    ) : (
-                      <>
-                        <span className="price-amount">
-                          {currency.sign}
-                          {getDisplayPrice(plan.price, billingCycle, YEARLY_DISCOUNT)}
-                        </span>
-                        <span className="price-suffix">{priceSuffix}</span>
-                      </>
+        <div className={styles['cards-row']}>
+          {plans.map(plan => {
+            const { finalPrice, originalPrice, appliedDiscount } = calculateDisplayPrice(plan, market, billingCycle, user);
+            return (
+              <div className={`${styles['plan-card']} ${plan.highlight ? styles['highlight'] : ''}`} key={plan.id}>
+                {/* {appliedDiscount && (
+                  <div className={styles['discount-badge']}>
+                    {appliedDiscount.id === 'founding100' ? "Founding 100!" : `Save ${appliedDiscount.percentage * 100}%`}
+                  </div>
+                )} */}
+                <div className={styles['plan-header']}>
+                  <p className={styles['plan-name']}>{plan.name}</p>
+                  <div className={styles['pricing']}>
+                    {originalPrice && (
+                      <span className={styles['original-price']}>{currency.sign}{originalPrice}</span>
                     )}
-                  </p>
+                    <span className={styles['price-amount']}>{currency.sign}{finalPrice}</span>
+                  </div>
                 </div>
-                <div className="plan-features">
+                <div className={styles['plan-subs']}><p>Billed {billingCycle}, per user</p></div>
+                <div className={styles['perks-heading']}><p>PERKS INCLUDED</p></div>
+                <div className={styles['plan-features']}>
                   {plan.features.map((feature, i) => (
-                    <div className="feature-item-i" key={i}>
+                    <div className={styles['feature-item-i']} key={i}>
                       <img src={checkIcon} alt="check" />
                       <p>{feature}</p>
                     </div>
                   ))}
                 </div>
               </div>
-            ))}
+            );
+          })}
+        </div>
+      </section>
+
+
+    </main>
+
+
+
+
+
+  </div>
+
+);
+
+const MobilePricingView = ({ plans, currency, bannerVisible, setBannerVisible, billingCycle, market, user, setUser, setMarket, segment, setSegment, setBillingCycle, isUserModalOpen, setUserModalOpen }) => {
+  const [openPlan, setOpenPlan] = useState(plans.find(p => p.highlight)?.id || plans[0]?.id);
+
+  return (
+
+    <div className={styles['page-wrapper']}>
+      {bannerVisible && (
+        <Banner setBannerVisible={setBannerVisible}/>
+      )}
+
+      <NavBar />
+
+      <main className={styles['pricing-main']}>
+        <div className={styles['pricing-header-section']}>
+          <div className={styles['pricing-header-text-wrapper']}>
+            <p>Pricing</p>
+            <p>Choose the plan that fits your needs. Upgrade, downgrade, or adjust anytime.</p>
           </div>
-        </section>
+          <div className={styles['market-toggle-container']}>
+            <div className={styles['market-toggle-wrapper']}>
+              <div className={`${styles['market-toggle-option']} ${market === MARKETS.INDIA ? styles['active'] : ''}`} onClick={() => setMarket(MARKETS.INDIA)}>
+                <img src={indianFlag} alt="Indian Flag" className={styles['flag-icon']} />
+              </div>
+              <div className={`${styles['market-toggle-option']} ${market === MARKETS.INTERNATIONAL ? styles['active'] : ''}`} onClick={() => setMarket(MARKETS.INTERNATIONAL)}>
+                🌍
+              </div>
+              <div className={styles['market-toggle-pill']} style={{ transform: market === MARKETS.INDIA ? 'translateX(0%)' : 'translateX(100%)' }} />
+            </div>
+          </div>
+        </div>
+
+        <div className={styles['pricing-controls-area']}>
+          <div className={styles['pricing-header-footer']}>
+            <div className={styles['pricing-header-button-wrapper']}>
+              <p>Choose the user type that best describes you</p>
+              <div onClick={() => setUserModalOpen(true)} className={styles['pricing-header-button']}>
+                <p><ShinyText text={segment === "individuals" ? "For Freelancers" : "For Teams"} /></p>
+              </div>
+              {isUserModalOpen && (
+                <div className={styles['user-type-selection-wrapper']}>
+                  <p onClick={() => { setSegment("individuals"); setUserModalOpen(false); }}>For Individuals</p>
+                  <p onClick={() => { setSegment("team"); setUserModalOpen(false); }}>For Teams</p>
+                </div>
+              )}
+            </div>
+            <div className={`${styles['plan-toggle-wrapper']} ${billingCycle === 'yearly' ? styles['active'] : ''}`}>
+              <p className={billingCycle === 'monthly' ? styles['active-text'] : ''} onClick={() => setBillingCycle('monthly')}>Monthly</p>
+              <div className={styles['toggle-wrapper']} onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}>
+                <div className={styles['toggle']} style={{ left: billingCycle === 'monthly' ? '2.5px' : 'calc(100% - 22.5px)' }} />
+              </div>
+              <p className={billingCycle === 'yearly' ? styles['active-text'] : ''} onClick={() => setBillingCycle('yearly')}>
+                {billingCycle === 'yearly' ? <ShinyText text={`Yearly (Save 20%)`} /> : `Yearly (Save 20%)`}
+              </p>
+            </div>
+          </div>
+        </div>
+
+
       </main>
+      <section className={styles['pricing-section']}>
+
+        <div className={styles['founding100-wrapper']}>
+          <ShinyText text={"Exclusive 20% Discounts for Founding 100"} textSize={14} />
+        </div>
+
+
+
+        {plans.map(plan => {
+          const { finalPrice, originalPrice, appliedDiscount } = calculateDisplayPrice(plan, market, billingCycle, user);
+          const isOpen = openPlan === plan.id;
+
+          return (
+
+            <div className={styles['cards-row']}>
+              <div className={`${styles['plan-card']} ${plan.highlight ? styles['highlight'] : ''}`} key={plan.id}>
+                {/* {appliedDiscount && (
+                  <div className={styles['discount-badge']}>
+                    {appliedDiscount.id === 'founding100' ? "Founding 100!" : `Save ${appliedDiscount.percentage * 100}%`}
+                  </div>
+                )} */}
+                <div className={styles['plan-header']}>
+                  <p className={styles['plan-name']}>{plan.name}</p>
+                  <div className={styles['pricing']}>
+                    {originalPrice && (
+                      <span className={styles['original-price']}>{currency.sign}{originalPrice}</span>
+                    )}
+                    <span className={styles['price-amount']}>{currency.sign}{finalPrice}</span>
+                  </div>
+                </div>
+                <div className={styles['plan-subs']}><p>Billed {billingCycle}, per user</p></div>
+                <div className={styles['perks-heading']}><p>PERKS INCLUDED</p></div>
+                <div className={styles['plan-features']}>
+                  {plan.features.map((feature, i) => (
+                    <div className={styles['feature-item-i']} key={i}>
+                      <img src={checkIcon} alt="check" />
+                      <p>{feature}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+          );
+        })}
+      </section>
     </div>
+
+  );
+};
+
+// ====================================================================================
+// 4. MAIN PARENT COMPONENT
+// ====================================================================================
+
+function PricingPage() {
+  const [width] = useWindowSize();
+  const isMobile = width <= 992;
+
+  const [bannerVisible, setBannerVisible] = useState(true);
+  const [market, setMarket] = useState(MARKETS.INDIA);
+  const [segment, setSegment] = useState("individuals");
+  const [billingCycle, setBillingCycle] = useState("monthly");
+  const [isUserModalOpen, setUserModalOpen] = useState(false);
+  const [user, setUser] = useState({ loggedIn: true, discounts: ['founding100'] });
+
+  const activePlans = useMemo(() => PLANS[segment], [segment]);
+  const currency = useMemo(() => CURRENCY_MAP[market], [market]);
+
+  return (
+
+    <>
+      {isMobile ? (
+        <MobilePricingView
+          plans={activePlans}
+          currency={currency}
+          bannerVisible={bannerVisible}
+          setBannerVisible={setBannerVisible}
+          billingCycle={billingCycle}
+          market={market}
+          user={user}
+          setUser={setUser}
+          setMarket={setMarket}
+          segment={segment}
+          setSegment={setSegment}
+          setBillingCycle={setBillingCycle}
+          isUserModalOpen={isUserModalOpen}
+          setUserModalOpen={setUserModalOpen}
+        />
+      ) : (
+        <DesktopPricingView
+          plans={activePlans}
+          currency={currency}
+          bannerVisible={bannerVisible}
+          setBannerVisible={setBannerVisible}
+          billingCycle={billingCycle}
+          market={market}
+          user={user}
+          setUser={setUser}
+          setMarket={setMarket}
+          segment={segment}
+          setSegment={setSegment}
+          setBillingCycle={setBillingCycle}
+          isUserModalOpen={isUserModalOpen}
+          setUserModalOpen={setUserModalOpen}
+        />
+      )}
+
+    </>
   );
 }
 

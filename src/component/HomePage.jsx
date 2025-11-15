@@ -233,8 +233,12 @@ const rotatingWords = ["Teams", "Freelancers", "Individuals", "Agencies", "Busin
 
 // --- Reusable Components ---
 
-export const ShinyText = ({ text, className = '' }) => (
-  <div className={`shiny-text ${className}`}>{text}</div>
+export const ShinyText = ({ text, className = '' , textSize}) => (
+  <div
+    style={{
+      fontSize: textSize
+    }}
+    className={`shiny-text ${className}`}>{text}</div>
 );
 
 function DynamicPhrase() {
@@ -253,7 +257,8 @@ function DynamicPhrase() {
   }, []);
 
   return (
-    <p className="dynamic-phrase">
+    <p
+      className="dynamic-phrase">
       Where Intelligent <span className={fade ? "fade-in" : "fade-out"}>{rotatingWords[index]}</span> Build Brilliant Workflows.
     </p>
   );
@@ -392,6 +397,9 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, [API_BASE_URL]); // Added API_BASE_URL to dependencies just in case, though it should be constant
 
+
+
+
   useEffect(() => {
     if (count < targetCount) {
       const diff = targetCount - count;
@@ -416,49 +424,73 @@ const HomePage = () => {
 };
 
 
-const AlreadyJoined = ({setAJBanner}) => {
-  return <>
-    <div onClick={() => {
-        setAJBanner(false);
-      }} className='aj-overlay'>
-      <PartyPopper celebrate={true} duration={4000} delay={0}/>
-      <div className='alreadyjoined-wrapper'>
-        <div className='alreadyjoin-image'>
-          <img src={blackhole} />
-          <div className='aj-center-banner'>
-          </div>
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 769);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
+  return isMobile;
+};
+
+const AlreadyJoined = ({ setAJBanner }) => {
+  const isMobile = useIsMobile();
+
+  return (
+    <div
+      onClick={() => setAJBanner(false)}
+      className={`aj-overlay ${isMobile ? "aj-mobile" : "aj-desktop"}`}
+    >
+      <PartyPopper celebrate={true} duration={4000} delay={0} />
+
+      <div className={`alreadyjoined-wrapper ${isMobile ? "aj-wrapper-mobile" : ""}`}>
+        <div className="alreadyjoin-image">
+          <img src={blackhole} alt="blackhole" />
+          <div className="aj-center-banner"></div>
         </div>
-        <div className='alreadyjoin-text'>
+
+        <div className="alreadyjoin-text">
           <p>🎉 You’re Already on the Waitlist! 🎉</p>
-          <p>Looks like you’ve already reserved your spot.
-            Sit back and relax — we’ll reach out as soon as it’s your turn to access Gravyn.</p>
+          <p>
+            Looks like you’ve already reserved your spot. Sit back and relax — we’ll reach out
+            as soon as it’s your turn to access Gravyn.
+          </p>
         </div>
       </div>
     </div>
-  </>
-}
+  );
+};
 
 const OnceJoined = ({ setOJBanner }) => {
-  return <>
-    <div onClick={() => {
-      setOJBanner(false);
-    }} className='aj-overlay'>
+  const isMobile = useIsMobile();
+
+  return (
+    <div
+      onClick={() => setOJBanner(false)}
+      className={`aj-overlay ${isMobile ? "aj-mobile" : "aj-desktop"}`}
+    >
       <PartyPopper celebrate={true} duration={4000} delay={0} />
-      <div className='alreadyjoined-wrapper'>
-        <div className='alreadyjoin-image'>
-          <img src={blackhole} />
-          <div className='aj-center-banner'>
-          </div>
+
+      <div className={`alreadyjoined-wrapper ${isMobile ? "aj-wrapper-mobile" : ""}`}>
+        <div className="alreadyjoin-image">
+          <img src={blackhole} alt="blackhole" />
+          <div className="aj-center-banner"></div>
         </div>
-        <div className='alreadyjoin-text'>
+
+        <div className="alreadyjoin-text">
           <p>You’ve Successfully Joined the Waitlist!</p>
-          <p>You’re officially part of the Gravyn early community.
-            We’ll notify you the moment your early access is unlocked.</p>
+          <p>
+            You’re officially part of the Gravyn early community. We’ll notify you the moment your
+            early access is unlocked.
+          </p>
         </div>
       </div>
     </div>
-  </>
-}
+  );
+};
 
 
 // ===================================

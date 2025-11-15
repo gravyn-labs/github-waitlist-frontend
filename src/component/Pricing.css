@@ -1,12 +1,12 @@
 /* ===== Base & Global ===== */
-body{
+body {
   height: min-content;
 }
 
-.page-wrapper{
+.page-wrapper {
   background-color: black;
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
 }
 
 /* ===== Banner ===== */
@@ -87,8 +87,31 @@ body{
 /* ===== Main Content ===== */
 .pricing-main {
   width: 100%;
-  padding-top: 25px;
+  padding-top: 60px;
+  padding-bottom: 100px;
+  position: relative;
 }
+
+.pricing-main::before {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.05));
+  left: calc(15% - 0px);
+  top: 0;
+}
+
+.pricing-main::after {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.05));
+  right: calc(15% - 1px);
+  top: 0;
+}
+
 
 .pricing-section {
   text-align: left;
@@ -167,37 +190,115 @@ body{
 .pricing-header-section {
   display: flex;
   align-items: start;
-  padding: 0 15%;
+  padding: 0 calc(15% + 3px);
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
-.pricing-header-right{
-  display: flex;
+.pricing-header-section::before {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.05));
+  top: 0;
+  left: 0;
+}
+
+.pricing-header-section::after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.05));
+  bottom: 0;
+  left: 0;
+}
+
+.pricing-header-right {
+  /* display: flex;
   flex-direction: column;
   align-items: end;
   justify-content: space-between;
-  gap: 50px;
+  gap: 50px; */
 }
 
-.pricing-header-button-wrapper p {
-  font-size: 17px;
-  text-align: right;
-  font-weight: 500;
-  line-height: 1.75;
+.pricing-market-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* margin-top: 20px;
+  margin-right: 20px; */
 }
+
+.buttons-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  white-space: nowrap;
+  padding: 2.5px;
+  border-radius: 10px;
+  /* border-radius: 100px; */
+  background: var(--glassv2, radial-gradient(61.2% 61.22% at 50% 50%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.1) 100%));
+}
+
+.buttons-wrapper p {
+  /* border-radius: 100px; */
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  padding: 7px 14px;
+  cursor: pointer;
+}
+
+.buttons-wrapper p img {
+  height: 15px;
+}
+
+.buttons-wrapper p.active {
+  border: 0.5px solid rgba(255, 255, 255, 0.07);
+  background: var(--glassv2, radial-gradient(61.2% 61.22% at 50% 50%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.1) 100%));
+}
+
+
+
+.pricing-header-footer {
+  width: 100%;
+  display: flex;
+  align-items: end !important;
+  padding: 0 calc(15% + 3px);
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin: 40px 0;
+  padding-top: 0px !important;
+}
+
 
 .pricing-header-button-wrapper {
   display: flex;
-  align-items: end;
-  gap: 10px;
+  align-items: start;
+  gap: 20px;
   flex-direction: column;
   position: relative;
 }
 
+.pricing-header-button-wrapper>p:first-child {
+  font-size: 16px;
+  text-align: left;
+  font-weight: 600;
+  width: 75%;
+  font-family: Inter;
+  letter-spacing: -0.75px;
+  line-height: 1.5;
+}
+
 .pricing-header-button {
   padding: 7px 14px;
-  width: min-content;
+  width: max-content;
+  white-space: nowrap;
   border-radius: 9px;
   cursor: pointer;
   border: 0.5px solid rgba(255, 255, 255, 0.05);
@@ -216,6 +317,7 @@ body{
   border-radius: 15px 0 15px 15px;
   position: absolute;
   bottom: 0%;
+  background: var(--glassv2, radial-gradient(61.2% 61.22% at 50% 50%, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0.14) 100%));
   right: 0%;
   transform: translateY(105%);
   backdrop-filter: blur(20px);
@@ -229,7 +331,7 @@ body{
   cursor: pointer;
 }
 
-.user-type-selection-wrapper p:hover{
+.user-type-selection-wrapper p:hover {
   background-color: rgba(255, 255, 255, 0.025);
 }
 
@@ -237,31 +339,57 @@ body{
   border-top: 0.5px solid rgba(255, 255, 255, 0.07);
 }
 
-.pricing-header-section .pricing-header-text-wrapper {}
+.pricing-header-section .pricing-header-text-wrapper {
+  width: 75%;
+
+}
 
 .pricing-header-text-wrapper p:first-child {
   font-size: 40px;
   font-weight: 600;
   font-family: Poppins;
-  letter-spacing: -1px;
-  width: 75%;
-  line-height: 1.35;
+  letter-spacing: -1.5px;
+  width: 80%;
+  line-height: 1.15;
 }
 
 
 
 .pricing-header-section .pricing-header-text-wrapper p:last-child {
   margin-top: 15px;
-  width: 75%;
+  width: 80%;
+  font-size: 17px;
   color: rgba(255, 255, 255, 0.65);
 }
 
 .pricing-section {
-  padding: 50px 15%;
+  padding: 0px 15%;
+  margin: 60px 0;
+  position: relative;
+}
+
+.pricing-section::before {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.05));
+  top: 0;
+  left: 0;
+}
+
+.pricing-section::after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.05));
+  bottom: 0;
+  left: 0;
 }
 
 .plan-card {
-  background: rgba(255, 255, 255, 0.007);
+  background: rgba(255, 255, 255, 0.01);
   backdrop-filter: blur(8px);
   transition: transform .2s ease, box-shadow .3s ease, border-color .2s ease;
   background-color: rgba(255, 255, 255, 0.05);
@@ -277,7 +405,7 @@ body{
 .plan-card:nth-child(2) {}
 
 .plan-card:first-child {
-  border-radius: 20px 0 0 20px;
+  /* border-radius: 20px 0 0 20px; */
   border-left: 0.5px solid rgba(255, 255, 255, 0.07);
   border-top: 0.5px solid rgba(255, 255, 255, 0.07);
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
@@ -285,7 +413,7 @@ body{
 }
 
 .plan-card:last-child {
-  border-radius: 0 20px 20px 0;
+  /* border-radius: 0 20px 20px 0; */
   border-right: 0.5px solid rgba(255, 255, 255, 0.07);
   border-top: 0.5px solid rgba(255, 255, 255, 0.07);
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
@@ -296,22 +424,53 @@ body{
 .plan-card.highlight {}
 
 .plan-header {
-  padding: 15px 20px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
 }
 
-.plan-header p:first-child {
+.plan-card svg {}
+
+
+
+.plan-header .plan-header-i p:first-child {
   font-weight: 500;
-  font-size: 13.75px;
+  font-size: 14.5px;
 }
+
 
 .plan-header p:last-child {
   font-size: 13.75px;
   margin-top: 3px;
   color: white;
+}
+
+.plan-user {
+  padding: 10px 20px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+
+.plan-user p {
+  font-size: 13.5px;
+}
+
+
+.perks-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px 10px 20px;
+}
+
+.perks-heading p {
+  letter-spacing: 0.5px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: Overpass, sans-serif !important;
+  color: rgba(255, 255, 255, 0.75);
+  text-transform: capitalize;
 }
 
 .price-amount {
@@ -324,10 +483,8 @@ body{
   display: flex;
   align-items: center;
   gap: 14px;
-  width: 100%;
-  padding: 0 15%;
+  width: max-content;
   justify-content: start;
-  margin: 40px 0;
 }
 
 .plan-toggle-wrapper.active .toggle-wrapper {
@@ -341,6 +498,7 @@ body{
 .plan-toggle-wrapper p {
   font-size: 13px;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .plan-header-i .pricing {}
@@ -351,6 +509,7 @@ body{
   font-weight: 600;
   letter-spacing: -0.5px;
 }
+
 
 .toggle-wrapper {
   width: 50px;
@@ -583,12 +742,25 @@ body{
   font-weight: 600;
 }
 
+.plan-subs {}
+
+.plan-subs {
+  padding: 12px 20px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+
+.plan-subs p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+}
+
 
 .plan-features {
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-top: 10px;
 }
 
 .feature-item-i {
@@ -621,6 +793,7 @@ body{
     gap: 22px;
   }
 }
+
 /* ===== Feature Comparison Table (Modern Glass, Responsive) ===== */
 .feature-table-wrapper {
   overflow-x: auto;

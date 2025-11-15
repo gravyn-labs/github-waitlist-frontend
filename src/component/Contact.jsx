@@ -10,6 +10,7 @@ import serviceunavail from "../assets/icons/unavailable.svg";
 import bg_noise from "../assets/images/grad.png";
 import check from "../assets/icons/check.svg"
 import Banner from "./Features/Banner";
+import { Founding100v2 } from "./Sections/Founding100v2";
 
 const Contact = () => {
   const [bannerVisible, setBannerVisible] = useState(true);
@@ -254,131 +255,139 @@ const Contact = () => {
   // -----------------------
   // Mobile Layout
   // -----------------------
-  const MobileView = () => (
-    <div className={styles["mobile-wrapper"]}>
-      {bannerVisible  && (
-        <Banner />
+  const MobileView = () => {
 
-      )}
 
-      <NavBar />
+      const [championTierVisibility, setChampionTierVisibility] = useState(false);
+    
 
-      {isModalOpen ? (
-        <div className={styles["contact-fullscreen-form-mobile"]}>
-          <form onSubmit={handleSubmit} className={styles["contact-form-mobile"]}>
-            <div className={styles["form-header"]}>
-              <p>Contact Sales</p>
+    return (
+      <div className={styles["mobile-wrapper"]}>
+        {bannerVisible && (
+          <Banner championTierVisibility={championTierVisibility} setChampionTierVisibility={setChampionTierVisibility}/>
+        )}
+
+        <NavBar />
+
+        {isModalOpen ? (
+          <div className={styles["contact-fullscreen-form-mobile"]}>
+            <form onSubmit={handleSubmit} className={styles["contact-form-mobile"]}>
+              <div className={styles["form-header"]}>
+                <p>Contact Sales</p>
+                <button
+                  className={styles["modal-close-btn"]}
+                  onClick={() => setIsModalOpen(false)}
+                  type="button"
+                >
+                  ×
+                </button>
+              </div>
+
+              <label>Full Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                placeholder="Enter your name"
+                onChange={handleChange}
+                required
+              />
+
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                placeholder="Enter your email"
+                onChange={handleChange}
+                required
+              />
+
+              <label>Company</label>
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                placeholder="Your company name"
+                onChange={handleChange}
+              />
+
+              <label>Message</label>
+              <textarea
+                name="message"
+                value={formData.message}
+                placeholder="Describe your enquiry..."
+                rows="3"
+                onChange={handleChange}
+                required
+              ></textarea>
+
               <button
-                className={styles["modal-close-btn"]}
-                onClick={() => setIsModalOpen(false)}
-                type="button"
+                className={styles["submit-btn"]}
+                disabled={status.loading}
+                type="submit"
               >
-                ×
+                {status.loading ? "Sending..." : "Send Message"}
               </button>
-            </div>
 
-            <label>Full Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              placeholder="Enter your name"
-              onChange={handleChange}
-              required
-            />
-
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              placeholder="Enter your email"
-              onChange={handleChange}
-              required
-            />
-
-            <label>Company</label>
-            <input
-              type="text"
-              name="company"
-              value={formData.company}
-              placeholder="Your company name"
-              onChange={handleChange}
-            />
-
-            <label>Message</label>
-            <textarea
-              name="message"
-              value={formData.message}
-              placeholder="Describe your enquiry..."
-              rows="3"
-              onChange={handleChange}
-              required
-            ></textarea>
-
-            <button
-              className={styles["submit-btn"]}
-              disabled={status.loading}
-              type="submit"
-            >
-              {status.loading ? "Sending..." : "Send Message"}
-            </button>
-
-            {status.success && <p className={styles["success-message"]}>{status.success}</p>}
-            {status.error && <p className={styles["error-message"]}>{status.error}</p>}
-          </form>
-        </div>
-      ) : (
-        <>
-          <div className={styles["mobile-hero-text"]}>
-            <p className={styles["title"]}>
-              <span className={styles["ripple"]} /> Gravyn Sales Operational
-            </p>
-            <p className={styles["heading"]}>We're here to help.</p>
-            <p className={styles["subheading"]}>
-              We’re passionate about helping teams succeed. Whether you have a
-              question about features, pricing, or anything else, our team is
-              ready to answer all your questions.
-            </p>
+              {status.success && <p className={styles["success-message"]}>{status.success}</p>}
+              {status.error && <p className={styles["error-message"]}>{status.error}</p>}
+            </form>
           </div>
-
-          <div className={styles["mobile-contact-cards"]}>
-            <div className={styles["contact-card"]}>
-              <img src={sales} alt="Sales" />
-              <h3>Reach out to Sales</h3>
-              <p>Interested in custom enterprise plans or partnerships? Our team is ready to help.</p>
-              <button
-                className={styles["contact-btn"]}
-                onClick={() => setIsModalOpen(true)}
-              >
-                Contact Sales
-              </button>
+        ) : (
+          <>
+            <div className={styles["mobile-hero-text"]}>
+              <p className={styles["title"]}>
+                <span className={styles["ripple"]} /> Gravyn Sales Operational
+              </p>
+              <p className={styles["heading"]}>We're here to help.</p>
+              <p className={styles["subheading"]}>
+                We’re passionate about helping teams succeed. Whether you have a
+                question about features, pricing, or anything else, our team is
+                ready to answer all your questions.
+              </p>
             </div>
 
-            <div className={styles["contact-card"]}>
-              <img src={billing} alt="Billing" />
-              <h3>Billing Inquiries</h3>
-              <p>For questions related to invoices or payments.</p>
-              <div className={styles["unavailable"]}>
-                <img src={serviceunavail} alt="Unavailable" />
-                <p>Service Unavailable</p>
+            <div className={styles["mobile-contact-cards"]}>
+              <div className={styles["contact-card"]}>
+                <img src={sales} alt="Sales" />
+                <h3>Reach out to Sales</h3>
+                <p>Interested in custom enterprise plans or partnerships? Our team is ready to help.</p>
+                <button
+                  className={styles["contact-btn"]}
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Contact Sales
+                </button>
+              </div>
+
+              <div className={styles["contact-card"]}>
+                <img src={billing} alt="Billing" />
+                <h3>Billing Inquiries</h3>
+                <p>For questions related to invoices or payments.</p>
+                <div className={styles["unavailable"]}>
+                  <img src={serviceunavail} alt="Unavailable" />
+                  <p>Service Unavailable</p>
+                </div>
+              </div>
+
+              <div className={styles["contact-card"]}>
+                <img src={support} alt="Support" />
+                <h3>Product Support</h3>
+                <p>Experiencing a technical issue? We’ll help you get back on track.</p>
+                <div className={styles["unavailable"]}>
+                  <img src={serviceunavail} alt="Unavailable" />
+                  <p>Service Unavailable</p>
+                </div>
               </div>
             </div>
-
-            <div className={styles["contact-card"]}>
-              <img src={support} alt="Support" />
-              <h3>Product Support</h3>
-              <p>Experiencing a technical issue? We’ll help you get back on track.</p>
-              <div className={styles["unavailable"]}>
-                <img src={serviceunavail} alt="Unavailable" />
-                <p>Service Unavailable</p>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
+          </>
+        )}
+        <Founding100v2 />
+        {championTierVisibility && <Founding100v2 championTierVisibility={championTierVisibility} setChampionTierVisibility={setChampionTierVisibility}/>}
+      </div>
+    )
+  };
 
   return isMobile ? <MobileView /> : <DesktopView />;
 };
