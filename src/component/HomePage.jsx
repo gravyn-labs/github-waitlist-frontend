@@ -707,14 +707,7 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
     <div className="page-wrapper mobile-layout">
 
       {bannerVisible && (
-        <div onClick={() => { setChampionTierVisibility(true); }} className='banner'>
-          <div className='banner-content-wrapper'>
-            <img src={championsIcons} alt="champions" />
-            <p>Join the Gravyn Founding 100!</p>
-            <p style={{ display: 'none' }}></p>
-          </div>
-          <img onClick={() => setBannerVisible(false)} className='close-icon' src={close} alt="close" />
-        </div>
+       <Banner setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility}/>
       )}
 
       <NavBar />

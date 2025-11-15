@@ -8,6 +8,7 @@ import checkIcon from "../assets/icons/check.svg";
 import indianFlag from "../assets/icons/indiaflagv1.svg";
 import styles from './Pricing.module.css';
 import Banner from './Features/Banner';
+import { Founding100v2 } from './Sections/Founding100v2';
 
 // ====================================================================================
 // 1. UNIFIED PRICING & DISCOUNT ARCHITECTURE
@@ -134,18 +135,13 @@ const useWindowSize = () => {
 // 3. VIEW-SPECIFIC CHILD COMPONENTS
 // ====================================================================================
 
-const DesktopPricingView = ({ plans, currency, bannerVisible, setBannerVisible, billingCycle, market, user, setUser, setMarket, segment, setSegment, setBillingCycle, isUserModalOpen, setUserModalOpen }) => (
+const DesktopPricingView = ({ plans, currency, bannerVisible, setBannerVisible, billingCycle, market, user, setUser, setMarket, segment, setSegment, setBillingCycle, isUserModalOpen, setUserModalOpen }) => {
+  const [championTierVisibility, setChampionTierVisibility] = useState(false);
 
+  return(
   <div className={styles['page-wrapper']}>
     {bannerVisible && (
-      <div className={styles['banner']}>
-        <div className={styles['banner-content-wrapper']}>
-          <img src={championsIcons} alt="Champions" />
-          <p>Be Among the First 100 Subscribers — Join the Gravyn Founding 100!</p>
-          <p className={styles['know-more']}>Know More</p>
-        </div>
-        <img onClick={() => setBannerVisible(false)} className={styles['close-icon']} src={close} alt="Close" />
-      </div>
+      <Banner setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility}/>
     )}
 
     <NavBar />
@@ -237,24 +233,23 @@ const DesktopPricingView = ({ plans, currency, bannerVisible, setBannerVisible, 
       </section>
 
 
-    </main>
-
-
-
-
+      </main>
+      
+      {championTierVisibility && <Founding100v2 setChampionTierVisibility={setChampionTierVisibility} />}
 
   </div>
 
-);
+)};
 
 const MobilePricingView = ({ plans, currency, bannerVisible, setBannerVisible, billingCycle, market, user, setUser, setMarket, segment, setSegment, setBillingCycle, isUserModalOpen, setUserModalOpen }) => {
   const [openPlan, setOpenPlan] = useState(plans.find(p => p.highlight)?.id || plans[0]?.id);
+  const [championTierVisibility, setChampionTierVisibility] = useState(false);
 
   return (
 
     <div className={styles['page-wrapper']}>
       {bannerVisible && (
-        <Banner setBannerVisible={setBannerVisible}/>
+        <Banner setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility}/>
       )}
 
       <NavBar />
@@ -352,6 +347,8 @@ const MobilePricingView = ({ plans, currency, bannerVisible, setBannerVisible, b
           );
         })}
       </section>
+
+      {championTierVisibility && <Founding100v2 setChampionTierVisibility={setChampionTierVisibility}/>}
     </div>
 
   );

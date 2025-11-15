@@ -502,8 +502,8 @@ body {
     }
 
     .hero-subtitle {
-        width: 100%;
-        font-size: 15px;
+        width: 90% !important;
+        font-size: 45px;
     }
 
 
