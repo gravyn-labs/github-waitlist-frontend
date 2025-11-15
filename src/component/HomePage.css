@@ -195,14 +195,15 @@ body {
 
 .landing-banner {
     position: absolute;
-    left: 55%;
-    transform: translateX(-50%);
+    left: 50%;
+    transform: translateX(-100%);
     bottom: -10%;
 }
 
 .landing-banner img {
-    opacity: 0.95;
+    opacity: 1;
     border: none;
+    width: 200%;
 }
 
 .section-wrapper {
@@ -568,18 +569,32 @@ body {
     }
 
 
-    .landing-banner {
-        position: absolute;
-        right: -55% !important;
-        transform: translateX(-50%);
-        top:40% !important;
+    .landing-mobile-banner {
+        transform: translateX(0%) !important;
+        bottom: -0% !important;
         z-index: 0 !important;
+        width: 100%;
+        min-height: 400px;
     }
 
-    .landing-banner img {
-        opacity: 0.95;
-        width: 300vw !important;
+    .landing-mobile-banner img {
+        width: 200vw !important;
         border-radius: 10px;
+        opacity: 1 !important;
+    }
+
+    .landing-mobile-banner img:nth-child(1) {
+        z-index: 90;
+        position: absolute;
+        left: -5%;
+        top: 5%;
+    }
+
+    .landing-mobile-banner img:nth-child(2) {
+        z-index: 100;
+        left: 50%;
+        top: 15%;
+        position: absolute;
     }
 
     .waitlist-form-input-wrapper {

@@ -1,6 +1,9 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import logo from '../assets/logo/gravyn_logo.svg';
 import banner from '../assets/images/LandingBannerv1.svg';
+import banner1 from '../assets/images/banner1.png';
+import banner2 from '../assets/images/banner2.png';
+
 import faces from '../assets/images/faces.svg';
 import "./HomePage.css";
 import leaves from "../assets/icons/leaves.svg";
@@ -621,7 +624,8 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
             </p>
           </div>
           <div className="landing-banner">
-            <img src={banner} alt="banner" />
+
+            <img src={banner2} alt="banner" />
           </div>
         </div>
       </div>
@@ -740,8 +744,9 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
           <p><span>{count}</span>+ people waiting for the launch.</p>
         </div>
 
-        <div className="landing-banner">
-          <img src={banner} alt="banner" />
+        <div className="landing-mobile-banner">
+          <img src={banner1} alt="banner" />
+          <img src={banner2} alt="banner" />
         </div>
       </div>
 
