@@ -203,7 +203,6 @@ export const HomeLanding = ({ ojBanner, ajBanner, setOJBanner, setAJBanner, noti
                     case 'ALREADY_REGISTERED':
                         setAJBanner(true); // Show "Already Joined" banner
                         setTimeout(() => setAJBanner(false), 5000);
-                        alert("Already Registered")
                         break;
                     case 'RATE_LIMIT':
                         setNotificationMessage("You're trying that a bit too fast! Please take a break and try again in an hour.")
