@@ -10,6 +10,7 @@ import styles from './Pricing.module.css';
 import Banner from './Features/Banner';
 import { Founding100v2 } from './Sections/Founding100v2';
 import { Footer } from './Sections/Footer';
+import dropdown from "../assets/icons/dropdown.svg"
 
 // ====================================================================================
 // 1. UNIFIED PRICING & DISCOUNT ARCHITECTURE
@@ -173,7 +174,9 @@ const DesktopPricingView = ({ plans, currency, bannerVisible, setBannerVisible, 
           <div className={styles['pricing-header-button-wrapper']}>
             <p>Choose the user type that best describes you</p>
             <div onClick={() => setUserModalOpen(true)} className={styles['pricing-header-button']}>
-              <p><ShinyText text={segment === "individuals" ? "For Individuals" : "For Teams"} /></p>
+                <p><ShinyText text={segment === "individuals" ? "For Individuals" : "For Teams"} /></p>
+                <img src={dropdown} />
+
             </div>
             {isUserModalOpen && (
               <div className={styles['user-type-selection-wrapper']}>
@@ -280,6 +283,7 @@ const MobilePricingView = ({ plans, currency, bannerVisible, setBannerVisible, b
               <p>Choose the user type that best describes you</p>
               <div onClick={() => setUserModalOpen(true)} className={styles['pricing-header-button']}>
                 <p><ShinyText text={segment === "individuals" ? "For Freelancers" : "For Teams"} /></p>
+                <img src={dropdown} />
               </div>
               {isUserModalOpen && (
                 <div className={styles['user-type-selection-wrapper']}>

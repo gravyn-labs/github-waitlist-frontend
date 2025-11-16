@@ -9,6 +9,7 @@ import finance_management from "../../assets/images/fm2.png";
 import project_management from "../../assets/images/project_managementv1.png";
 import client_feature from "../../assets/images/client_collaborationv2.png";
 import kairo_feature from "../../assets/images/kairo_featurev1.png";
+import teamCollab from "../../assets/images/teamcollabv1.png";
 
 import projectmanagement from "../../assets/icons/project.svg";
 import collaboration from "../../assets/icons/collaborations.svg";
@@ -18,9 +19,16 @@ import kairo from "../../assets/icons/kairo.svg";
 import integrations from "../../assets/icons/integrations.svg";
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 
+
+const ClientComp = () => (
+    <div className={styles["client-comp"]}>
+        <img src={client_feature} alt="client Feature" />
+    </div>
+);
+
 const CollaborationComp = () => (
     <div className={styles["collaboration-comp"]}>
-        <img src={client_feature} alt="Collaboration Feature" />
+        <img src={teamCollab} alt="Collaboration Feature" />
     </div>
 );
 
@@ -80,7 +88,7 @@ export const coreFeatures = [
         id: "clients",
         icon: client,
         img: client_feature,
-        component: <CollaborationComp />,
+        component: <ClientComp />,
         title: "Branded Client Portals", // Changed
         description:
             "From onboarding to reporting, deliver a world-class client experience with branded portals and automated status updates.",
@@ -97,7 +105,7 @@ export const coreFeatures = [
     {
         id: "collaboration",
         icon: collaboration,
-        img: integration,
+        img: teamCollab,
         component: <CollaborationComp />,
         title: "Centralized Team Collaboration", // Changed
         description:
@@ -262,14 +270,22 @@ const MobileLayout = ({ activeFeatureId, setActiveFeatureId }) => (
 );
 
 // Desktop layout as earlier (unchanged)
-const DesktopLayout = ({ activeFeatureId, setActiveFeatureId, activeComponent }) => (
-    <section className={styles["unified-workspace-section"]}>
+const DesktopLayout = ({ activeFeatureId, setActiveFeatureId, activeComponent }) => {
+    
+
+    const activeFeature = coreFeatures.find(feature => feature.id === activeFeatureId);
+
+
+return(<section className={styles["unified-workspace-section"]}>
         <div className={styles["features-header"]}>
             <p>From Scattered to Seamless.</p>
             <p>Gravyn provides the foundational tools for clarity and control, so you can build the exact workflow your team needs.</p>
         </div>
         <div className={styles["workspace-grid"]}>
             <div className={styles["workspace-visual"]}>
+                <div className={styles['workspace-header']}>
+                    <p>{activeFeature ? activeFeature.title : 'Select a Feature'}</p>
+                </div>
                 <div className={styles['visual-content']}> 
                     <AnimatePresence mode="wait">
                         <motion.div
@@ -308,7 +324,7 @@ const DesktopLayout = ({ activeFeatureId, setActiveFeatureId, activeComponent })
             </div>
         </div>
     </section>
-);
+)};
 
 // Hook for window width detection
 function useWindowWidth() {

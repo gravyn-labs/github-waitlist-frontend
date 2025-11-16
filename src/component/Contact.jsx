@@ -48,16 +48,16 @@ const DesktopView = React.memo(function DesktopView(props) {
                 </p>
               </div>
             </div>
-            <div className="contact-sales-section-left-text-footer">
-              <div className="sales-perks-item">
+            <div className={styles['contact-sales-section-left-text-footer']}>
+              <div className={styles['sales-perks-item']}>
                 <p><img src={check} alt="check" />Tailored Plans for Every Stage</p>
                 <p>From early teams to growing enterprises, we design solutions that fit your unique goals — not one-size-fits-all pricing.</p>
               </div>
-              <div className="sales-perks-item">
+              <div className={styles['sales-perks-item']}>
                 <p><img src={check} alt="check" />Dedicated Onboarding & Support</p>
                 <p>Get personalized onboarding, setup assistance, and access to a dedicated Gravyn advisor for your organization.</p>
               </div>
-              <div className="sales-perks-item">
+              <div className={styles['sales-perks-item']}>
                 <p><img src={check} alt="check" />Integrations That Work for You</p>
                 <p>Our experts will guide you on how Gravyn connects with your existing tools and data stack for seamless adoption.</p>
               </div>
@@ -80,7 +80,7 @@ const DesktopView = React.memo(function DesktopView(props) {
                       onClick={() => setIsModalOpen(false)}
                       type="button"
                     >
-                      ×
+                      <img src={close}/>
                     </button>
                   </div>
 
@@ -354,9 +354,7 @@ const MobileView = React.memo(function MobileView(props) {
             </p>
             <p className={styles["heading"]}>We're here to help.</p>
             <p className={styles["subheading"]}>
-              We’re passionate about helping teams succeed. Whether you have a
-              question about features, pricing, or anything else, our team is
-              ready to answer all your questions.
+                Have a question about features, pricing, or anything else? Our team is here to help.
             </p>
           </div>
 

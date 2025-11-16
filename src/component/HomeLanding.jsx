@@ -5,8 +5,9 @@ import banner2 from '../assets/images/banner2.png';
 import faces from '../assets/images/faces.svg';
 
 // --- Placeholder Components (as defined in previous turns) ---
-import { AlreadyJoined } from "./HomePage";
+import { AlreadyJoined, OnceJoined } from "./HomePage";
 import { ShinyText } from "./HomePage";
+import { validateEmail } from "../utils/safeguard";
 
 
 // ====================================================================================
@@ -81,11 +82,12 @@ const DesktopView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount
             <img src={banner2} alt="Product screenshot showing financial analytics" />
         </div>
 
+        {ojBanner && <OnceJoined setOJBanner={setOJBanner} />}
         {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}
     </div>
 );
 
-const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount }) => (
+const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount, ojBanner, ajBanner, setAJBanner, setOJBanner }) => (
     <div className={styles['landing-page-mobile']}>
         <div className={styles['landing-content-text-wrapper']}>
             <DynamicPhrase />
@@ -110,6 +112,10 @@ const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount 
             <img src={banner1} alt="Product screenshot showing tasks" />
             <img src={banner2} alt="Product screenshot showing analytics" />
         </div>
+
+
+        {ojBanner && <OnceJoined setOJBanner={setOJBanner} />}
+        {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}
     </div>
 );
 
@@ -118,7 +124,7 @@ const MobileView = ({ email, setEmail, handleJoinWaitlist, loading, targetCount 
 // 3. MAIN PARENT COMPONENT (HomeLanding)
 // ====================================================================================
 
-export const HomeLanding = ({ojBanner , ajBanner , setOJBanner, setAJBanner}) => {
+export const HomeLanding = ({ ojBanner, ajBanner, setOJBanner, setAJBanner, notificationMessage, setNotificationMessage, setShowNotification }) => {
     const [width] = useWindowSize();
     const isMobile = width <= 768;
 
@@ -163,7 +169,18 @@ export const HomeLanding = ({ojBanner , ajBanner , setOJBanner, setAJBanner}) =>
     // ====================================================================================
 
     const handleJoinWaitlist = async () => {
-        if (!email) return;
+        if (!email) {
+            // Optional: Add a visual cue that email is required
+            return;
+        }
+
+
+
+        if (!validateEmail(email)) {
+            setShowNotification(true)
+            setNotificationMessage("Please enter a valid email address.")
+            return; // Stop the function if the email is invalid
+        }
 
         setLoading(true);
 
@@ -178,26 +195,49 @@ export const HomeLanding = ({ojBanner , ajBanner , setOJBanner, setAJBanner}) =>
 
             const data = await response.json();
 
-            if (response.ok) {
-                setEmail("");
-                setOJBanner(true);
-                setTimeout(() => setOJBanner(false), 5000);
 
-                // refresh count after successful join
-                fetchWaitlistCount();
 
-            } else {
-                setAJBanner(true);
-                setTimeout(() => setAJBanner(false), 5000);
+            // Check for non-successful HTTP status codes first (e.g., 409, 429)
+            if (!response.ok) {
+                switch (data.status) {
+                    case 'ALREADY_REGISTERED':
+                        setAJBanner(true); // Show "Already Joined" banner
+                        setTimeout(() => setAJBanner(false), 5000);
+                        alert("Already Registered")
+                        break;
+                    case 'RATE_LIMIT':
+                        setNotificationMessage("You're trying that a bit too fast! Please take a break and try again in an hour.")
+                        setShowNotification(true)
+                        break;
+                    case 'VALIDATION_ERROR':
+                        // Handle validation error, e.g., show message next to the input
+                        break;
+                    default:
+                        // A generic error for other 4xx/5xx responses
+                        setAJBanner(true); // Re-using AJBanner for general errors
+                        setTimeout(() => setAJBanner(false), 5000);
+                }
+                return; // Stop execution since there was an error
             }
+
+            // Handle the successful case (HTTP 201)
+            if (data.status === 'SUCCESS') {
+                setEmail("");
+                setOJBanner(true); // Show "Once Joined" banner for new signups
+                setTimeout(() => setOJBanner(false), 5000);
+                fetchWaitlistCount(); // Refresh the count
+            }
+
         } catch (error) {
-            console.error(error);
-            setAJBanner(true);
+            // This catches network errors (e.g., server is down)
+            console.error("Network or fetch error:", error);
+            setAJBanner(true); // Show a generic error banner
             setTimeout(() => setAJBanner(false), 5000);
         } finally {
             setLoading(false);
         }
     };
+
 
 
 
@@ -212,6 +252,10 @@ export const HomeLanding = ({ojBanner , ajBanner , setOJBanner, setAJBanner}) =>
             handleJoinWaitlist={handleJoinWaitlist}
             loading={loading}
             targetCount={targetCount}
+            ojBanner={ojBanner}
+            ajBanner={ajBanner}
+            setAJBanner={setAJBanner}
+            setOJBanner={setOJBanner}
         />
     ) : (
         <DesktopView

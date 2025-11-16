@@ -4,7 +4,6 @@
 .unified-workspace-section {
     padding: 100px 15%;
     width: 100%;
-    background-color: black;
 }
 
 .features-header {
@@ -15,7 +14,7 @@
     margin-right: auto;
 }
 
-.features-header h2 {
+.features-header>p:first-child {
     font-family: 'Poppins', sans-serif;
     font-size: 2.75rem;
     font-weight: 600;
@@ -23,7 +22,7 @@
     letter-spacing: -1px;
 }
 
-.features-header p {
+.features-header>p:last-child {
     font-size: 1.125rem;
     color: #a0a0a0;
     margin-top: 1rem;
@@ -32,6 +31,7 @@
 /* --- THE KEY CHANGE FOR 60/40 SPLIT --- */
 .workspace-grid {
     display: grid;
+
     /* 
       Use fractional units to define the ratio.
       This gives the first column 3 parts and the second 2 parts,
@@ -49,6 +49,7 @@
 /* ============================== */
 /* ===== Left Side: Visual ===== */
 /* ============================== */
+
 .workspace-visual {
     height: 100%;
     width: 100%;
@@ -58,20 +59,32 @@
 }
 
 /* ... (visual-content and mock-ui-placeholder styles remain the same) ... */
+
+.workspace-header {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    box-sizing: border-box;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.workspace-header p {
+    font-weight: 600;
+    font-size: 16px;
+    font-family: Poppins;
+    letter-spacing: -0.5px;
+}
+
+
 .visual-content {
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
     position: relative;
     align-items: center;
     justify-content: center;
-}
-
-.workspace-visual-header {
-    height: 10%;
-    width: 100%;
-    background-color: transparent;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.07);
 }
 
 .mock-ui-placeholder {
@@ -185,13 +198,38 @@
 
 
 .collaboration-comp,
-.integration-feature {
+.integration-feature,
+.client-comp {
     position: relative;
     height: 100%;
     width: 100%;
     top: 0;
     left: 0;
-    margin-top: 50px;
+}
+
+.client-comp::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 2000;
+    background: radial-gradient(ellipse at center,
+            transparent 0%,
+            transparent 35%,
+            black 100%);
+}
+
+.client-comp img {
+    border: none !important;
+    scale: 1;
+    position: absolute;
+    width: 90%;
+    left: 50%;
+    top: 50%;
+    z-index: 0;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 
@@ -202,7 +240,7 @@
     width: 100%;
     top: 0;
     right: 0;
-    z-index: 20;
+    z-index: 2000;
     background: radial-gradient(ellipse at center,
             transparent 0%,
             transparent 35%,
@@ -213,13 +251,12 @@
 .collaboration-comp img {
     border: none !important;
     scale: 1;
-    margin-top: 20px;
     position: absolute;
-    width: 85%;
+    width: 80%;
     left: 50%;
-    bottom: 10%;
-    z-index: 10;
-    transform: translateX(-50%) translateY(0%);
+    top: 50%;
+    z-index: 1000;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 
@@ -230,11 +267,22 @@
     width: 100%;
     top: 0;
     right: 0;
-    z-index: 20;
+    z-index: 2000;
     background: radial-gradient(ellipse at center,
             transparent 0%,
             black 65%,
             black 100%);
+}
+
+.integration-feature img {
+    border: none !important;
+    scale: 1;
+    position: absolute;
+    width: 120%;
+    left: 50%;
+    top: 50%;
+    z-index: 0;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 
@@ -244,7 +292,7 @@
     width: 100%;
     top: 0;
     left: 0;
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 
@@ -252,27 +300,16 @@
 .kairo-feature img {
     border: none !important;
     scale: 1;
-    margin-top: 20px;
     position: absolute;
-    height: 70%;
+    width: 90%;
     left: 50%;
-    bottom: 10%;
+    top: 50%;
     z-index: 200;
-    transform: translateX(-50%) translateY(-10%);
+    transform: translateX(-50%) translateY(-50%);
 }
 
 
-.kairo-feature::before {
-    position: absolute;
-    content: '';
-    height: 100%;
-    width: 100%;
-    top: 0;
-    right: 0;
 
-    z-index: 20;
-    background: linear-gradient(to right, transparent, black)
-}
 
 .finance-feature {
     position: relative;
@@ -280,7 +317,6 @@
     width: 100%;
     top: 0;
     left: 0;
-    margin-top: 50px;
 }
 
 .finance-feature::before {
@@ -305,9 +341,9 @@
     position: absolute;
     width: 90%;
     left: 51.5%;
-    bottom: 10%;
-    z-index: 10;
-    transform: translateX(-50%) translateY(-10%);
+    top: 50%;
+    z-index: 0;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 .project-feature {
@@ -316,8 +352,6 @@
     width: 100%;
     top: 0;
     left: 0;
-    margin-top: 50px;
-    background-color: yellow;
 }
 
 .project-feature::before {
@@ -327,7 +361,7 @@
     width: 100%;
     top: 0;
     right: 0;
-    z-index: 100;
+    z-index: 2000;
     background: radial-gradient(ellipse at center,
             transparent 0%,
             transparent 40%,
@@ -338,19 +372,18 @@
 .project-feature img {
     border: none !important;
     scale: 1;
-    margin-top: 20px;
     position: absolute;
     width: 95%;
     left: 50%;
-    bottom: 10%;
-    z-index: 10;
-    transform: translateX(-50%) translateY(-10%);
+    top: 50%;
+    z-index: 0;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 
 @media (max-width : 780px) {
     .unified-workspace-section-mobile {
-        padding: 30px 0;
+        padding: 0px 0;
     }
 
     .features-header-mobile {
@@ -362,6 +395,7 @@
         font-family: Poppins !important;
         font-weight: 600;
         letter-spacing: -0.75px;
+        color: white;
     }
 
 
@@ -376,6 +410,7 @@
         position: relative;
         cursor: grab;
         margin: 30px 0;
+        padding: 20px 0;
         /* Indicates the element is draggable */
     }
 
@@ -441,6 +476,10 @@
         width: 80% !important;
     }
 
+    .carousel-card:nth-child(2) .feature-image img {
+        width:80%;
+    }
+
     .carousel-card:nth-child(6) .feature-image img {
         width: 90%;
     }
@@ -494,14 +533,14 @@
     }
 
     .feature-text-mobile p:first-child {
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         letter-spacing: -0.5px;
         font-weight: 600;
         font-family: Poppins, 'sans-serif';
     }
 
     .feature-text-mobile p:last-child {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         color: #a0a0a0;
         line-height: 1.5;
         text-align: start !important;

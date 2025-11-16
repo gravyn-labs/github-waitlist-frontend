@@ -6,11 +6,11 @@ import collapseIcon from '../assets/icons/collapse.svg';
 import { ShinyText } from './HomePage'; // Assuming you have this component
 import close from "../assets/icons/close.svg"
 
+
 const menuItems = [
   { label: "Pricing", to: "/pricing" },
-  // { label: "Career", to: "/career" },
   { label: "Contact Us", to: "/contact" },
-  { label: "Join Waitlist", to: "/", highlight: true, isWaitlist: true },
+  { label: "Join Waitlist", to: "/", highlight: true, isWaitlist: true }, // This flag is key
 ];
 
 const NavBar = () => {
@@ -23,20 +23,9 @@ const NavBar = () => {
    * @param {string} to - The path to navigate to.
    * @param {boolean} scrollToWaitlist - A flag to indicate if we should scroll to the waitlist section.
    */
-  const handleNavigation = (to, scrollToWaitlist = false) => {
-    // If we are already on the homepage and want to scroll,
-    // manually trigger the scroll instead of navigating.
-    if (to === "/" && location.pathname === "/" && scrollToWaitlist) {
-      const waitlistSection = document.getElementById('waitlist-section'); // Assumes your waitlist has this ID
-      if (waitlistSection) {
-        waitlistSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      // Otherwise, navigate normally, passing the state.
-      navigate(to, { state: { scrollToWaitlist } });
-    }
-
-    setMobileMenuOpen(false); // Always close mobile menu on navigation
+  const handleNavigation = (to, isWaitlist = false) => {
+    navigate(to, { state: { scrollToWaitlist: isWaitlist } });
+    setMobileMenuOpen(false); // Always close mobile menu on click
   };
 
   // This useEffect is for handling the scroll after navigation to the homepage
@@ -69,7 +58,7 @@ const NavBar = () => {
               className={`menu-item ${highlight ? 'waitlist-menu-item' : ''}`}
               onClick={() => handleNavigation(to, isWaitlist)}
             >
-              {highlight ? <ShinyText text={label} /> : <p>{label}</p>}
+              {highlight ? < p >{label}</p> : <p>{label}</p>}
             </div>
           ))}
         </div>

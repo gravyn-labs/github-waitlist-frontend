@@ -60,6 +60,7 @@ import { Founding100 } from './Sections/Founding100';
 import { Founding100v2 } from './Sections/Founding100v2';
 import { Footer } from './Sections/Footer';
 import HomeLanding from './HomeLanding';
+import NotificationSnackBar from './NotificationSnackBar';
 
 
 // 🎉 PartyPopper Component
@@ -236,7 +237,7 @@ const waitlistPerks = [
 
 // --- Reusable Components ---
 
-export const ShinyText = ({ text, className = '' , textSize}) => (
+export const ShinyText = ({ text, className = '', textSize }) => (
   <div
     style={{
       fontSize: textSize
@@ -310,6 +311,11 @@ const HomePage = () => {
   const [count, setCount] = useState(0);
   const [targetCount, setTargetCount] = useState(0);
 
+
+
+  const [showNotification, setShowNotification] = useState(false)
+  const [notificationMessage, setNotificationMessage] = useState("");
+
   // --- NEW: Define API Base URL ---
   const environment = process.env.NODE_ENV;
 
@@ -322,18 +328,22 @@ const HomePage = () => {
   const imageRef = useRef(null);
   const [email, setEmail] = useState("");
 
-  const handleJoinWaitlist = () => {
-    // Your join waitlist logic
-  };
-
-  // Scroll when coming from NavBar
   useEffect(() => {
-    if (location.state?.scrollToWaitlist && parentRef.current) {
-      setTimeout(() => {
-        parentRef.current.scrollIntoView({ behavior: "smooth" });
-      }, 500);
+    // Check if the navigation state contains our scroll flag
+    if (location.state?.scrollToWaitlist) {
+      const waitlistSection = document.getElementById('waitlist-section');
+      if (waitlistSection) {
+        // Use a short timeout to ensure the element is rendered before scrolling
+        setTimeout(() => {
+          waitlistSection.scrollIntoView({ behavior: 'smooth' });
+          // Optional: Clear the state to prevent re-scrolling on refresh
+          window.history.replaceState({}, document.title);
+        }, 100);
+      }
     }
-  }, [location]);
+  }, [location]); // This effect runs every time the location state changes
+
+
 
   console.log("Current Environment:", environment);
 
@@ -398,6 +408,10 @@ const HomePage = () => {
     setBadgeVisible,
     count,
     targetCount,
+    notificationMessage,
+    setNotificationMessage,
+    showNotification,
+    setShowNotification
   };
 
   return isDesktop ? <DesktopLayout {...sharedProps} /> : <MobileLayout {...sharedProps} />;
@@ -449,7 +463,9 @@ export const OnceJoined = ({ setOJBanner }) => {
 
   return (
     <div
-      onClick={() => setOJBanner(false)}
+      onClick={() => {
+        setOJBanner(false);
+      }}
       className={`aj-overlay ${isMobile ? "aj-mobile" : "aj-desktop"}`}
     >
       <PartyPopper celebrate={true} duration={4000} delay={0} />
@@ -476,11 +492,21 @@ export const OnceJoined = ({ setOJBanner }) => {
 // ===================================
 //      DESKTOP-SPECIFIC LAYOUT
 // ===================================
-const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeVisible, count, targetCount }) => {
+const DesktopLayout = ({ bannerVisible,
+  setBannerVisible,
+  badgeVisible,
+  setBadgeVisible,
+  count,
+  targetCount,
+  notificationMessage,
+  setNotificationMessage,
+  showNotification,
+  setShowNotification }) => {
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
 
   // --- NEW: Define API Base URL ---
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -523,16 +549,15 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 
   return (
     <div style={{
-      width: `${getWindowWidth}px`}} className="page-wrapper">
+      width: `${getWindowWidth}px`
+    }} className="page-wrapper">
       {bannerVisible && (
-        <Banner setBadgeVisible={setBadgeVisible} setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility}/>
+        <Banner setBadgeVisible={setBadgeVisible} setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility} />
       )}
       <NavBar />
-      <HomeLanding ojBanner={ojBanner} ajBanner={ajBanner} setOJBanner={setOJBanner} setAJBanner={setAJBanner}/>
+      <HomeLanding ojBanner={ojBanner} ajBanner={ajBanner} setOJBanner={setOJBanner} setAJBanner={setAJBanner} notificationMessage={notificationMessage} setNotificationMessage={setNotificationMessage} setShowNotification={setShowNotification} />
 
       <UnifiedWorkspace />
-
-      
 
 
       <PlanningWrapper />
@@ -540,16 +565,24 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
       <CollaborationWrapper />
       <ProjectTypes />
 
-      
-      <WaitlistWrapper />
-      
+
+      <WaitlistWrapper
+        id="waitlist-section" // <-- ADD THIS ID
+
+        ojBanner={ojBanner} ajBanner={ajBanner} setOJBanner={setOJBanner} setAJBanner={setAJBanner} notificationMessage={notificationMessage} setNotificationMessage={setNotificationMessage} setShowNotification={setShowNotification} />
+
       <Footer />
+
+      {/*        "You're trying that a bit too fast! Please take a break and try again in an hour."*/}
+
+      {showNotification && notificationMessage !== "" && <NotificationSnackBar open={true} message={notificationMessage} handleClose={() => { setShowNotification(false); setNotificationMessage("") }} />}
+
 
       {badgeVisible && <Founding100 isVisible={true} onClose={() => setBadgeVisible(false)} />}
       {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}
-      {ojBanner && <OnceJoined setOJBanner={ojBanner} />}
+      {ojBanner && <OnceJoined setOJBanner={setOJBanner} />}
       {championTierVisibility && <Founding100v2 championTierVisibility={championTierVisibility} setChampionTierVisibility={setChampionTierVisibility} />
-}
+      }
     </div>
   );
 };
@@ -557,8 +590,20 @@ const DesktopLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadge
 // ===================================
 //      MOBILE-SPECIFIC LAYOUT
 // ===================================
-const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeVisible, count, targetCount }) => {
+const MobileLayout = ({ bannerVisible,
+  setBannerVisible,
+  badgeVisible,
+  setBadgeVisible,
+  count,
+  targetCount,
+  notificationMessage,
+  setNotificationMessage,
+  showNotification,
+  setShowNotification }) => {
   const [championTierVisibility, setChampionTierVisibility] = useState(false);
+
+
+
 
   // NEW STATES
   const [email, setEmail] = useState("");
@@ -611,20 +656,28 @@ const MobileLayout = ({ bannerVisible, setBannerVisible, badgeVisible, setBadgeV
     <div className="page-wrapper mobile-layout">
 
       {bannerVisible && (
-       <Banner setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility}/>
+        <Banner setBannerVisible={setBannerVisible} setChampionTierVisibility={setChampionTierVisibility} />
       )}
 
       <NavBar />
 
-      <HomeLanding ojBanner={ojBanner} ajBanner={ajBanner} setOJBanner={setOJBanner} setAJBanner={setAJBanner}/>
-      
+      <HomeLanding ojBanner={ojBanner} ajBanner={ajBanner} setOJBanner={setOJBanner} setAJBanner={setAJBanner} notificationMessage={notificationMessage} setNotificationMessage={setNotificationMessage} setShowNotification={setShowNotification} />
+
       <UnifiedWorkspace />
 
       <PlanningWrapper />
       <CollaborationWrapper />
       <ProjectTypes />
-      <WaitlistWrapper />
+      <WaitlistWrapper
+        id="waitlist-section" // <-- ADD THIS ID
+
+        ojBanner={ojBanner} ajBanner={ajBanner} setOJBanner={setOJBanner} setAJBanner={setAJBanner} notificationMessage={notificationMessage} setNotificationMessage={setNotificationMessage} setShowNotification={setShowNotification} />
       <Footer />
+
+
+      {showNotification && notificationMessage !== "" && <NotificationSnackBar open={true} message={notificationMessage} handleClose={() => { setShowNotification(false); setNotificationMessage("") }} />
+      }
+
 
       {/* FIXED: SHOW MOBILE BANNERS */}
       {ajBanner && <AlreadyJoined setAJBanner={setAJBanner} />}

@@ -293,6 +293,7 @@
 
 .feature-icon {
     font-size: 1.5rem;
+    margin-bottom: 20px;
     /* You would replace this with your actual icon component or <img> tag */
 }
 

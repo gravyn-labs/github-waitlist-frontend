@@ -11,11 +11,13 @@
 .landing-content {
     width: 100%;
     padding: 0px 15%;
-    height: calc(100%);
+    height: 120vh;
+    max-height: 1400px;
     position: relative;
     display: flex;
     align-items: center;
     flex-direction: column;
+
     overflow: hidden;
 }
 
@@ -37,6 +39,18 @@
     left: 0;
     z-index: 10;
     background: linear-gradient(to bottom, transparent, black);
+}
+
+
+.landing-content::after {
+    position: absolute;
+    content: '';
+    width: 20%;
+    height: 100%;
+    bottom: 0px;
+    right: 0;
+    z-index: 10;
+    background: linear-gradient(to right, transparent, black);
 }
 
 .landing-content-text-wrapper {
@@ -164,6 +178,7 @@
     z-index: 0 !important;
     width: 100%;
     min-height: 400px;
+    position: relative;
 }
 
 .landing-banner img {
@@ -175,14 +190,14 @@
     z-index: 90;
     position: absolute;
     opacity: 0;
-    animation: banner1 1s forwards 0.3s;
+    animation: banner1 0.5s forwards 0.3s;
 }
 
 .landing-banner img:nth-child(2) {
     z-index: 100;
     opacity: 0;
     position: absolute;
-    animation: banner2 1s forwards;
+    animation: banner2 0.5s forwards;
 }
 
 @keyframes banner1 {
@@ -207,6 +222,7 @@
     }
 
     100% {
+        opacity: 1;
         left: 20%;
         top: 15%;
     }
@@ -333,7 +349,7 @@
         font-size: 14px;
     }
 
-    
+
 
 
     .waitlist-wrapper {

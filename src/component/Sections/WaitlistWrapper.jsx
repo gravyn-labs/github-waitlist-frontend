@@ -12,15 +12,15 @@ import face2 from "../../assets/images/face6.png";
 import face3 from "../../assets/images/face8.png";
 
 import Orbiez from "../Orbiez";
+import { validateEmail } from "../../utils/safeguard";
 
-const WaitlistWrapper = () => {
+const WaitlistWrapper = ({ id , ojBanner, ajBanner, setOJBanner, setAJBanner, notificationMessage, setNotificationMessage, setShowNotification }) => {
     const parentRef = useRef(null);
     const imageRef = useRef(null);
     const location = useLocation();
 
     const [email, setEmail] = useState("");
-    const [ajBanner, setAJBanner] = useState(false);
-    const [ojBanner, setOJBanner] = useState(false);
+
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -65,32 +65,66 @@ const WaitlistWrapper = () => {
 
     const handleJoinWaitlist = async () => {
         if (!email) {
-            setMessage("Please enter an email address.");
+            // Optional: Add a visual cue that email is required
             return;
         }
 
+
+
+        if (!validateEmail(email)) {
+            setShowNotification(true)
+            setNotificationMessage("Please enter a valid email address.")
+            return; // Stop the function if the email is invalid
+        }
+
         setLoading(true);
-        setMessage("");
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/waitlist`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({ email }),
             });
 
             const data = await response.json();
-            if (response.ok) {
-                setEmail("");
-                setOJBanner(true);
-                setTimeout(() => setOJBanner(false), 5000);
-            } else {
-                setAJBanner(true);
-                setTimeout(() => setAJBanner(false), 5000);
+
+
+
+            // Check for non-successful HTTP status codes first (e.g., 409, 429)
+            if (!response.ok) {
+                switch (data.status) {
+                    case 'ALREADY_REGISTERED':
+                        setAJBanner(true); // Show "Already Joined" banner
+                        setTimeout(() => setAJBanner(false), 5000);
+                        break;
+                    case 'RATE_LIMIT':
+                        setNotificationMessage("You're trying that a bit too fast! Please take a break and try again in an hour.")
+                        setShowNotification(true)
+                        break;
+                    case 'VALIDATION_ERROR':
+                        // Handle validation error, e.g., show message next to the input
+                        break;
+                    default:
+                        // A generic error for other 4xx/5xx responses
+                        setAJBanner(true); // Re-using AJBanner for general errors
+                        setTimeout(() => setAJBanner(false), 5000);
+                }
+                return; // Stop execution since there was an error
             }
+
+            // Handle the successful case (HTTP 201)
+            if (data.status === 'SUCCESS') {
+                setEmail("");
+                setOJBanner(true); // Show "Once Joined" banner for new signups
+                setTimeout(() => setOJBanner(false), 5000);
+            }
+
         } catch (error) {
-            console.error(error);
-            setAJBanner(true);
+            // This catches network errors (e.g., server is down)
+            console.error("Network or fetch error:", error);
+            setAJBanner(true); // Show a generic error banner
             setTimeout(() => setAJBanner(false), 5000);
         } finally {
             setLoading(false);
@@ -98,7 +132,7 @@ const WaitlistWrapper = () => {
     };
 
     // Empty mobile view placeholder for you to implement
-    const mobileView = <div className={styles['workspace-mobile-join-section']}>
+    const mobileView = <div id={id} className={styles['workspace-mobile-join-section']}>
         <Orbiez />
         <div className={styles["workspace-mobile-join-text-wrapper"]}>
             <img ref={imageRef} src={glow_logo} alt="glow logo" />
@@ -152,7 +186,7 @@ const WaitlistWrapper = () => {
 
     // Desktop view JSX (your existing desktop layout)
     const desktopView = (
-        <div ref={parentRef} className={styles["workspace-join-section-wrapper"]}>
+        <div id={id} ref={parentRef} className={styles["workspace-join-section-wrapper"]}>
             <img src={bg_noise} alt="background noise" />
             <Orbiez />
             <div className={styles["workspace-join-central-wrapper"]}>

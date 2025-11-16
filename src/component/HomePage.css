@@ -640,7 +640,7 @@ body {
 .aj-overlay {
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.65);
     top: 0;
     left: 0;
     position: fixed;
@@ -740,7 +740,7 @@ body {
     .aj-overlay {
         width: 100vw;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.85);
+        background-color: rgba(0, 0, 0, 0.65);
         top: 0;
         left: 0;
         position: fixed;

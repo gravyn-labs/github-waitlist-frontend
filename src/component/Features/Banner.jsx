@@ -3,7 +3,7 @@ import championsIcons from "../../assets/icons/championsvv2.svg";
 import close from "../../assets/icons/close.svg";
 import styles from "../Features/Banner.module.css";
 
-const Banner = ({ setBadgeVisible, setBannerVisible, setChampionTierVisibility }) => {
+const Banner = ({ setBannerVisible, setChampionTierVisibility }) => {
     const [isMobile, setIsMobile] = useState(false);
 
     // Check screen width for responsive toggle
@@ -46,10 +46,6 @@ const Banner = ({ setBadgeVisible, setBannerVisible, setChampionTierVisibility }
                         <p style={{ display: "none" }}></p>
                     </div>
                     <img
-                        onClick={(e) => {
-                            e.stopPropagation(); // prevent triggering setChampionTierVisibility
-                            setBannerVisible(false);
-                        }}
                         className={styles["close-icon"]}
                         src={close}
                         alt="close"

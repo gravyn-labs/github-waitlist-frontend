@@ -289,7 +289,7 @@ body {
     font-size: 16px;
     text-align: left;
     font-weight: 500;
-    width: 75%;
+    width: 50% !important; 
     font-family: Inter;
     line-height: 1.5;
 }
@@ -298,6 +298,10 @@ body {
     padding: 7px 14px;
     width: max-content;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    flex-direction: row !important;
+    gap: 7px;
     border-radius: 9px;
     cursor: pointer;
     border: 0.5px solid rgba(255, 255, 255, 0.05);
@@ -954,7 +958,6 @@ body {
         font-size: 15px;
         text-align: left;
         font-weight: 500;
-        width: 75%;
         font-family: Inter;
         line-height: 1.5;
     }
@@ -963,9 +966,11 @@ body {
         padding: 10px 14px;
         height: 100%;
         margin-right: 2px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
         border-radius: 7px !important;
         width: max-content;
-        white-space: nowrap;
         cursor: pointer;
         border: 0.5px solid rgba(255, 255, 255, 0.05);
         background: var(--glassv2, radial-gradient(61.2% 61.22% at 50% 50%, rgba(255, 255, 255, 0.21) 0%, rgba(255, 255, 255, 0.14) 100%));

@@ -6,6 +6,7 @@ import rbafeature from "../../assets/images/rbafeaturev1.png";
 import heart from "../../assets/icons/heart.svg";
 import calendarfeature from "../../assets/images/calendarfeaturev1.png";
 import filefeature from "../../assets/images/files_feature.png";
+import collaboration from "../../assets/images/conversationv1.png";
 
 // -------------------- Desktop Component --------------------
 const DesktopComponent = () => {
@@ -81,7 +82,9 @@ const DesktopComponent = () => {
                         </div>
 
                         <div className={styles["collaborate-gird-cr"] + " " + styles["collaborate-gird-c2-r2"]}>
-                            <div className={styles["collaborate-grid-cr-image"]}></div>
+                            <div className={styles["collaborate-grid-cr-image"]}>
+                                <img src={collaboration} alt="Collaboration feature" />
+                            </div>
                             <div
                                 className={
                                     styles["collaborate-grid-cr-text"] + " " + styles["collaborate-grid-c1r1-text"]
@@ -154,6 +157,9 @@ const MobileComponent = () => {
                 </div>
 
                 <div className={styles["mobile-feature-block"]}>
+                    <div className={styles["collaborate-mobile-cr-image"]}>
+                        <img src={collaboration} alt="Collaboration feature" />
+                    </div>
                     <div className={styles["mobile-feature-text"]}>
                         <p>Conversations with Context.</p>
                         <p>
