@@ -7,7 +7,7 @@ import kairoFeature from "../../assets/images/kairoFeature1.svg";
 import kairoEditor from "../../assets/images/kairo_editor.png";
 import finance_management from "../../assets/images/fm2.png";
 import project_management from "../../assets/images/project_managementv1.png";
-import collaboration_feature from "../../assets/images/collaboration_feature.png";
+import client_feature from "../../assets/images/client_collaborationv2.png";
 import kairo_feature from "../../assets/images/kairo_featurev1.png";
 
 import projectmanagement from "../../assets/icons/project.svg";
@@ -20,7 +20,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-mo
 
 const CollaborationComp = () => (
     <div className={styles["collaboration-comp"]}>
-        <img src={collaboration_feature} alt="Collaboration Feature" />
+        <img src={client_feature} alt="Collaboration Feature" />
     </div>
 );
 
@@ -79,7 +79,7 @@ export const coreFeatures = [
     {
         id: "clients",
         icon: client,
-        img: integration,
+        img: client_feature,
         component: <CollaborationComp />,
         title: "Branded Client Portals", // Changed
         description:
@@ -88,7 +88,7 @@ export const coreFeatures = [
     {
         id: "ai",
         icon: kairo,
-        img: integration,
+        img: kairo_feature,
         component: <AiComp />,
         title: "Your AI Copilot", // Kept as is, it's already strong
         description:

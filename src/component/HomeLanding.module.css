@@ -19,6 +19,13 @@
     overflow: hidden;
 }
 
+.grecaptcha-badge {
+    visibility: hidden !important;
+}
+
+.grecaptcha-badge {
+    visibility: hidden;
+}
 
 
 .landing-content::before {
@@ -325,6 +332,8 @@
         width: 100% !important;
         font-size: 14px;
     }
+
+    
 
 
     .waitlist-wrapper {

@@ -5,6 +5,14 @@
   text-align: center;
 }
 
+.grecaptcha-badge {
+  visibility: hidden !important;
+  display: none !important;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
